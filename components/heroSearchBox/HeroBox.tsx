@@ -1,19 +1,30 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useRef } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import DatePicker from "react-multi-date-picker";
-import DatePanel from "react-multi-date-picker/plugins/date_panel";
+import Select from "react-select";
+import cls from "classnames";
 
 import persian from "react-date-object/calendars/jalali";
 import persian_fa from "react-date-object/locales/persian_fa";
-
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
+
+import './global.css'
+const cityOptions = [
+  { value: "THR", label: "تهران" },
+  { value: "MHD", label: "مشهد" },
+  { value: "AWZ", label: "اهواز" },
+  { value: "KIH", label: "کیش" },
+  { value: "IFN", label: "اصفهان" },
+];
 
 export default function HeroBox() {
   const router = useRouter();
   const pathname = usePathname();
+
+  const datePickerRef = useRef<any>(null);
 
   const tabs = [
     { label: "پرواز داخلی", href: "/" },
@@ -28,6 +39,9 @@ export default function HeroBox() {
 
   const [dateRange, setDateRange] = useState<any>([null, null]);
 
+  const [origin, setOrigin] = useState<any>(null);
+  const [destination, setDestination] = useState<any>(null);
+
   const calendar = calendarType === "jalali" ? persian : gregorian;
   const locale = calendarType === "jalali" ? persian_fa : gregorian_en;
 
@@ -35,21 +49,44 @@ export default function HeroBox() {
     setCalendarType((prev) => (prev === "jalali" ? "gregorian" : "jalali"));
   };
 
+  const swapOriginDest = () => {
+    const o = origin;
+    setOrigin(destination);
+    setDestination(o);
+  };
+
+  const departDate = dateRange[0] ? dateRange[0].format("YYYY/MM/DD") : "";
+  const returnDate = dateRange[1] ? dateRange[1].format("YYYY/MM/DD") : "";
+
+  const openCalendar = () => {
+    if (!datePickerRef.current) return;
+    datePickerRef.current.openCalendar();
+  };
+
+  // clear functions
+  const clearDepart = () => {
+    setDateRange([null, dateRange[1]]);
+  };
+
+  const clearReturn = () => {
+    setDateRange([dateRange[0], null]);
+  };
+
   return (
     <div className="bg-white rounded-3xl shadow-md p-6 max-w-5xl mx-auto">
+
       {/* Tabs */}
       <div className="border-b flex gap-6 overflow-x-auto pb-2">
         {tabs.map((t) => (
           <div
             key={t.href}
             onClick={() => router.push(t.href)}
-            className={`pb-2 cursor-pointer font-bold text-sm px-4 relative whitespace-nowrap
-              ${
-                activeTab === t.href
-                  ? "text-blue-600 border-b-2 border-blue-600"
-                  : "text-gray-900"
-              }
-            `}
+            className={cls(
+              "pb-2 cursor-pointer font-bold text-sm px-4 whitespace-nowrap",
+              activeTab === t.href
+                ? "text-blue-600 border-b-2 border-blue-600"
+                : "text-gray-900"
+            )}
           >
             {t.label}
           </div>
@@ -58,81 +95,113 @@ export default function HeroBox() {
 
       {/* Search Form */}
       <div className="mt-5 flex flex-col gap-4">
+
         {/* Origin / Destination */}
-        <div className="flex flex-col md:flex-row gap-3">
-          <button className="bg-white border border-gray-900 rounded-lg h-12 flex items-center gap-3 px-3 w-full">
-            <span className="text-xl">📍</span>
-            <label className="text-base text-gray-900 absolute pointer-events-none">
-              مبدا
-            </label>
+        <div className="flex flex-col md:flex-row gap-3 relative">
+          <div className="w-full">
+            <Select
+              placeholder="مبدا"
+              options={cityOptions}
+              value={origin}
+              onChange={setOrigin}
+              isSearchable
+            />
+          </div>
+
+          <button
+            onClick={swapOriginDest}
+            className="absolute md:static left-1/2 -translate-x-1/2 top-14 md:top-1/2 md:-translate-y-1/2
+                       z-10 bg-gray-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
+          >
+            🔄
           </button>
 
-          <button className="bg-white border border-gray-900 rounded-lg h-12 flex items-center gap-3 px-3 w-full">
-            <span className="text-xl">📍</span>
-            <label className="text-base text-gray-900 absolute pointer-events-none">
-              مقصد
-            </label>
-          </button>
+          <div className="w-full">
+            <Select
+              placeholder="مقصد"
+              options={cityOptions}
+              value={destination}
+              onChange={setDestination}
+              isSearchable
+            />
+          </div>
         </div>
 
-        {/* Date Picker */}
-        <div className="flex gap-3 w-full">
+        {/* Date Inputs */}
+        <div className="flex gap-3 w-full relative">
+
+          {/* Departure */}
           <div className="flex-1 relative">
-            <DatePicker
-              range
-              value={dateRange}
-              onChange={setDateRange}
-              numberOfMonths={2}
-              calendar={calendar}
-              locale={locale}
-              format="YYYY/MM/DD"
-            //   plugins={[<DatePanel key="panel" />]}
-              portal
-              render={(value, openCalendar) => (
-                <button
-                  onClick={openCalendar}
-                  type="button"
-                  className="bg-white border border-gray-900 rounded-lg h-12 flex items-center gap-3 px-3 w-full text-right"
-                >
-                  <span className="text-xl">📅</span>
-                  <div className="flex flex-col text-right">
-                    <span className="text-sm text-gray-900">
-                      تاریخ رفت / برگشت
-                    </span>
-                    <span className="text-xs text-gray-500">
-                      {value ? value.toString() : "انتخاب کنید"}
-                    </span>
-                  </div>
-                </button>
-              )}
-              containerClassName="p-3 bg-white shadow-xl rounded-xl relative"
-              mapDays={({ date }) => ({
-                className:
-                  "rounded-full hover:bg-blue-500 hover:text-white transition cursor-pointer",
-              })}
+            <button
+              type="button"
+              onClick={openCalendar}
+              className="bg-white border border-gray-900 rounded-lg h-12 px-3 w-full flex justify-between items-center"
             >
-              {/* switch inside popup */}
-              <div className="absolute top-3 left-3 z-50">
-                <button
-                  type="button"
-                  onClick={switchCalendar}
-                  className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow"
-                >
-                  {calendarType === "jalali" ? "میلادی" : "شمسی"}
-                </button>
-              </div>
-            </DatePicker>
+              <span className="text-sm">تاریخ رفت</span>
+              <span className="text-gray-600">{departDate || "انتخاب کنید"}</span>
+            </button>
+
+            {departDate && (
+              <button
+                onClick={clearDepart}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+              >
+                ✕
+              </button>
+            )}
           </div>
+
+          {/* Return */}
+          <div className="flex-1 relative">
+            <button
+              type="button"
+              onClick={openCalendar}
+              className="bg-white border border-gray-900 rounded-lg h-12 px-3 w-full flex justify-between items-center"
+            >
+              <span className="text-sm">تاریخ برگشت</span>
+              <span className="text-gray-600">{returnDate || "انتخاب کنید"}</span>
+            </button>
+
+            {returnDate && (
+              <button
+                onClick={clearReturn}
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          {/* Calendar Mounted Normally */}
+          <DatePicker
+            ref={datePickerRef}
+            range
+            value={dateRange}
+            onChange={setDateRange}
+            calendar={calendar}
+            locale={locale}
+            numberOfMonths={2}
+            format="YYYY/MM/DD"
+            portal
+            inputClass="hidden"
+            style={{ visibility: "hidden", height: 0 }}
+          >
+            <div className="absolute top-3 left-3 z-50">
+              <button
+                type="button"
+                onClick={switchCalendar}
+                className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow"
+              >
+                {calendarType === "jalali" ? "میلادی" : "شمسی"}
+              </button>
+            </div>
+          </DatePicker>
         </div>
 
         {/* Passengers */}
         <div className="flex gap-3">
-          <button className="bg-white border border-gray-900 rounded-lg h-12 flex items-center gap-3 px-3 w-full">
-            <span className="text-xl">👤</span>
-            <label className="text-base text-gray-900 absolute pointer-events-none -translate-y-3 scale-75">
-              مسافرها
-            </label>
-            <span className="mt-4 text-gray-900 text-sm">1 مسافر</span>
+          <button className="bg-white border border-gray-900 rounded-lg h-12 px-3 flex items-center gap-2 w-full">
+            👤 <span className="text-sm">1 مسافر</span>
           </button>
 
           <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">

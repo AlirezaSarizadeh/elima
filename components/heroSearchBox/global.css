@@ -1,0 +1,8 @@
+.rmdp-container  {
+    display: inline-block;
+    height: max-content;
+    position: absolute;
+    right: 0;
+    left: 50%;
+    bottom: 0;
+}
