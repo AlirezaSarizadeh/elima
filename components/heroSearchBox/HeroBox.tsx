@@ -10,7 +10,7 @@ import persian from "react-date-object/calendars/jalali";
 import persian_fa from "react-date-object/locales/persian_fa";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
-
+import ClearIcon from '@mui/icons-material/Clear';
 import './global.css'
 const cityOptions = [
   { value: "THR", label: "تهران" },
@@ -92,123 +92,7 @@ export default function HeroBox() {
           </div>
         ))}
       </div>
-
-      {/* Search Form */}
-      <div className="mt-5 flex flex-col gap-4">
-
-        {/* Origin / Destination */}
-        <div className="flex flex-col md:flex-row gap-3 relative">
-          <div className="w-full">
-            <Select
-              placeholder="مبدا"
-              options={cityOptions}
-              value={origin}
-              onChange={setOrigin}
-              isSearchable
-            />
-          </div>
-
-          <button
-            onClick={swapOriginDest}
-            className="absolute md:static left-1/2 -translate-x-1/2 top-14 md:top-1/2 md:-translate-y-1/2
-                       z-10 bg-gray-900 text-white w-10 h-10 rounded-full flex items-center justify-center"
-          >
-            🔄
-          </button>
-
-          <div className="w-full">
-            <Select
-              placeholder="مقصد"
-              options={cityOptions}
-              value={destination}
-              onChange={setDestination}
-              isSearchable
-            />
-          </div>
-        </div>
-
-        {/* Date Inputs */}
-        <div className="flex gap-3 w-full relative">
-
-          {/* Departure */}
-          <div className="flex-1 relative">
-            <button
-              type="button"
-              onClick={openCalendar}
-              className="bg-white border border-gray-900 rounded-lg h-12 px-3 w-full flex justify-between items-center"
-            >
-              <span className="text-sm">تاریخ رفت</span>
-              <span className="text-gray-600">{departDate || "انتخاب کنید"}</span>
-            </button>
-
-            {departDate && (
-              <button
-                onClick={clearDepart}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Return */}
-          <div className="flex-1 relative">
-            <button
-              type="button"
-              onClick={openCalendar}
-              className="bg-white border border-gray-900 rounded-lg h-12 px-3 w-full flex justify-between items-center"
-            >
-              <span className="text-sm">تاریخ برگشت</span>
-              <span className="text-gray-600">{returnDate || "انتخاب کنید"}</span>
-            </button>
-
-            {returnDate && (
-              <button
-                onClick={clearReturn}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
-          {/* Calendar Mounted Normally */}
-          <DatePicker
-            ref={datePickerRef}
-            range
-            value={dateRange}
-            onChange={setDateRange}
-            calendar={calendar}
-            locale={locale}
-            numberOfMonths={2}
-            format="YYYY/MM/DD"
-            portal
-            inputClass="hidden"
-            style={{ visibility: "hidden", height: 0 }}
-          >
-            <div className="absolute top-3 left-3 z-50">
-              <button
-                type="button"
-                onClick={switchCalendar}
-                className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow"
-              >
-                {calendarType === "jalali" ? "میلادی" : "شمسی"}
-              </button>
-            </div>
-          </DatePicker>
-        </div>
-
-        {/* Passengers */}
-        <div className="flex gap-3">
-          <button className="bg-white border border-gray-900 rounded-lg h-12 px-3 flex items-center gap-2 w-full">
-            👤 <span className="text-sm">1 مسافر</span>
-          </button>
-
-          <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
-            جستجو
-          </button>
-        </div>
-      </div>
+      
     </div>
   );
 }

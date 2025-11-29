@@ -1,4 +1,4 @@
-import HeroBox from '../../../components/heroSearchBox/HeroBox';
+import InternationalSearchForm from '../../../components/heroSearchBox/tabs/InternationalSearchForm';
 
 export default function IranOutPage() {
   return (
@@ -10,8 +10,8 @@ export default function IranOutPage() {
           style={{ height: 'auto', ['--slide-transition-from' as any]: '100%', ['--slide-transition-to' as any]: '-100%' }}
         >
           <div role="tabpanel">
-            <HeroBox />
-            سبینعتابیساعسیبان
+            <InternationalSearchForm />
+            Hello world from out of iran 
           </div>
         </div>
       </div>
