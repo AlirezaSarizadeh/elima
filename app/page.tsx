@@ -1,4 +1,7 @@
-import FeatureHeroOne from '../components/domestic_tour/features/FeatureHeroOne';
+import Destinations from '../components/domestic_tour/features/Destinations';
+import DestinationsSection from '../components/domestic_tour/features/Destinations';
+import FeatureHero from '../components/domestic_tour/features/FeatureHero';
+import WhyUs from '../components/domestic_tour/features/WhyUs';
 import PopularHotelsSection from '../components/domestic_tour/popularHotels/PopularHotelsSection';
 import RecentlySearch from '../components/domestic_tour/RecentlySearch/RecentlySearch';
 import ToursSection from '../components/domestic_tour/tour_category/ToursSection';
@@ -32,7 +35,11 @@ export default function HomePage() {
 
       <PopularHotelsSection />
 
-      <FeatureHeroOne />
+      <FeatureHero />
+
+      <Destinations />
+
+      <WhyUs />
     </main>
   );
 }
