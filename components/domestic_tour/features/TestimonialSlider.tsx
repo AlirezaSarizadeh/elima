@@ -73,7 +73,7 @@ export default function TestimonialSlider() {
                             nextEl: ".test-next-btn",
                         }}
                         autoplay={{
-                            delay: 30000,
+                            delay: 3000,
                             disableOnInteraction: false,
                         }}
                         loop={true}
@@ -106,7 +106,13 @@ export default function TestimonialSlider() {
                                     </p>
 
                                     {/* Date */}
-                                    <p className="text-xs text-gray-400 mt-4" dir="rtl">{item.date}</p>
+                                    <div className="flex items-start justify-center flex-col max-w-fit ms-auto" >
+                                        <p className="text-xs text-gray-400 mt-1">سفر به ترکیه</p>
+                                        <p className="text-xs text-gray-400 mt-1 flex items-center justify-center">
+                                            تاریخ سفر :
+                                            {item.date}
+                                        </p>
+                                    </div>
 
                                     {/* Card drop shadow */}
                                     <div className="absolute w-full h-4 bg-gray-300/20 blur-xl -bottom-2 left-0 rounded-full"></div>
