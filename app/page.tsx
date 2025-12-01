@@ -1,10 +1,14 @@
+import RecentlySearch from '../components/domestic_tour/RecentlySearch/RecentlySearch';
+import ToursSection from '../components/domestic_tour/tour_category/ToursSection';
 import HeroBox from '../components/heroSearchBox/HeroBox';
 import DomesticSearchForm from '../components/heroSearchBox/tabs/DomesticSearchForm';
 
 export default function HomePage() {
   return (
-    <main className="a-container relative px-0 pb-8">
-      <div className="a-card products-box">
+    <main className="a-container relative px-0 pb-8 mx-auto">
+
+      {/* Upper Search Tabs : */}
+      <div className="a-card products-box max-w-7xl mx-auto">
         {/* محتوای تب فعال (فعلاً همون فرم، اگر بعداً خواستی می‌تونی یه ورژن مخصوص خارجی بسازی) */}
         <div
           className="tab-view z-10"
@@ -12,11 +16,17 @@ export default function HomePage() {
         >
           <div role="tabpanel">
             <DomesticSearchForm />
+
           </div>
         </div>
       </div>
 
-      {/* اگر برای پرواز خارجی محتوا/توضیح جدا می‌خوای، اینجا اضافه کن */}
+      {/* Dynamic Content Accourding To Tab Url Will Show Here : */}
+
+
+      <RecentlySearch />
+
+      <ToursSection />
     </main>
   );
 }

@@ -1,0 +1,11 @@
+/* برای اینکه اسلایدها کنار هم قرار بگیرند */
+.toursSection_swiper .swiper-wrapper {
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: center;
+}
+
+/* برای 2 ردیف */
+.toursSection_swiper .swiper-slide {
+  height: auto !important;
+}

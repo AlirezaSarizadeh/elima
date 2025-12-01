@@ -14,7 +14,7 @@ export const Navbar = () => {
 
   return (
     <header className="w-full border-b bg-white sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 flex items-center justify-between py-3">
+      <div className="max-w-7xl mx-auto px-0 flex items-center justify-between py-3">
 
         {/* راست: لوگو */}
         <Link href="/" className="flex items-center gap-2">

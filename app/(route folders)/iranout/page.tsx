@@ -2,7 +2,7 @@ import InternationalSearchForm from '../../../components/heroSearchBox/tabs/Inte
 
 export default function IranOutPage() {
   return (
-    <main className="a-container relative px-0 pb-8">
+    <main className="a-container relative px-0 pb-8 max-w-7xl mx-auto px-4">
       <div className="a-card products-box">
         {/* محتوای تب فعال (فعلاً همون فرم، اگر بعداً خواستی می‌تونی یه ورژن مخصوص خارجی بسازی) */}
         <div

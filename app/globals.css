@@ -34,6 +34,9 @@
 
 /* تنظیم فونت پیش‌فرض برای کل بدنه سایت */
 html , body {
-  font-family: 'YekanBakh', sans-serif ; 
+  font-family: 'YekanBakh', sans-serif; 
 }
+.font-YekanBakh {
 
+  font-family: 'YekanBakh' !important; 
+}

@@ -12,6 +12,7 @@ import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 import ClearIcon from '@mui/icons-material/Clear';
 import '../global.css'
+import PassengerDropdown from "../PassengerDropdown";
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -73,7 +74,7 @@ export default function InternationalSearchForm() {
     };
 
     return (
-        <div className="bg-white rounded-3xl shadow-md p-6 max-w-5xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-md p-6">
 
 
             {/* Tabs */}
@@ -212,9 +213,7 @@ export default function InternationalSearchForm() {
 
                 {/* Passengers */}
                 <div className="flex gap-3">
-                    <button className="bg-white border border-gray-900 rounded-lg h-12 px-3 flex items-center gap-2 w-full">
-                        👤 <span className="text-sm">1 مسافر</span>
-                    </button>
+                <PassengerDropdown />
 
                     <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
                         فرق داره
