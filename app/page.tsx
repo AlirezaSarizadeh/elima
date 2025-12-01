@@ -1,3 +1,5 @@
+import FeatureHeroOne from '../components/domestic_tour/features/FeatureHeroOne';
+import PopularHotelsSection from '../components/domestic_tour/popularHotels/PopularHotelsSection';
 import RecentlySearch from '../components/domestic_tour/RecentlySearch/RecentlySearch';
 import ToursSection from '../components/domestic_tour/tour_category/ToursSection';
 import HeroBox from '../components/heroSearchBox/HeroBox';
@@ -27,6 +29,10 @@ export default function HomePage() {
       <RecentlySearch />
 
       <ToursSection />
+
+      <PopularHotelsSection />
+
+      <FeatureHeroOne />
     </main>
   );
 }

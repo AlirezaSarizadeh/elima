@@ -18,7 +18,7 @@ const TourCard = ({ title, price, image }: TourCardProps) => {
           شروع قیمت از{" "}
           <span className="text-blue-600 font-normal flex items-center justify-between gap-1">
             {price.toLocaleString()} 
-            <img src='/images/Price.png' className="object-scale-down" alt="تومان" width="16px" />
+            <img src='/images/Price.svg' className="object-scale-down" alt="تومان" width="16px" />
           </span>
         </div>
       </div>
