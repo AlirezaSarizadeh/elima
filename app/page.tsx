@@ -1,6 +1,7 @@
 import Destinations from '../components/domestic_tour/features/Destinations';
 import DestinationsSection from '../components/domestic_tour/features/Destinations';
 import FeatureHero from '../components/domestic_tour/features/FeatureHero';
+import TestimonialSlider from '../components/domestic_tour/features/TestimonialSlider';
 import WhyUs from '../components/domestic_tour/features/WhyUs';
 import PopularHotelsSection from '../components/domestic_tour/popularHotels/PopularHotelsSection';
 import RecentlySearch from '../components/domestic_tour/RecentlySearch/RecentlySearch';
@@ -40,6 +41,8 @@ export default function HomePage() {
       <Destinations />
 
       <WhyUs />
+
+      <TestimonialSlider />
     </main>
   );
 }
