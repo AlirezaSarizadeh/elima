@@ -16,6 +16,7 @@ import PassengerDropdown from "../PassengerDropdown";
 import Image from "next/image";
 import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/icons-material";
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
+import { Test } from "../../Test/Test";
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -28,6 +29,7 @@ export default function DomesticSearchForm() {
     const router = useRouter();
     const pathname = usePathname();
 
+    const [value, setValue] = useState("");
     const datePickerRef = useRef<any>(null);
 
     const tabs = [
@@ -76,6 +78,8 @@ export default function DomesticSearchForm() {
         setDateRange([dateRange[0], null]);
     };
 
+
+
     return (
         <div className="bg-white rounded-3xl border border-gray-200 p-6">
 
@@ -104,9 +108,29 @@ export default function DomesticSearchForm() {
 
                 {/* Origin / Destination */}
                 <div className="flex flex-col md:flex-row gap-3 relative">
-                    <div className="w-full">
-                        <SwapInputs />
-                        {/* <Select
+                    {/* <div className="w-full"> */}
+                    <SwapInputs />
+                    <div className="flex items-center justify-center gap-0">
+                        <Test
+                            value={departDate}
+                            onChange={(val) => setValue(val)}
+                            onClear={clearDepart}
+                            label="تاریخ رفت"
+                            variant="outlined"
+                            style={{ direction: "rtl" }}
+                            onAutocompleteClick={openCalendar}
+                        />
+                        <Test
+                            value={returnDate}
+                            onChange={(val) => setValue(val)}
+                            onClear={clearReturn}
+                            label="تاریخ برگشت"
+                            variant="outlined"
+                            style={{ direction: "rtl" }}
+                            onAutocompleteClick={openCalendar}
+                        />
+                    </div>
+                    {/* <Select
                             placeholder="مبدا"
                             className="heroSearchBox_select"
                             options={cityOptions}
@@ -118,8 +142,8 @@ export default function DomesticSearchForm() {
                                 IndicatorSeparator: () => null,  // حذف خط جداکننده
                             }}
                         /> */}
-                    </div>
-{/* 
+                    {/* </div> */}
+                    {/* 
                     <button
                         onClick={swapOriginDest}
                         className="absolute md:absolute left-1/2 -translate-x-1/2 top-14 md:top-1/2 md:-translate-y-1/2
@@ -148,8 +172,10 @@ export default function DomesticSearchForm() {
                 {/* Date Inputs */}
                 <div className="flex gap-3 w-full relative">
 
+
+
                     {/* Departure */}
-                    <div className="flex-1 relative">
+                    {/* <div className="flex-1 relative">
                         <button
                             type="button"
                             onClick={openCalendar}
@@ -187,7 +213,7 @@ export default function DomesticSearchForm() {
                                 <ClearIcon />
                             </button>
                         )}
-                    </div>
+                    </div> */}
 
                     {/* Calendar Mounted Normally */}
                     <DatePicker
