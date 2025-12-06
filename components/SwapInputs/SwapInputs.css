@@ -22,3 +22,6 @@
 .c_swapInputs .MuiAutocomplete-endAdornment {
     padding-left: 15px;
 }
+.c_swapInputs .MuiAutocomplete-popupIndicator {
+    display: none;
+}
