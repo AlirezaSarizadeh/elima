@@ -3,7 +3,7 @@
 /* Regular */
 @font-face {
   font-family: 'YekanBakh';
-  src: url('/fonts/YekanBakh-Regular.woff2') format('woff2');
+  src: url('../app/fonts/YekanBakhFaNum-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
@@ -11,7 +11,7 @@
 /* Light */
 @font-face {
   font-family: 'YekanBakh';
-  src: url('/fonts/YekanBakh-Light.woff2') format('woff2');
+  src: url('../app/fonts/YekanBakhFaNum-Light.woff2') format('woff2');
   font-weight: 300;
   font-style: normal;
 }
@@ -19,7 +19,7 @@
 /* SemiBold */
 @font-face {
   font-family: 'YekanBakh';
-  src: url('/fonts/YekanBakh-SemiBold.woff2') format('woff2');
+  src: url('../app/fonts/YekanBakhFaNum-SemiBold.woff2') format('woff2');
   font-weight: 600;
   font-style: normal;
 }
@@ -27,7 +27,7 @@
 /* Bold */
 @font-face {
   font-family: 'YekanBakh';
-  src: url('/fonts/YekanBakhFaNum-Bold.woff2') format('woff2');
+  src: url('../app/fonts/YekanBakhFaNum-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
