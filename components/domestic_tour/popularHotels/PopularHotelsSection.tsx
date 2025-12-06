@@ -142,7 +142,7 @@ const PopularHotelsSection = () => {
                 }}
                 slidesPerView={3}     // ← 3 کارت در یک row
                 spaceBetween={20}
-                className="w-full max-w-7xl mx-auto"
+                className="w-full max-w-7xl mx-auto pop_hotel-swiper"
             >
                 {items.map((item, index) => (
                     <SwiperSlide key={index}>

@@ -1,6 +1,7 @@
 import './globals.css'
 import { yekanBakh } from './fonts/yekanbakh'
-import { Navbar } from '../components/ui/Navbar/Navbar'
+import { Navbar } from '../components/ui/header/Navbar/Navbar'
+import Footer from '../components/ui/footer/Footer'
 
 export const metadata = {
   title: 'الیمامگشت پاسارگاد',
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-yekan text-right bg-white">
         <Navbar />
         {children}
+        <Footer />
       </body>
     </html>
   )

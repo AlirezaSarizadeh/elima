@@ -48,7 +48,7 @@ const ToursSection = () => {
     const items = fakeData[activeTab] ?? [];
 
     return (
-        <section className=" mt-10 bg-gray-50 pt-5 pb-10">
+        <section className=" mt-10 bg-gray-100 pt-5 pb-10">
 
             <div className="max-w-7xl mx-auto">
                 {/* Header */}

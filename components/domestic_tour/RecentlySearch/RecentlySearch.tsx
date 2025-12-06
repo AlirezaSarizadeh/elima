@@ -17,14 +17,13 @@ const RecentlySearch = () => {
     return (
 
         <>
-            <div className="relative max-w-7xl mx-auto px-0 flex items-center justify-between">
+            <div className="relative max-w-7xl mx-auto px-0 flex items-center justify-between  mt-10 pt-5">
                 <Title title='جستجو های اخیر' icon={<img src='/images/textalign-right.png' />} />
                 <Link href={'dxs'} className='text-xs text-blue-500'>
                     جستجوگر شو
                     <ChevronLeft className='font-extralight' />
                 </Link>
             </div>
-            <div className="relative max-w-7xl mx-auto px-0"></div>
             <div className="relative max-w-7xl mx-auto px-0">
 
 

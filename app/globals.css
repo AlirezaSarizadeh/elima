@@ -40,3 +40,10 @@ html , body {
 
   font-family: 'YekanBakh' !important; 
 }
+.swiper{
+  padding-bottom: 5px !important;
+  padding-top: 5px !important;
+}
+.c-badge {
+  border-radius: 5px;
+}
