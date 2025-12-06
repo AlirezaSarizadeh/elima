@@ -1,0 +1,24 @@
+.c_swapInputs label {
+    padding-right: 15px;
+    background-color: #fff;
+    padding-left: 15px;
+}
+.c_swapInputs:first-child .MuiOutlinedInput-root {
+    border-radius: 0 10px 10px 0;
+    padding-right: 20px;
+}
+.c_swapInputs:last-child .MuiOutlinedInput-root {
+    padding-right: 20px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.c_swapInputs input {
+    border-radius: 0;
+}
+.c_swapInputs {
+    border: none;
+}
+
+.c_swapInputs .MuiAutocomplete-endAdornment {
+    padding-left: 15px;
+}

@@ -15,7 +15,7 @@ import '../global.css'
 import PassengerDropdown from "../PassengerDropdown";
 import Image from "next/image";
 import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/icons-material";
-import RtlDemo from "../../Autocomplete/Autocomplete";
+import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -105,8 +105,8 @@ export default function DomesticSearchForm() {
                 {/* Origin / Destination */}
                 <div className="flex flex-col md:flex-row gap-3 relative">
                     <div className="w-full">
-                        <RtlDemo/>
-                        <Select
+                        <SwapInputs />
+                        {/* <Select
                             placeholder="مبدا"
                             className="heroSearchBox_select"
                             options={cityOptions}
@@ -117,18 +117,18 @@ export default function DomesticSearchForm() {
                                 DropdownIndicator: () => null,   // حذف آیکون فلش
                                 IndicatorSeparator: () => null,  // حذف خط جداکننده
                             }}
-                        />
+                        /> */}
                     </div>
-
+{/* 
                     <button
                         onClick={swapOriginDest}
                         className="absolute md:absolute left-1/2 -translate-x-1/2 top-14 md:top-1/2 md:-translate-y-1/2
                        z-10 w-10 h-10 rounded-full flex items-center justify-center bg-white border border-gray-400"
                     >
                         🔄
-                    </button>
+                    </button> */}
 
-                    <div className="w-full">
+                    {/* <div className="w-full">
                         <Select
                             placeholder="مقصد"
                             className="heroSearchBox_select"
@@ -142,7 +142,7 @@ export default function DomesticSearchForm() {
                             }}
                         />
 
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* Date Inputs */}
@@ -169,7 +169,6 @@ export default function DomesticSearchForm() {
                         )}
                     </div>
 
-                    {/* Return */}
                     <div className="flex-1 relative">
                         <button
                             type="button"
