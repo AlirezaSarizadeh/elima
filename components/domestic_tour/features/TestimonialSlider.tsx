@@ -33,7 +33,7 @@ export default function TestimonialSlider() {
     ];
 
     return (
-        <section className="w-full bg-gray-100 py-14 relative">
+        <section className="w-full bg-gray-50 py-14 relative">
 
             {/* absolute object */}
             <img src={'/images/testimonial-object.png'} className="absolute right-0 top-0 bottom-0 m-auto"/>

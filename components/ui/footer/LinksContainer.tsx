@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function LinhksContainer() {
     return (
-        <footer className="bg-gray-100 pt-12 pb-6">
+        <footer className="bg-gray-50 pt-12 pb-6">
             <div className="max-w-7xl mx-auto px-0">
 
 

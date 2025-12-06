@@ -17,7 +17,7 @@ const RecentlySearch = () => {
     return (
 
         <>
-            <div className="relative max-w-7xl mx-auto px-0 flex items-center justify-between  mt-10 pt-5">
+            <div className="relative max-w-7xl mx-auto px-0 flex items-center justify-between">
                 <Title title='جستجو های اخیر' icon={<img src='/images/textalign-right.png' />} />
                 <Link href={'dxs'} className='text-xs text-blue-500'>
                     جستجوگر شو

@@ -2,7 +2,7 @@
 
 export default function JoinUsSection() {
   return (
-    <section className="bg-gray-100 py-8 mt-16">
+    <section className="bg-gray-50 py-8 mt-16">
 
       <div className="max-w-6xl mx-auto px-0 relative bg-orange-500 rounded-3xl text-white p-10 overflow-hidden flex items-center justify-center ">
 

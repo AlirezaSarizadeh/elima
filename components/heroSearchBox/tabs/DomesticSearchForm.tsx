@@ -13,6 +13,9 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 import ClearIcon from '@mui/icons-material/Clear';
 import '../global.css'
 import PassengerDropdown from "../PassengerDropdown";
+import Image from "next/image";
+import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/icons-material";
+import RTLAutocomplete from "../../Autocomplete/Autocomplete";
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -28,8 +31,8 @@ export default function DomesticSearchForm() {
     const datePickerRef = useRef<any>(null);
 
     const tabs = [
-        { label: "پرواز داخلی", href: "/" },
-        { label: "پرواز خارجی", href: "/iranout" },
+        { label: "پرواز داخلی", href: "/", icon: <FlightTakeoffRounded /> },
+        { label: "پرواز خارجی", href: "/iranout", icon: <WorkOutlineRounded /> },
     ];
 
     const activeTab = pathname === "/iranout" ? "/iranout" : "/";
@@ -74,22 +77,23 @@ export default function DomesticSearchForm() {
     };
 
     return (
-        <div className="bg-white rounded-3xl shadow-md p-6">
+        <div className="bg-white rounded-3xl border border-gray-200 p-6">
 
 
             {/* Tabs */}
-            <div className="border-b flex gap-6 overflow-x-auto pb-2">
+            <div className="border-b border-gray-300 flex gap-6 overflow-x-auto pb-2">
                 {tabs.map((t) => (
                     <div
                         key={t.href}
                         onClick={() => router.push(t.href)}
                         className={cls(
-                            "pb-2 cursor-pointer font-bold text-sm px-4 whitespace-nowrap",
+                            "pb-2 cursor-pointer font-normal text-ls whitespace-nowrap flex items-center justify-start gap-1",
                             activeTab === t.href
                                 ? "text-blue-600 border-b-2 border-blue-600"
                                 : "text-gray-900"
                         )}
                     >
+                        {t.icon}
                         {t.label}
                     </div>
                 ))}
@@ -101,6 +105,7 @@ export default function DomesticSearchForm() {
                 {/* Origin / Destination */}
                 <div className="flex flex-col md:flex-row gap-3 relative">
                     <div className="w-full">
+                        <RTLAutocomplete />
                         <Select
                             placeholder="مبدا"
                             className="heroSearchBox_select"
