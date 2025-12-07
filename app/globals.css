@@ -47,3 +47,6 @@ html , body {
 .c-badge {
   border-radius: 5px;
 }
+.rounded-8 {
+  border-radius: 8px;
+}

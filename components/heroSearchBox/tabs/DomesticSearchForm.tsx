@@ -17,6 +17,7 @@ import Image from "next/image";
 import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/icons-material";
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
 import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
+import { Button } from "@mui/material";
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -153,9 +154,13 @@ export default function DomesticSearchForm() {
                             </div>
                         </DatePicker>
                         <PassengerDropdown />
-                        <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
-                            جستجو داخلی
-                        </button>
+                        <Button variant="contained"
+                            sx={{
+                                padding: '15.5px 14px',
+                                borderRadius:'10px',
+                                minWidth:'100px'
+                            }}
+                        >جستجو</Button>
                     </div>
                     {/* <Select
                             placeholder="مبدا"
