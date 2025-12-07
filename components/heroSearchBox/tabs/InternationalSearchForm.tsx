@@ -28,8 +28,8 @@ export default function InternationalSearchForm() {
     const datePickerRef = useRef<any>(null);
 
     const tabs = [
-        { label: "پرواز داخلی", href: "/" },
-        { label: "پرواز خارجی", href: "/iranout" },
+        { label: "تور خارجی", href: "/" },
+        { label: "تور خارجی", href: "/iranout" },
     ];
 
     const activeTab = pathname === "/iranout" ? "/iranout" : "/";

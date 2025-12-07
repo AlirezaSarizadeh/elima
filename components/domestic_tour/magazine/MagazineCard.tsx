@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { AccessAlarm, LockClock } from "@mui/icons-material";
+import { Button } from "@mui/material";
 
 interface MagazineCardProps {
     title: string;
@@ -75,9 +76,13 @@ const MagazineCard = ({
 
                 {/* Button */}
                 <Link href={'#!'} className="block w-full">
-                    <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl text-center font-medium">
+                    {/* <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl text-center font-medium">
                        مشاهده وبلاگ
-                    </button>
+                    </button> */}
+                    <Button variant="contained" className="w-full" sx={{
+                        padding:'10px',
+                        borderRadius:'10px'
+                    }}>مشاهده وبلاگ</Button>
                 </Link>
             </div>
         </div>

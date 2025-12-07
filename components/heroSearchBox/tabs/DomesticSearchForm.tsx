@@ -34,8 +34,8 @@ export default function DomesticSearchForm() {
     const datePickerRef = useRef<any>(null);
 
     const tabs = [
-        { label: "پرواز داخلی", href: "/", icon: <FlightTakeoffRounded /> },
-        { label: "پرواز خارجی", href: "/iranout", icon: <WorkOutlineRounded /> },
+        { label: "تور داخلی", href: "/", icon: <WorkOutlineRounded /> },
+        { label: "تور خارجی", href: "/iranout", icon: <FlightTakeoffRounded /> },
     ];
 
     const activeTab = pathname === "/iranout" ? "/iranout" : "/";

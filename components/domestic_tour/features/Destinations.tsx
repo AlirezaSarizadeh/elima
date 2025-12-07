@@ -12,9 +12,9 @@ export default function Destinations() {
         <section
             className="w-full py-14 bg-[#7A8F9E]"
             style={{
-                // backgroundImage: "url('https://picsum.photos/1200/600')",
-                // backgroundSize: "cover",
-                // backgroundPosition: "center",
+                backgroundImage: "url('/images/plane-bg.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
                 backgroundColor: ''
             }}
         >

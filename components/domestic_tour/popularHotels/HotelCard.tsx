@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { Button } from "@mui/material";
 
 interface HotelCardProps {
     title: string;
@@ -82,10 +83,15 @@ const HotelCard = ({
 
                 {/* Button */}
                 <Link href={'#!'} className="block w-full">
-                    <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl text-center font-medium">
+                    {/* <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl text-center font-medium">
                         مشاهده جزئیات و رزرو
-                    </button>
+                    </button> */}
+                    <Button variant="contained" className="w-full" sx={{
+                        padding:'10px',
+                        borderRadius:'10px'
+                    }}>رزرو و مشاهده جزییات</Button>
                 </Link>
+                
             </div>
         </div>
     );

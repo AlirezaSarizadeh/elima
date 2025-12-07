@@ -43,14 +43,14 @@ export const megaMenuData: MegaMenuCategory[] = [
     label: 'پرواز',
     sections: [
       {
-        title: 'پرواز داخلی',
+        title: 'تور خارجی',
         links: [
           { label: 'تهران - مشهد', href: '/flights/domestic/tehran-mashhad' },
           { label: 'تهران - کیش', href: '/flights/domestic/tehran-kish' },
         ],
       },
       {
-        title: 'پرواز خارجی',
+        title: 'تور خارجی',
         links: [
           { label: 'تهران - استانبول', href: '/flights/international/istanbul' },
           { label: 'تهران - دبی', href: '/flights/international/dubai' },
