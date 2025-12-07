@@ -16,7 +16,7 @@ import PassengerDropdown from "../PassengerDropdown";
 import Image from "next/image";
 import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/icons-material";
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
-import { Test } from "../../Test/Test";
+import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -109,9 +109,9 @@ export default function DomesticSearchForm() {
                 {/* Origin / Destination */}
                 <div className="flex flex-col md:flex-row gap-3 relative">
                     {/* <div className="w-full"> */}
-                    <SwapInputs />
-                    <div className="flex items-center justify-center gap-0">
-                        <Test
+                    <div className="flex items-center justify-between w-full gap-5 relative c_datepickerInput-container">
+                        <SwapInputs />
+                        <DatePickerInput
                             value={departDate}
                             onChange={(val) => setValue(val)}
                             onClear={clearDepart}
@@ -120,7 +120,7 @@ export default function DomesticSearchForm() {
                             style={{ direction: "rtl" }}
                             onAutocompleteClick={openCalendar}
                         />
-                        <Test
+                        <DatePickerInput
                             value={returnDate}
                             onChange={(val) => setValue(val)}
                             onClear={clearReturn}
@@ -129,6 +129,33 @@ export default function DomesticSearchForm() {
                             style={{ direction: "rtl" }}
                             onAutocompleteClick={openCalendar}
                         />
+                        <DatePicker
+                            ref={datePickerRef}
+                            range
+                            value={dateRange}
+                            onChange={setDateRange}
+                            calendar={calendar}
+                            locale={locale}
+                            numberOfMonths={2}
+                            format="YYYY/MM/DD"
+                            portal
+                            inputClass="hidden"
+                            style={{ visibility: "hidden", height: 0 }}
+                        >
+                            <div className="absolute top-3 left-3 z-50">
+                                <button
+                                    type="button"
+                                    onClick={switchCalendar}
+                                    className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow"
+                                >
+                                    {calendarType === "jalali" ? "میلادی" : "شمسی"}
+                                </button>
+                            </div>
+                        </DatePicker>
+                        <PassengerDropdown />
+                        <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
+                            جستجو داخلی
+                        </button>
                     </div>
                     {/* <Select
                             placeholder="مبدا"
@@ -216,38 +243,16 @@ export default function DomesticSearchForm() {
                     </div> */}
 
                     {/* Calendar Mounted Normally */}
-                    <DatePicker
-                        ref={datePickerRef}
-                        range
-                        value={dateRange}
-                        onChange={setDateRange}
-                        calendar={calendar}
-                        locale={locale}
-                        numberOfMonths={2}
-                        format="YYYY/MM/DD"
-                        portal
-                        inputClass="hidden"
-                        style={{ visibility: "hidden", height: 0 }}
-                    >
-                        <div className="absolute top-3 left-3 z-50">
-                            <button
-                                type="button"
-                                onClick={switchCalendar}
-                                className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow"
-                            >
-                                {calendarType === "jalali" ? "میلادی" : "شمسی"}
-                            </button>
-                        </div>
-                    </DatePicker>
+
                 </div>
 
                 {/* Passengers */}
                 <div className="flex gap-3">
-                    <PassengerDropdown />
 
-                    <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
+
+                    {/* <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
                         جستجو داخلی
-                    </button>
+                    </button> */}
                 </div>
             </div>
 

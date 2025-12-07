@@ -1,0 +1,35 @@
+.c_datepickerInput .MuiInputBase-formControl {
+    border-radius: 10px 0 0 10px;
+}
+
+.c_datepickerInput label {
+    padding-right: 15px;
+    background-color: #fff;
+    padding-left: 15px;
+}
+
+.c_datepickerInput-container .MuiBox-root:first-child .MuiInputBase-formControl {
+    border-radius: 0 10px 10px 0;
+    padding-right: 20px;
+}
+
+.c_datepickerInput-container .MuiBox-root:last-child .MuiInputBase-formControl {
+    padding-right: 20px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.c_datepickerInput input {
+    border-radius: 0;
+}
+
+.c_datepickerInput {
+    border: none;
+}
+
+.c_datepickerInput .MuiAutocomplete-endAdornment {
+    padding-left: 15px;
+}
+
+.c_datepickerInput .MuiAutocomplete-popupIndicator {
+    display: none;
+}

@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Box } from '@mui/material';
+import './DatePickerInput.css'
 
 // تعریف نوع پراپرتی‌ها
 interface ClearableTextFieldProps {
@@ -16,7 +17,7 @@ interface ClearableTextFieldProps {
     onAutocompleteClick?: () => void
 }
 
-export const Test: React.FC<ClearableTextFieldProps> = ({
+export const DatePickerInput: React.FC<ClearableTextFieldProps> = ({
     onAutocompleteClick,
     value,
     onChange,
@@ -34,10 +35,14 @@ export const Test: React.FC<ClearableTextFieldProps> = ({
     return (
         <Box onClick={onAutocompleteClick} sx={{ cursor: 'pointer' }}>
             <TextField
+                className='c_datepickerInput'
                 {...props} // تمام پراپرتی‌های دیگر را به TextField پاس می‌دهد
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 label={label}
+                sx={{
+                    width:200
+                }}
                 // اینجا جادو اتفاق می‌افتد
                 InputProps={{
                     ...props.InputProps, // اگر InputProps از بیرون پاس داده شد، آن را حفظ می‌کنیم

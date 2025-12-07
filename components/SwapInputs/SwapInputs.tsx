@@ -61,7 +61,7 @@ export class SwapInputs extends Component {
                         onChange={this.handleChange1}
                         options={top100Films}
                         getOptionLabel={(option) => option.title}
-                        sx={{ width: 300 }}
+                        sx={{ width: 150 }}
                         renderInput={(params) => <TextField {...params} label="مبدا" />}
                     />
 
@@ -95,7 +95,7 @@ export class SwapInputs extends Component {
                         onChange={this.handleChange2}
                         options={top100Films}
                         getOptionLabel={(option) => option.title}
-                        sx={{ width: 300 }}
+                        sx={{ width: 150 }}
                         renderInput={(params) => <TextField {...params} label="مقصد" />}
                     />
                 </CacheProvider>
