@@ -18,6 +18,7 @@ import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/ico
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
 import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
 import { Button } from "@mui/material";
+
 const cityOptions = [
     { value: "THR", label: "تهران" },
     { value: "MHD", label: "مشهد" },
@@ -31,23 +32,21 @@ export default function DomesticSearchForm() {
     const pathname = usePathname();
 
     const [value, setValue] = useState("");
-    const datePickerRef = useRef<any>(null);
+    const datePickerRef = useRef(null);
 
     const tabs = [
         { label: "تور داخلی", href: "/", icon: <WorkOutlineRounded /> },
-        { label: "تور خارجی", href: "/iranout", icon: <FlightTakeoffRounded /> },
+        { label: "تور خارجی", href: "/external-tour", icon: <FlightTakeoffRounded /> },
     ];
 
-    const activeTab = pathname === "/iranout" ? "/iranout" : "/";
+    const activeTab = pathname === "/external-tour" ? "/external-tour" : "/";
 
-    const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">(
-        "jalali"
-    );
+    const [calendarType, setCalendarType] = useState("jalali");
 
-    const [dateRange, setDateRange] = useState<any>([null, null]);
+    const [dateRange, setDateRange] = useState([null, null]);
 
-    const [origin, setOrigin] = useState<any>(null);
-    const [destination, setDestination] = useState<any>(null);
+    const [origin, setOrigin] = useState(null);
+    const [destination, setDestination] = useState(null);
 
     const calendar = calendarType === "jalali" ? persian : gregorian;
     const locale = calendarType === "jalali" ? persian_fa : gregorian_en;
@@ -79,39 +78,73 @@ export default function DomesticSearchForm() {
         setDateRange([dateRange[0], null]);
     };
 
-
-
     return (
         <div className="bg-white rounded-3xl border border-gray-200 p-6">
-
+            {/* استایل‌های انیمیشن اختصاصی همین کامپوننت */}
+            <style jsx>{`
+                @keyframes fadeSlideUp {
+                    0% {
+                        opacity: 0;
+                        transform: translateY(20px) scale(0.98);
+                    }
+                    100% {
+                        opacity: 1;
+                        transform: translateY(0) scale(1);
+                    }
+                }
+                @keyframes expandWidth {
+                    from { width: 0; opacity: 0; }
+                    to { width: 100%; opacity: 1; }
+                }
+                .animate-slide-up {
+                    animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                }
+                .tab-active-line::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 2px;
+                    background-color: #2563eb; /* blue-600 */
+                    border-radius: 2px 2px 0 0;
+                    animation: expandWidth 0.3s ease forwards;
+                }
+            `}</style>
 
             {/* Tabs */}
-            <div className="border-b border-gray-300 flex gap-6 overflow-x-auto pb-2">
-                {tabs.map((t) => (
-                    <div
-                        key={t.href}
-                        onClick={() => router.push(t.href)}
-                        className={cls(
-                            "pb-2 cursor-pointer font-normal text-ls whitespace-nowrap flex items-center justify-start gap-1",
-                            activeTab === t.href
-                                ? "text-blue-600 border-b-2 border-blue-600"
-                                : "text-gray-900"
-                        )}
-                    >
-                        {t.icon}
-                        {t.label}
-                    </div>
-                ))}
+            <div className="border-b border-gray-300 flex gap-6 overflow-x-auto pb-0 mb-5">
+                {tabs.map((t) => {
+                    const isActive = activeTab === t.href;
+                    return (
+                        <div
+                            key={t.href}
+                            onClick={() => router.push(t.href)}
+                            className={cls(
+                                "pb-3 cursor-pointer font-medium text-ls whitespace-nowrap flex items-center justify-start gap-2 relative transition-colors duration-300",
+                                isActive
+                                    ? "text-blue-600 tab-active-line"
+                                    : "text-gray-500 hover:text-gray-800"
+                            )}
+                        >
+                            {t.icon}
+                            {t.label}
+                        </div>
+                    );
+                })}
             </div>
 
             {/* Search Form */}
-            <div className="mt-5 flex flex-col gap-4">
-
+            {/* نکته مهم: key باعث می‌شود با تغییر تب، انیمیشن دوباره اجرا شود */}
+            <div
+                key={activeTab}
+                className="flex flex-col gap-4"
+            >
                 {/* Origin / Destination */}
                 <div className="flex flex-col md:flex-row gap-3 relative">
                     {/* <div className="w-full"> */}
-                    <div className="flex items-center justify-between w-full gap-5 relative c_datepickerInput-container">
-                        <SwapInputs />
+                    <SwapInputs />
+                    <div className="flex items-center justify-between w-full gap-0 relative c_datepickerInput-container">
                         <DatePickerInput
                             value={departDate}
                             onChange={(val) => setValue(val)}
@@ -120,6 +153,7 @@ export default function DomesticSearchForm() {
                             variant="outlined"
                             style={{ direction: "rtl" }}
                             onAutocompleteClick={openCalendar}
+
                         />
                         <DatePickerInput
                             value={returnDate}
@@ -147,117 +181,27 @@ export default function DomesticSearchForm() {
                                 <button
                                     type="button"
                                     onClick={switchCalendar}
-                                    className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow"
+                                    className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow hover:bg-gray-300 transition"
                                 >
                                     {calendarType === "jalali" ? "میلادی" : "شمسی"}
                                 </button>
                             </div>
                         </DatePicker>
-                        <PassengerDropdown />
-                        <Button variant="contained"
-                            sx={{
-                                padding: '15.5px 14px',
-                                borderRadius:'10px',
-                                minWidth:'100px'
-                            }}
-                        >جستجو</Button>
                     </div>
-                    {/* <Select
-                            placeholder="مبدا"
-                            className="heroSearchBox_select"
-                            options={cityOptions}
-                            value={origin}
-                            onChange={setOrigin}
-                            isSearchable
-                            components={{
-                                DropdownIndicator: () => null,   // حذف آیکون فلش
-                                IndicatorSeparator: () => null,  // حذف خط جداکننده
-                            }}
-                        /> */}
-                    {/* </div> */}
-                    {/* 
-                    <button
-                        onClick={swapOriginDest}
-                        className="absolute md:absolute left-1/2 -translate-x-1/2 top-14 md:top-1/2 md:-translate-y-1/2
-                       z-10 w-10 h-10 rounded-full flex items-center justify-center bg-white border border-gray-400"
-                    >
-                        🔄
-                    </button> */}
-
-                    {/* <div className="w-full">
-                        <Select
-                            placeholder="مقصد"
-                            className="heroSearchBox_select"
-                            options={cityOptions}
-                            value={destination}
-                            onChange={setDestination}
-                            isSearchable
-                            components={{
-                                DropdownIndicator: () => null,   // حذف آیکون فلش
-                                IndicatorSeparator: () => null,  // حذف خط جداکننده
-                            }}
-                        />
-
-                    </div> */}
-                </div>
-
-                {/* Date Inputs */}
-                <div className="flex gap-3 w-full relative">
-
-
-
-                    {/* Departure */}
-                    {/* <div className="flex-1 relative">
-                        <button
-                            type="button"
-                            onClick={openCalendar}
-                            className="bg-white border border-gray-900 rounded-lg h-12 px-10 w-full flex justify-between items-center"
-                        >
-                            <span className="text-sm">تاریخ رفت</span>
-                            <span className="text-gray-600">{departDate || "انتخاب کنید"}</span>
-                        </button>
-
-                        {departDate && (
-                            <button
-                                onClick={clearDepart}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
-                            >
-                                <ClearIcon />
-                            </button>
-                        )}
-                    </div>
-
-                    <div className="flex-1 relative">
-                        <button
-                            type="button"
-                            onClick={openCalendar}
-                            className="bg-white border border-gray-900 rounded-lg h-12 px-10 w-full flex justify-between items-center"
-                        >
-                            <span className="text-sm">تاریخ برگشت</span>
-                            <span className="text-gray-600">{returnDate || "انتخاب کنید"}</span>
-                        </button>
-
-                        {returnDate && (
-                            <button
-                                onClick={clearReturn}
-                                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black flex items-center"
-                            >
-                                <ClearIcon />
-                            </button>
-                        )}
-                    </div> */}
-
-                    {/* Calendar Mounted Normally */}
-
-                </div>
-
-                {/* Passengers */}
-                <div className="flex gap-3">
-
-
-                    {/* <button className="rounded-full bg-blue-600 text-white font-bold h-12 px-6 w-full md:w-auto">
-                        جستجو داخلی
-                    </button> */}
+                    <PassengerDropdown />
+                    <Button variant="contained"
+                        sx={{
+                            padding: '15.5px 14px',
+                            borderRadius: '10px',
+                            minWidth: '100px',
+                            boxShadow: 'none',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                                transform: 'translateY(-2px)',
+                                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)'
+                            }
+                        }}
+                    >جستجو</Button>
                 </div>
             </div>
 

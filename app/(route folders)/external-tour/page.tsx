@@ -1,15 +1,15 @@
 import Image from 'next/image';
-import Destinations from '../components/domestic_tour/features/Destinations';
-import DestinationsSection from '../components/domestic_tour/features/Destinations';
-import FeatureHero from '../components/domestic_tour/features/FeatureHero';
-import TestimonialSlider from '../components/domestic_tour/features/TestimonialSlider';
-import WhyUs from '../components/domestic_tour/features/WhyUs';
-import MagazineSection from '../components/domestic_tour/magazine/MagazineSection';
-import PopularHotelsSection from '../components/domestic_tour/popularHotels/PopularHotelsSection';
-import RecentlySearch from '../components/domestic_tour/RecentlySearch/RecentlySearch';
-import ToursSection from '../components/domestic_tour/tour_category/ToursSection';
-import HeroBox from '../components/heroSearchBox/HeroBox';
-import DomesticSearchForm from '../components/heroSearchBox/tabs/DomesticSearchForm';
+import Destinations from '../../../components/domestic_tour/features/Destinations';
+import DestinationsSection from '../../../components/domestic_tour/features/Destinations';
+import FeatureHero from '../../../components/domestic_tour/features/FeatureHero';
+import TestimonialSlider from '../../../components/domestic_tour/features/TestimonialSlider';
+import WhyUs from '../../../components/domestic_tour/features/WhyUs';
+import MagazineSection from '../../../components/domestic_tour/magazine/MagazineSection';
+import PopularHotelsSection from '../../../components/domestic_tour/popularHotels/PopularHotelsSection';
+import RecentlySearch from '../../../components/domestic_tour/RecentlySearch/RecentlySearch';
+import ToursSection from '../../../components/domestic_tour/tour_category/ToursSection';
+import HeroBox from '../../../components/heroSearchBox/HeroBox';
+import DomesticSearchForm from '../../../components/heroSearchBox/tabs/DomesticSearchForm';
 
 export default function HomePage() {
   return (
@@ -38,7 +38,7 @@ export default function HomePage() {
 
       {/* Dynamic Content Accourding To Tab Url Will Show Here : */}
 
-
+      توررررررر خارجی
       <RecentlySearch />
 
       <ToursSection />
