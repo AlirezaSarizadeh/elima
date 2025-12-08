@@ -1,38 +1,43 @@
 "use client";
 
-import { useState, useMemo, useRef } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import React, { useState, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import DatePicker from "react-multi-date-picker";
-import Select from "react-select";
 import cls from "classnames";
 
+// Calendar Imports
 import persian from "react-date-object/calendars/jalali";
 import persian_fa from "react-date-object/locales/persian_fa";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
-import ClearIcon from '@mui/icons-material/Clear';
-import '../global.css'
-import PassengerDropdown from "../PassengerDropdown";
-import Image from "next/image";
-import { FlightTakeoffRounded, WorkOutlined, WorkOutlineRounded } from "@mui/icons-material";
+
+// Icons & UI Components
+import { FlightTakeoffRounded, WorkOutlineRounded, Close as CloseIcon } from "@mui/icons-material";
+import { Button, Dialog, DialogContent, AppBar, Toolbar, IconButton, Typography, Slide, useMediaQuery, useTheme } from "@mui/material";
+import { TransitionProps } from '@mui/material/transitions';
+
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
 import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
-import { Button } from "@mui/material";
+import PassengerDropdown from "../PassengerDropdown";
 
-const cityOptions = [
-    { value: "THR", label: "تهران" },
-    { value: "MHD", label: "مشهد" },
-    { value: "AWZ", label: "اهواز" },
-    { value: "KIH", label: "کیش" },
-    { value: "IFN", label: "اصفهان" },
-];
+const Transition = React.forwardRef(function Transition(
+    props: TransitionProps & { children: React.ReactElement },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 export default function DomesticSearchForm() {
     const router = useRouter();
     const pathname = usePathname();
-
     const [value, setValue] = useState("");
-    const datePickerRef = useRef(null);
+    const datePickerRef = useRef<any>(null);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+
+    const [mobileModalOpen, setMobileModalOpen] = useState(false);
+    const [selectedMobileTab, setSelectedMobileTab] = useState<string | null>(null);
 
     const tabs = [
         { label: "تور داخلی", href: "/", icon: <WorkOutlineRounded /> },
@@ -40,91 +45,148 @@ export default function DomesticSearchForm() {
     ];
 
     const activeTab = pathname === "/external-tours" ? "/external-tours" : "/";
-
-    const [calendarType, setCalendarType] = useState("jalali");
-
-    const [dateRange, setDateRange] = useState([null, null]);
-
-    const [origin, setOrigin] = useState(null);
-    const [destination, setDestination] = useState(null);
+    const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">("jalali");
+    const [dateRange, setDateRange] = useState<any>([null, null]);
 
     const calendar = calendarType === "jalali" ? persian : gregorian;
     const locale = calendarType === "jalali" ? persian_fa : gregorian_en;
 
-    const switchCalendar = () => {
-        setCalendarType((prev) => (prev === "jalali" ? "gregorian" : "jalali"));
-    };
-
-    const swapOriginDest = () => {
-        const o = origin;
-        setOrigin(destination);
-        setDestination(o);
-    };
-
+    const switchCalendar = () => setCalendarType((prev) => (prev === "jalali" ? "gregorian" : "jalali"));
     const departDate = dateRange[0] ? dateRange[0].format("YYYY/MM/DD") : "";
     const returnDate = dateRange[1] ? dateRange[1].format("YYYY/MM/DD") : "";
 
-    const openCalendar = () => {
-        if (!datePickerRef.current) return;
-        datePickerRef.current.openCalendar();
+    const openCalendar = () => datePickerRef.current?.openCalendar();
+    const clearDepart = () => setDateRange([null, dateRange[1]]);
+    const clearReturn = () => setDateRange([dateRange[0], null]);
+
+    const handleTabClick = (href: string) => {
+        if (isMobile) {
+            setSelectedMobileTab(href);
+            setMobileModalOpen(true);
+        } else {
+            router.push(href);
+        }
     };
 
-    // clear functions
-    const clearDepart = () => {
-        setDateRange([null, dateRange[1]]);
-    };
+    const renderFormContent = () => (
+        <div className="flex flex-col gap-4 pt-4">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-3 relative items-end">
+                {/* مبدا / مقصد */}
+                <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-20">
+                    <SwapInputs />
+                </div>
 
-    const clearReturn = () => {
-        setDateRange([dateRange[0], null]);
-    };
+                {/* تاریخ */}
+                <div className="col-span-1 md:col-span-4 lg:col-span-4 w-full flex items-center gap-0 relative c_datepickerInput-container z-50">
+
+                    {/* اینپوت رفت */}
+                    <DatePickerInput
+                        value={departDate}
+                        onChange={(val) => setValue(val)}
+                        onClear={clearDepart}
+                        label="تاریخ رفت"
+                        variant="outlined"
+                        style={{ direction: "rtl" }}
+                        onAutocompleteClick={openCalendar}
+                    />
+
+                    {/* اینپوت برگشت */}
+                    <DatePickerInput
+                        value={returnDate}
+                        onChange={(val) => setValue(val)}
+                        onClear={clearReturn}
+                        label="تاریخ برگشت"
+                        variant="outlined"
+                        style={{ direction: "rtl" }}
+                        onAutocompleteClick={openCalendar}
+                    />
+
+                    {/* --- اصلاح جایگاه تقویم --- */}
+                    <div
+                        className="absolute w-full flex justify-center z-[1000]" // تغییر کلاس z
+                        style={{
+                            top: "58px",
+                            right: 0,
+                        }}
+                    >
+                        <DatePicker
+                            ref={datePickerRef}
+                            range
+                            value={dateRange}
+                            onChange={setDateRange}
+                            calendar={calendar}
+                            locale={locale}
+                            numberOfMonths={isMobile ? 1 : 2} // پیشنهاد: در موبایل 1 ماه نمایش داده شود بهتر است
+                            format="YYYY/MM/DD"
+
+                            // تنظیمات حیاتی برای پوزیشن
+                            portal={false}
+                            inputClass="hidden"
+
+                            // اصلاح z-index داخلی کانتینر خود تقویم
+                            containerStyle={{
+                                width: "100%",
+                                display: "flex",
+                                justifyContent: "center",
+                                zIndex: 1001 // اطمینان از بالا بودن
+                            }}
+
+                            style={{
+                                visibility: "hidden",
+                                height: 0,
+                                width: 0,
+                            }}
+                        >
+                            {/* ... دکمه تغییر تقویم ... */}
+                        </DatePicker>
+                    </div>
+                </div>
+
+                {/* مسافران */}
+                <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-30">
+                    <PassengerDropdown />
+                </div>
+
+                {/* دکمه جستجو */}
+                <div className="col-span-1 md:col-span-12 lg:col-span-2 w-full mt-4 md:mt-0">
+                    <Button
+                        variant="contained"
+                        href="/internal-tours"
+                        fullWidth
+                        size="large"
+                        sx={{
+                            borderRadius: '12px',
+                            fontWeight: 'bold',
+                            height: '56px',
+                            boxShadow: 'none',
+                            fontSize: '1rem',
+                        }}
+                    >
+                        جستجو
+                    </Button>
+                </div>
+            </div>
+        </div>
+    );
 
     return (
-        <div className="bg-white rounded-3xl border border-gray-200 p-6">
-            {/* استایل‌های انیمیشن اختصاصی همین کامپوننت */}
-            <style jsx>{`
-                @keyframes fadeSlideUp {
-                    0% {
-                        opacity: 0;
-                        transform: translateY(20px) scale(0.98);
-                    }
-                    100% {
-                        opacity: 1;
-                        transform: translateY(0) scale(1);
-                    }
-                }
-                @keyframes expandWidth {
-                    from { width: 0; opacity: 0; }
-                    to { width: 100%; opacity: 1; }
-                }
-                .animate-slide-up {
-                    animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-                }
-                .tab-active-line::after {
-                    content: '';
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 2px;
-                    background-color: #2563eb; /* blue-600 */
-                    border-radius: 2px 2px 0 0;
-                    animation: expandWidth 0.3s ease forwards;
-                }
-            `}</style>
+        <div className="bg-white rounded-3xl border border-gray-200 p-4 md:p-6">
 
-            {/* Tabs */}
-            <div className="border-b border-gray-300 flex gap-6 overflow-x-auto pb-0 mb-5">
+            {/* تب‌ها */}
+            <div className={`
+                ${isMobile ? 'grid grid-cols-2 gap-3' : 'border-b border-gray-300 flex gap-6 overflow-x-auto pb-0 mb-5'}
+            `}>
                 {tabs.map((t) => {
                     const isActive = activeTab === t.href;
                     return (
                         <div
                             key={t.href}
-                            onClick={() => router.push(t.href)}
+                            onClick={() => handleTabClick(t.href)}
                             className={cls(
-                                "pb-3 cursor-pointer font-medium text-ls whitespace-nowrap flex items-center justify-start gap-2 relative transition-colors duration-300",
-                                isActive
-                                    ? "text-blue-600 tab-active-line"
-                                    : "text-gray-500 hover:text-gray-800"
+                                "cursor-pointer font-medium flex items-center justify-center gap-2 transition-all duration-300",
+                                isMobile
+                                    ? `p-4 rounded-xl border ${isActive ? 'bg-blue-50 border-blue-200 text-blue-600' : 'bg-gray-50 border-gray-100 text-gray-600'}`
+                                    : `pb-3 whitespace-nowrap justify-start relative ${isActive ? "text-blue-600 tab-active-line" : "text-gray-500 hover:text-gray-800"}`
                             )}
                         >
                             {t.icon}
@@ -134,78 +196,85 @@ export default function DomesticSearchForm() {
                 })}
             </div>
 
-            {/* Search Form */}
-            {/* نکته مهم: key باعث می‌شود با تغییر تب، انیمیشن دوباره اجرا شود */}
-            <div
-                key={activeTab}
-                className="flex flex-col gap-4"
-            >
-                {/* Origin / Destination */}
-                <div className="flex flex-col md:flex-row gap-3 relative">
-                    {/* <div className="w-full"> */}
-                    <SwapInputs />
-                    <div className="flex items-center justify-between w-full gap-0 relative c_datepickerInput-container">
-                        <DatePickerInput
-                            value={departDate}
-                            onChange={(val) => setValue(val)}
-                            onClear={clearDepart}
-                            label="تاریخ رفت"
-                            variant="outlined"
-                            style={{ direction: "rtl" }}
-                            onAutocompleteClick={openCalendar}
-
-                        />
-                        <DatePickerInput
-                            value={returnDate}
-                            onChange={(val) => setValue(val)}
-                            onClear={clearReturn}
-                            label="تاریخ برگشت"
-                            variant="outlined"
-                            style={{ direction: "rtl" }}
-                            onAutocompleteClick={openCalendar}
-                        />
-                        <DatePicker
-                            ref={datePickerRef}
-                            range
-                            value={dateRange}
-                            onChange={setDateRange}
-                            calendar={calendar}
-                            locale={locale}
-                            numberOfMonths={2}
-                            format="YYYY/MM/DD"
-                            portal
-                            inputClass="hidden"
-                            style={{ visibility: "hidden", height: 0 }}
-                        >
-                            <div className="absolute top-3 left-3 z-50">
-                                <button
-                                    type="button"
-                                    onClick={switchCalendar}
-                                    className="bg-gray-200 text-gray-700 text-xs px-3 py-1 rounded-full shadow hover:bg-gray-300 transition"
-                                >
-                                    {calendarType === "jalali" ? "میلادی" : "شمسی"}
-                                </button>
-                            </div>
-                        </DatePicker>
-                    </div>
-                    <PassengerDropdown />
-                    <Button variant="contained"
-                        href="/internal-tours"
-                        sx={{
-                            padding: '15.5px 14px',
-                            borderRadius: '10px',
-                            minWidth: '100px',
-                            boxShadow: 'none',
-                            transition: 'all 0.3s ease',
-                            '&:hover': {
-                                transform: 'translateY(-2px)',
-                                boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)'
-                            }
-                        }}
-                    >جستجو</Button>
+            {!isMobile && (
+                <div key={activeTab} className="animate-slide-up">
+                    {renderFormContent()}
                 </div>
-            </div>
+            )}
 
+            {/* --- مودال تمام صفحه موبایل --- */}
+            <Dialog
+                fullScreen
+                open={mobileModalOpen}
+                onClose={() => setMobileModalOpen(false)}
+                TransitionComponent={Transition}
+                disablePortal={false}
+                style={{ zIndex: 1300 }}
+            >
+                {/* هدر مودال */}
+                <AppBar sx={{ position: 'relative', bgcolor: 'white', color: 'black', boxShadow: 'none', borderBottom: '1px solid #eee' }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={() => setMobileModalOpen(false)}
+                            aria-label="close"
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1, fontWeight: 'bold' }} variant="h6" component="div">
+                            {tabs.find(t => t.href === selectedMobileTab)?.label || 'جستجو'}
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+
+                {/* بدنه مودال */}
+                <DialogContent className="bg-white pb-10">
+                    {/* فرم اصلی */}
+                    {renderFormContent()}
+
+                    {/* دکمه بستن اضافی در پایین صفحه */}
+                    <div className="mt-6 border-t border-gray-200 pt-6">
+                        <Button
+                            variant="outlined"
+                            color="error"
+                            fullWidth
+                            size="large"
+                            onClick={() => setMobileModalOpen(false)}
+                            startIcon={<CloseIcon />}
+                            sx={{
+                                borderRadius: '12px',
+                                height: '50px',
+                                fontWeight: 'bold',
+                                borderColor: '#ffcdd2',
+                                color: '#d32f2f',
+                                '&:hover': {
+                                    borderColor: '#ef5350',
+                                    backgroundColor: '#ffebee'
+                                }
+                            }}
+                        >
+                            انصراف و بستن
+                        </Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
+            <style jsx>{`
+                @keyframes fadeSlideUp {
+                    0% { opacity: 0; transform: translateY(20px) scale(0.98); }
+                    100% { opacity: 1; transform: translateY(0) scale(1); }
+                }
+                .animate-slide-up {
+                    animation: fadeSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+                }
+                .tab-active-line::after {
+                    content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px;
+                    background-color: #2563eb; border-radius: 2px 2px 0 0;
+                    animation: expandWidth 0.3s ease forwards;
+                }
+                @keyframes expandWidth { from { width: 0; } to { width: 100%; } }
+            `}</style>
         </div>
     );
 }

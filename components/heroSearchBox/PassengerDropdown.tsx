@@ -44,7 +44,7 @@ export default function FlightSearchInputs() {
       <div className="flex w-full items-center">
         
         {/* 1. اینپوت مسافران */}
-        <div className="w-2/3">
+        <div className="w-100 md:w-50">
           <TextField
             fullWidth
             label="تعداد مسافران"
@@ -62,7 +62,7 @@ export default function FlightSearchInputs() {
         </div>
 
         {/* 2. اینپوت کلاس پرواز */}
-        <div className="w-1/3">
+        <div className="w-100 md:w-50">
           <TextField
             select
             fullWidth

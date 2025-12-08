@@ -33,22 +33,29 @@
 }
 
 /* تنظیم فونت پیش‌فرض برای کل بدنه سایت */
-html , body {
-  font-family: 'YekanBakh', sans-serif; 
+html,
+body {
+  font-family: 'YekanBakh', sans-serif;
+  overflow-x: hidden !important;
 }
+
 body {
   line-height: 2 !important;
 }
+
 .font-YekanBakh {
-  font-family: 'YekanBakh' !important; 
+  font-family: 'YekanBakh' !important;
 }
-.swiper{
+
+.swiper {
   padding-bottom: 5px !important;
   padding-top: 5px !important;
 }
+
 .c-badge {
   border-radius: 5px;
 }
+
 .rounded-8 {
   border-radius: 8px;
 }

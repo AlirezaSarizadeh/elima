@@ -54,9 +54,44 @@ const RecentlySearch = () => {
                 </div>
 
                 <Swiper
-                    slidesOffsetBefore={50}  // فاصله از راست
-                    slidesPerView={7}
-                    spaceBetween={10}
+                    // تنظیمات ریسپانسیو (Breakpoints)
+                    breakpoints={{
+                        // موبایل‌های خیلی کوچک
+                        320: {
+                            slidesPerView: 2.2, // کمی از آیتم بعدی دیده شود تا کاربر بفهمد اسکرول دارد
+                            spaceBetween: 10,
+                            slidesOffsetBefore: 16, // فاصله کم از راست در موبایل
+                            slidesOffsetAfter: 16,
+                        },
+                        // موبایل‌های بزرگتر
+                        480: {
+                            slidesPerView: 3,
+                            spaceBetween: 10,
+                            slidesOffsetBefore: 16,
+                            slidesOffsetAfter: 16,
+                        },
+                        // تبلت
+                        768: {
+                            slidesPerView: 4,
+                            spaceBetween: 15,
+                            slidesOffsetBefore: 50, // ایجاد فضا برای دکمه نویگیشن
+                            slidesOffsetAfter: 50,
+                        },
+                        // لپ‌تاپ
+                        1024: {
+                            slidesPerView: 5,
+                            spaceBetween: 15,
+                            slidesOffsetBefore: 50,
+                            slidesOffsetAfter: 50,
+                        },
+                        // دسکتاپ بزرگ
+                        1280: {
+                            slidesPerView: 7,
+                            spaceBetween: 10,
+                            slidesOffsetBefore: 50,
+                            slidesOffsetAfter: 0,
+                        },
+                    }}
                     grabCursor={true}
                     modules={[Navigation]}
                     navigation={false}
@@ -70,6 +105,7 @@ const RecentlySearch = () => {
 
                         swiper.navigation.init();
                         swiper.navigation.update();
+
                     }}
                 >
                     {Array.from({ length: 10 }).map((_, i) => (

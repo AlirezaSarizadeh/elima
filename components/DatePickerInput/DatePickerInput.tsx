@@ -33,17 +33,16 @@ export const DatePickerInput: React.FC<ClearableTextFieldProps> = ({
     };
 
     return (
-        <Box onClick={onAutocompleteClick} sx={{ cursor: 'pointer' }}>
+        <Box onClick={onAutocompleteClick} sx={{ cursor: 'pointer' , width:'100%' }}>
             <TextField
                 className='c_datepickerInput'
                 {...props} // تمام پراپرتی‌های دیگر را به TextField پاس می‌دهد
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 label={label}
-                sx={{
-                    width:200
+                sx={{ 
+                    width: { xs: '100%' } 
                 }}
-                // اینجا جادو اتفاق می‌افتد
                 InputProps={{
                     ...props.InputProps, // اگر InputProps از بیرون پاس داده شد، آن را حفظ می‌کنیم
                     endAdornment: value ? ( // فقط زمانی که مقداری وجود دارد، دکمه را نمایش بده
