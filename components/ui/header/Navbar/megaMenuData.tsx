@@ -1,87 +1,70 @@
-export type MegaMenuCategory = {
-  label: string // نمایش در منو
-  sections: {
-    title: string
-    links: { label: string; href: string }[]
-  }[]
-}
+// 1. تعریف تایپ‌ها مطابق با کامپوننت DropdownMenu
+export type DropdownItem = {
+  label: string;
+  href: string;
+};
 
-export const megaMenuData: MegaMenuCategory[] = [
+export type MenuItem = {
+  id: number;
+  label: string; // عنوانی که در نوار بالا نمایش داده می‌شود
+  items: DropdownItem[]; // لیست آیتم‌های داخل دراپ‌داون
+};
+
+// 2. دیتای اصلاح شده (حذف بخش‌بندی‌های تو در تو برای ساده‌سازی)
+export const menuData: MenuItem[] = [
   {
+    id: 1,
     label: 'تورهای داخلی',
-    sections: [
-      {
-        title: 'تورهای محبوب',
-        links: [
-          { label: 'کیش', href: '/tours/domestic/kish' },
-          { label: 'مشهد', href: '/tours/domestic/mashhad' },
-          { label: 'شیراز', href: '/tours/domestic/shiraz' },
-        ],
-      },
+    items: [
+      { label: 'تور کیش', href: '/tours/domestic/kish' },
+      { label: 'تور مشهد', href: '/tours/domestic/mashhad' },
+      { label: 'تور شیراز', href: '/tours/domestic/shiraz' },
+      { label: 'تور قشم', href: '/tours/domestic/qeshm' },
+      { label: 'تور اصفهان', href: '/tours/domestic/isfahan' },
     ],
   },
   {
+    id: 2,
     label: 'تورهای خارجی',
-    sections: [
-      {
-        title: 'تور آسیا',
-        links: [
-          { label: 'استانبول', href: '/tours/international/istanbul' },
-          { label: 'تفلیس', href: '/tours/international/tbilisi' },
-        ],
-      },
-      {
-        title: 'تور اروپا',
-        links: [
-          { label: 'پاریس', href: '/tours/international/paris' },
-          { label: 'رم', href: '/tours/international/rome' },
-        ],
-      },
+    items: [
+      { label: 'تور استانبول', href: '/tours/international/istanbul' },
+      { label: 'تور دبی', href: '/tours/international/dubai' },
+      { label: 'تور تفلیس', href: '/tours/international/tbilisi' },
+      { label: 'تور پاریس', href: '/tours/international/paris' },
+      { label: 'تور رم', href: '/tours/international/rome' },
+      { label: 'تور آنتالیا', href: '/tours/international/antalya' },
     ],
   },
   {
+    id: 3,
     label: 'پرواز',
-    sections: [
-      {
-        title: 'تور خارجی',
-        links: [
-          { label: 'تهران - مشهد', href: '/flights/domestic/tehran-mashhad' },
-          { label: 'تهران - کیش', href: '/flights/domestic/tehran-kish' },
-        ],
-      },
-      {
-        title: 'تور خارجی',
-        links: [
-          { label: 'تهران - استانبول', href: '/flights/international/istanbul' },
-          { label: 'تهران - دبی', href: '/flights/international/dubai' },
-        ],
-      },
+    items: [
+      { label: 'بلیط تهران - مشهد', href: '/flights/domestic/tehran-mashhad' },
+      { label: 'بلیط تهران - کیش', href: '/flights/domestic/tehran-kish' },
+      { label: 'بلیط تهران - استانبول', href: '/flights/international/istanbul' },
+      { label: 'بلیط تهران - دبی', href: '/flights/international/dubai' },
+      { label: 'بلیط تهران - نجف', href: '/flights/international/najaf' },
     ],
   },
   {
+    id: 4,
     label: 'ویزا',
-    sections: [
-      {
-        title: 'خدمات ویزا',
-        links: [
-          { label: 'ویزای شینگن', href: '/visa/schengen' },
-          { label: 'ویزای کانادا', href: '/visa/canada' },
-          { label: 'ویزای امارات', href: '/visa/uae' },
-        ],
-      },
+    items: [
+      { label: 'ویزای شینگن', href: '/visa/schengen' },
+      { label: 'ویزای کانادا', href: '/visa/canada' },
+      { label: 'ویزای امارات', href: '/visa/uae' },
+      { label: 'ویزای چین', href: '/visa/china' },
     ],
   },
   {
+    id: 5,
     label: 'اطلاعات سفر',
-    sections: [
-      {
-        title: 'راهنما',
-        links: [
-          { label: 'وبلاگ گردشگری', href: '/blog' },
-          { label: 'نکات سفر', href: '/tips' },
-          { label: 'سوالات متداول', href: '/faq' },
-        ],
-      },
+    items: [
+      { label: 'وبلاگ گردشگری', href: '/blog' },
+      { label: 'نکات ضروری سفر', href: '/tips' },
+      { label: 'سوالات متداول', href: '/faq' },
+      { label: 'درباره ما', href: '/about' },
+      { label: 'تماس با ما', href: '/contact' },
     ],
   },
-]
+];

@@ -94,6 +94,9 @@ export default function TourCard({ data }: { data: any }) {
             fullWidth
             className="md:!w-auto rounded-lg px-6 py-2 font-normal"
             disableElevation
+            sx={{
+              borderRadius: '10px'
+            }}
           >
             مشاهده جزئیات و رزرو
           </Button>
