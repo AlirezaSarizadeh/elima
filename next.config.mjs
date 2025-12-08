@@ -4,6 +4,12 @@ const nextConfig = {
     domains: [
         'z-cdn-media.chatglm.cn'
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+    ],
   }
   /* config options here */
 };

@@ -36,10 +36,10 @@ export default function DomesticSearchForm() {
 
     const tabs = [
         { label: "تور داخلی", href: "/", icon: <WorkOutlineRounded /> },
-        { label: "تور خارجی", href: "/external-tour", icon: <FlightTakeoffRounded /> },
+        { label: "تور خارجی", href: "/external-tours", icon: <FlightTakeoffRounded /> },
     ];
 
-    const activeTab = pathname === "/external-tour" ? "/external-tour" : "/";
+    const activeTab = pathname === "/external-tours" ? "/external-tours" : "/";
 
     const [calendarType, setCalendarType] = useState("jalali");
 
@@ -190,6 +190,7 @@ export default function DomesticSearchForm() {
                     </div>
                     <PassengerDropdown />
                     <Button variant="contained"
+                        href="/internal-tours"
                         sx={{
                             padding: '15.5px 14px',
                             borderRadius: '10px',

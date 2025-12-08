@@ -36,8 +36,10 @@
 html , body {
   font-family: 'YekanBakh', sans-serif; 
 }
+body {
+  line-height: 2 !important;
+}
 .font-YekanBakh {
-
   font-family: 'YekanBakh' !important; 
 }
 .swiper{
