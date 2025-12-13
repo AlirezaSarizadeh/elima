@@ -19,6 +19,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
 import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
 import PassengerDropdown from "../PassengerDropdown";
+import VisaInfoSection from "../../visa/VisaInfoSection";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children: React.ReactElement },
@@ -27,7 +28,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DomesticSearchForm() {
+export default function VisaSearchForm() {
     const router = useRouter();
     const pathname = usePathname();
     const [value, setValue] = useState("");
@@ -44,7 +45,7 @@ export default function DomesticSearchForm() {
         { label: "ویزا", href: "/visa", icon: <CreditCardOutlined /> },
     ];
 
-    const activeTab = pathname === "/external-tours" ? "/external-tours" : "/";
+    const activeTab = pathname === "/visa" ? "/visa" : "/";
     const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">("jalali");
     const [dateRange, setDateRange] = useState<any>([null, null]);
 
@@ -70,102 +71,7 @@ export default function DomesticSearchForm() {
 
     const renderFormContent = () => (
         <div className="flex flex-col gap-4 pt-4">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-3 relative items-end">
-                {/* مبدا / مقصد */}
-                <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-20">
-                    <SwapInputs />
-                </div>
-
-                {/* تاریخ */}
-                <div className="col-span-1 md:col-span-4 lg:col-span-4 w-full flex items-center gap-0 relative c_datepickerInput-container z-50">
-
-                    {/* اینپوت رفت */}
-                    <DatePickerInput
-                        value={departDate}
-                        onChange={(val) => setValue(val)}
-                        onClear={clearDepart}
-                        label="تاریخ رفت"
-                        variant="outlined"
-                        style={{ direction: "rtl" }}
-                        onAutocompleteClick={openCalendar}
-                    />
-
-                    {/* اینپوت برگشت */}
-                    <DatePickerInput
-                        value={returnDate}
-                        onChange={(val) => setValue(val)}
-                        onClear={clearReturn}
-                        label="تاریخ برگشت"
-                        variant="outlined"
-                        style={{ direction: "rtl" }}
-                        onAutocompleteClick={openCalendar}
-                    />
-
-                    {/* --- اصلاح جایگاه تقویم --- */}
-                    <div
-                        className="absolute w-full flex justify-center z-[1000]" // تغییر کلاس z
-                        style={{
-                            top: "58px",
-                            right: 0,
-                        }}
-                    >
-                        <DatePicker
-                            ref={datePickerRef}
-                            range
-                            value={dateRange}
-                            onChange={setDateRange}
-                            calendar={calendar}
-                            locale={locale}
-                            numberOfMonths={isMobile ? 1 : 2} // پیشنهاد: در موبایل 1 ماه نمایش داده شود بهتر است
-                            format="YYYY/MM/DD"
-
-                            // تنظیمات حیاتی برای پوزیشن
-                            portal={false}
-                            inputClass="hidden"
-
-                            // اصلاح z-index داخلی کانتینر خود تقویم
-                            containerStyle={{
-                                width: "100%",
-                                display: "flex",
-                                justifyContent: "center",
-                                zIndex: 1001 // اطمینان از بالا بودن
-                            }}
-
-                            style={{
-                                visibility: "hidden",
-                                height: 0,
-                                width: 0,
-                            }}
-                        >
-                            {/* ... دکمه تغییر تقویم ... */}
-                        </DatePicker>
-                    </div>
-                </div>
-
-                {/* مسافران */}
-                <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-30">
-                    <PassengerDropdown />
-                </div>
-
-                {/* دکمه جستجو */}
-                <div className="col-span-1 md:col-span-12 lg:col-span-2 w-full mt-4 md:mt-0">
-                    <Button
-                        variant="contained"
-                        href="/internal-tours"
-                        fullWidth
-                        size="large"
-                        sx={{
-                            borderRadius: '12px',
-                            fontWeight: 'bold',
-                            height: '56px',
-                            boxShadow: 'none',
-                            fontSize: '1rem',
-                        }}
-                    >
-                        جستجو
-                    </Button>
-                </div>
-            </div>
+                <VisaInfoSection />
         </div>
     );
 
