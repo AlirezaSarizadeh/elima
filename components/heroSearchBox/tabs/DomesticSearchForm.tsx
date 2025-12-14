@@ -19,6 +19,7 @@ import { TransitionProps } from '@mui/material/transitions';
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
 import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
 import PassengerDropdown from "../PassengerDropdown";
+import Link from "next/link";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children: React.ReactElement },
@@ -149,21 +150,23 @@ export default function DomesticSearchForm() {
 
                 {/* دکمه جستجو */}
                 <div className="col-span-1 md:col-span-12 lg:col-span-2 w-full mt-4 md:mt-0">
-                    <Button
-                        variant="contained"
-                        href="/internal-tours"
-                        fullWidth
-                        size="large"
-                        sx={{
-                            borderRadius: '12px',
-                            fontWeight: 'bold',
-                            height: '56px',
-                            boxShadow: 'none',
-                            fontSize: '1rem',
-                        }}
-                    >
-                        جستجو
-                    </Button>
+                    <Link href={'/tours'}>
+
+                        <Button
+                            variant="contained"
+                            fullWidth
+                            size="large"
+                            sx={{
+                                borderRadius: '12px',
+                                fontWeight: 'bold',
+                                height: '56px',
+                                boxShadow: 'none',
+                                fontSize: '1rem',
+                            }}
+                        >
+                            جستجو
+                        </Button>
+                    </Link>
                 </div>
             </div>
         </div>

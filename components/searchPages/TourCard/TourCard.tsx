@@ -8,8 +8,18 @@ import FlightIcon from "@mui/icons-material/Flight";
 import GroupIcon from "@mui/icons-material/Group";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import Link from "next/link";
 
-export default function TourCard({ data }: { data: any }) {
+interface TourCardProps {
+  data: any;
+  linkUrl?: string; // 👈 این پراپ را اضافه کنید
+}
+
+export default function TourCard({ data, linkUrl }: TourCardProps) {
+
+  const destination = linkUrl || `/tours/${data.id}`;
+
+
   return (
     <div className="bg-white border border-gray-200 rounded-2xl p-4 flex flex-col md:flex-row gap-5 hover:shadow-md transition-shadow duration-300">
       {/* Image Section */}
@@ -89,17 +99,19 @@ export default function TourCard({ data }: { data: any }) {
           <div className="flex md:hidden items-center justify-between w-full">
             <span className="text-lg font-normal text-blue-600">{data.price} <span className="text-xs font-normal text-gray-500">تومان</span></span>
           </div>
-          <Button
-            variant="contained"
-            fullWidth
-            className="md:!w-auto rounded-lg px-6 py-2 font-normal"
-            disableElevation
-            sx={{
-              borderRadius: '10px'
-            }}
-          >
-            مشاهده جزئیات و رزرو
-          </Button>
+          <Link href={destination}>
+            <Button
+              variant="contained"
+              fullWidth
+              className="md:!w-auto rounded-lg px-6 py-2 font-normal"
+              disableElevation
+              sx={{
+                borderRadius: '10px'
+              }}
+            >
+              انتخاب محل اقامت
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

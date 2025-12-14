@@ -36,7 +36,7 @@ const popularToursData = [
 
 export default function PopularTours() {
     return (
-        <div className="w-full border-1 border-blue-500 rounded-8 p-5 bg-white">
+        <div className="w-full border-1 border-blue-200 rounded-8 p-5 bg-white">
 
             {/* Header */}
             <div className="flex justify-start items-center gap-2 mb-6 text-gray-800">
@@ -48,7 +48,7 @@ export default function PopularTours() {
             {/* Cards List */}
             <div className="flex flex-col gap-6">
                 {popularToursData.map((tour) => (
-                    <div key={tour.id} className="bg-white rounded-8 border border-gray-100 shadow-sm overflow-hidden group hover:shadow-md transition-all">
+                    <div key={tour.id} className="bg-white rounded-8 border border-gray-200 overflow-hidden group hover:shadow-md transition-all">
 
                         {/* Image Section */}
                         <div className="relative h-48 w-full">

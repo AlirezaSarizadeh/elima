@@ -13,7 +13,7 @@ import {
 import { TransitionProps } from '@mui/material/transitions';
 import CloseIcon from "@mui/icons-material/Close";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import FilterSidebar from "../FilterSidebar/FilterSidebar";
+import FilterSidebar from "../../filters/FilterSidebar";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & {
