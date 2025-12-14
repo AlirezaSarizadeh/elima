@@ -6,7 +6,7 @@ import Footer from '../components/ui/footer/Footer'
 import MuiRtlProvider from '../theme/RtlProvider'
 
 export const metadata = {
-  title: 'الیمامگشت پاسارگاد',
+  title: 'الیماگشت پاسارگاد',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
