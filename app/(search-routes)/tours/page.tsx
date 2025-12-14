@@ -74,7 +74,7 @@ export default function TourListingPage() {
             <div className="container mx-auto px-4 py-6 max-w-7xl">
 
                 {/* Wizard Header */}
-                <h1 className="text-2xl font-bold text-gray-800 mb-6">انتخاب محل اقامت</h1>
+                {/* <h1 className="text-2xl font-bold text-gray-800 mb-6">انتخاب محل اقامت</h1> */}
                 <WizardStepper tourId={'selection'} />
 
 

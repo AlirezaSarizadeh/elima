@@ -30,7 +30,7 @@ export default function WizardStepper({ tourId }: { tourId: string }) {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto mb-8 px-4" dir="rtl">
+    <div className="w-full max-w-7xl mx-auto my-8 px-4" dir="rtl">
       <div className="relative flex items-center justify-between">
         
         {/* --- خط پس‌زمینه (خاکستری) --- */}
@@ -42,7 +42,7 @@ export default function WizardStepper({ tourId }: { tourId: string }) {
             className="absolute top-1/2 right-0 h-1 bg-blue-600 z-10 rounded-full mx-4 md:mx-8 transition-all duration-500 ease-out"
             style={{ 
                 width: (() => {
-                    if (pathname.includes("/accommodation")) return "35%"; // تا مرحله 2
+                    if (pathname.includes("/accommodation")) return "33%"; // تا مرحله 2
                     if (pathname.includes("/flights")) return "65%";      // تا مرحله 3
                     if (pathname.includes("/details")) return "95%";     // کامل
                     return "0%"; 

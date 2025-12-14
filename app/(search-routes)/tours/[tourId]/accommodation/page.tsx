@@ -38,7 +38,7 @@ export default function AccommodationPage({ params }: { params: { tourId: string
       <div className="container mx-auto px-4 py-8 max-w-7xl"> {/* max-w را بیشتر کردم تا جا برای سایدبار باشد */}
 
         {/* Wizard Header - تمام عرض */}
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">انتخاب محل اقامت</h1>
+        {/* <h1 className="text-2xl font-bold text-gray-800 mb-6">انتخاب محل اقامت</h1> */}
         <WizardStepper tourId={'accommodation'} />
 
         {/* --- Layout Grid --- */}
