@@ -22,7 +22,7 @@ const VisaCard = ({
   visaType = "ویزای توریستی"     // مقدار پیش‌فرض طبق عکس
 }: VisaCardProps) => {
   return (
-    <div className="bg-white rounded-3xl border border-gray-100 p-3 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+    <div className="bg-white rounded-3xl border border-gray-200 p-3 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
 
       {/* بخش تصویر */}
       <div className="relative h-48 w-full rounded-2xl overflow-hidden shrink-0">
