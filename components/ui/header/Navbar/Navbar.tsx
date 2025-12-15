@@ -28,7 +28,7 @@ export const Navbar = () => {
   return (
     <>
       <header className="w-full bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-0 flex items-center justify-between py-4" dir="rtl">
+        <div className="max-w-7xl px-4 mx-auto px-0 flex items-center justify-between py-4" dir="rtl">
 
           {/* --- بخش راست: دکمه همبرگری (موبایل) + لوگو --- */}
           <div className="flex items-center gap-3">

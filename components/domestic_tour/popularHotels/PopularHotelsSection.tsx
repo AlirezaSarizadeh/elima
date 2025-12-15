@@ -114,7 +114,7 @@ const PopularHotelsSection = () => {
         <section className=" mt-10 pt-5 pb-10">
 
 
-            <div className="flex items-center justify-between mb-1 max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-1 max-w-7xl px-4 mx-auto">
                 <Title title="محبوب ترین هتل ها" icon={<img src='/images/textalign-right.png' />} />
 
                 {/* مشاهده همه */}
@@ -142,7 +142,7 @@ const PopularHotelsSection = () => {
                 }}
                 slidesPerView={3}     // ← 3 کارت در یک row
                 spaceBetween={20}
-                className="w-full max-w-7xl mx-auto pop_hotel-swiper"
+                className="w-full max-w-7xl px-4 mx-auto pop_hotel-swiper"
             >
                 {items.map((item, index) => (
                     <SwiperSlide key={index}>

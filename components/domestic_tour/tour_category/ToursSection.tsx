@@ -50,13 +50,13 @@ const ToursSection = () => {
     return (
         <section className=" mt-10 bg-gray-50 pt-5 pb-10">
 
-            <div className="max-w-7xl mx-auto">
+            <div className="max-w-7xl px-4 mx-auto">
                 {/* Header */}
                 <Title title="دسته بندی تور ها" icon={<img src='/images/textalign-right.png' />} />
 
             </div>
 
-            <div className="flex items-center justify-between mb-1 max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-1 max-w-7xl px-4 mx-auto">
                 {/* تب‌ها */}
                 <Tabs tabs={tabsList} active={activeTab} onChange={setActiveTab} />
 
@@ -86,7 +86,7 @@ const ToursSection = () => {
                 grid={{ rows: 2 }}
                 spaceBetween={20}
                 slidesPerView={3}
-                className="w-full flex-row items-center toursSection_swiper max-w-7xl mx-auto"
+                className="w-full flex-row items-center toursSection_swiper max-w-7xl px-4 mx-auto"
             >
                 {items.map((item, index) => (
                     <SwiperSlide className="mt-5" key={index}>

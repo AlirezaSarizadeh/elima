@@ -23,7 +23,7 @@ export default function WhyUs() {
     ];
 
     return (
-        <section className="max-w-7xl mx-auto px-0 py-16">
+        <section className="max-w-7xl px-4 mx-auto px-0 py-16">
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 

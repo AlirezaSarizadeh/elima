@@ -34,7 +34,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="max-w-7xl mx-auto px-0">
+    <section className="max-w-7xl px-4 mx-auto px-0">
       <Title title="سوالات پرتکرار" icon={<img src={'/images/textalign-right.png'} />} />
       <div className="space-y-4">
 

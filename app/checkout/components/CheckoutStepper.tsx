@@ -14,7 +14,7 @@ const steps = [
 
 export default function CheckoutStepper({ currentStep }: { currentStep: number }) {
   return (
-    <div className="w-full max-w-7xl mx-auto mb-10 px-0" dir="rtl">
+    <div className="w-full max-w-7xl px-4 mx-auto mb-10 px-0" dir="rtl">
       <div className="relative flex justify-between items-center">
         
         {/* خط خاکستری پس‌زمینه (کل مسیر) */}

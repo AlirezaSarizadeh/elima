@@ -75,7 +75,7 @@ export default function FlightsPage({ params, searchParams }: { params: { tourId
 
   return (
     <div className="min-h-screen bg-gray-50" dir="rtl">
-      <div className="container mx-auto px-0 py-8 max-w-7xl">
+      <div className="container mx-auto px-0 py-8 max-w-7xl px-4">
 
         {/* <h1 className="text-2xl font-bold text-gray-800 mb-6">انتخاب پرواز</h1> */}
         <WizardStepper tourId={tourId} />

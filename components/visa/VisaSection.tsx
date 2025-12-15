@@ -85,12 +85,12 @@ const ToursSection = () => {
     return (
         <section className="mt-0 bg-gray-50 pt-5 pb-10">
 
-            <div className="max-w-7xl mx-auto px-0">
+            <div className="max-w-7xl px-4 mx-auto px-0">
                 {/* Header */}
                 <Title title="دسته بندی ویزا ها" icon={<img src='/images/textalign-right.png' alt="icon" />} />
             </div>
 
-            <div className="flex flex-col md:flex-row items-center justify-between mb-4 max-w-7xl mx-auto px-0 gap-4 mt-4">
+            <div className="flex flex-col md:flex-row items-center justify-between mb-4 max-w-7xl px-4 mx-auto px-0 gap-4 mt-4">
                 
                 {/* تب‌ها */}
                 <div className="overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
@@ -127,7 +127,7 @@ const ToursSection = () => {
             </div>
 
             {/* Swiper Grid */}
-            <div className="max-w-7xl mx-auto px-0">
+            <div className="max-w-7xl px-4 mx-auto px-0">
                 {displayItems.length > 0 ? (
                     <Swiper
                         modules={[Navigation, Grid]}

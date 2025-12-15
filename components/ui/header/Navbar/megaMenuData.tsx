@@ -48,23 +48,10 @@ export const menuData: MenuItem[] = [
   },
   {
     id: 4,
-    label: 'ویزا',
+    label: 'بیشتر',
     items: [
-      { label: 'ویزای شینگن', href: '/visa/schengen' },
-      { label: 'ویزای کانادا', href: '/visa/canada' },
-      { label: 'ویزای امارات', href: '/visa/uae' },
-      { label: 'ویزای چین', href: '/visa/china' },
+      { label: 'مجله الیماگشت', href: '/blog' },
     ],
   },
-  {
-    id: 5,
-    label: 'اطلاعات سفر',
-    items: [
-      { label: 'وبلاگ گردشگری', href: '/blog' },
-      { label: 'نکات ضروری سفر', href: '/tips' },
-      { label: 'سوالات متداول', href: '/faq' },
-      { label: 'درباره ما', href: '/about' },
-      { label: 'تماس با ما', href: '/contact' },
-    ],
-  },
+
 ];

@@ -30,7 +30,7 @@ export default function WizardStepper({ tourId }: { tourId: string }) {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto my-8 px-4" dir="rtl">
+    <div className="w-full max-w-7xl px-4 mx-auto my-8 px-4" dir="rtl">
       <div className="relative flex items-center justify-between">
         
         {/* --- خط پس‌زمینه (خاکستری) --- */}

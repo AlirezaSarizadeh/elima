@@ -9,7 +9,7 @@ export default function VisaDetailPage() {
   return (
     <div className="min-h-screen bg-white py-8 pt-0" dir="rtl">
       <Image src={'/images/emirates-header.webp'} width={1440} height={480} alt="emirates" className="w-full" />
-      <div className="container mx-auto px-0 max-w-7xl -top-10 relative">
+      <div className="container mx-auto px-0 max-w-7xl px-4 -top-10 relative">
 
         {/* هدر بالای صفحه */}
         <VisaHeader />

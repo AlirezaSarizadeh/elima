@@ -11,7 +11,7 @@ import TourSidebar from "./TourSidebar";
 export default function page() {
     return (
         <div className="min-h-screen bg-gray-50/50" dir="rtl">
-            <div className="container mx-auto px-4 py-6 max-w-7xl">
+            <div className="container mx-auto px-4 py-6 max-w-7xl px-4">
 
                 {/* Wizard Header */}
                 {/* <h1 className="text-2xl font-bold text-gray-800 mb-6">انتخاب محل اقامت</h1> */}

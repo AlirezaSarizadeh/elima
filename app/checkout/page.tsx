@@ -35,7 +35,7 @@ export default function CheckoutPage() {
             {/* 1. نوار پیشرفت */}
             <CheckoutStepper currentStep={currentStep} />
 
-            <div className="container mx-auto px-0 max-w-7xl">
+            <div className="container mx-auto px-0 max-w-7xl px-4">
 
                 {/* 2. رندر شرطی مراحل */}
 

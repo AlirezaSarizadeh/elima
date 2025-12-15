@@ -55,7 +55,7 @@ export default function ResponsiveGallery() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-0 py-6" dir="rtl">
+    <div className="w-full max-w-7xl px-4 mx-auto px-0 py-6" dir="rtl">
       
       {/* ... (بخش گرید دسکتاپ و اسلایدر موبایل بدون تغییر باقی می‌ماند) ... */}
       <div className="hidden md:flex h-[500px] gap-4">

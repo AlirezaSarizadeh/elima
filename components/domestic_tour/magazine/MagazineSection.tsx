@@ -54,7 +54,7 @@ const MagazineSection = () => {
         // Added dir="rtl" to the section for proper Right-to-Left text flow
         <section className="mt-10 pt-5 pb-10" dir="rtl">
 
-            <div className="flex items-center justify-between mb-1 max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-1 max-w-7xl px-4 mx-auto">
                 {/* --- EDITED: Updated title and icon for a magazine section --- */}
                 <Title title="مجله گردشگری" icon={<img src='/images/textalign-right.png' alt="Icon" />} />
 
@@ -87,7 +87,7 @@ const MagazineSection = () => {
                 slidesPerView={3}
                 spaceBetween={20}
                 // --- EDITED: Added a unique class name to the Swiper instance ---
-                className="w-full max-w-7xl mx-auto magazine-swiper"
+                className="w-full max-w-7xl px-4 mx-auto magazine-swiper"
                 // --- EDITED: Added breakpoints for responsive design ---
                 breakpoints={{
                     320: {

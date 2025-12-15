@@ -19,7 +19,7 @@ export default function Destinations() {
             }}
         >
             {/* Overlay (optional) */}
-            <div className="max-w-7xl mx-auto px-0 text-center">
+            <div className="max-w-7xl px-4 mx-auto px-0 text-center">
 
                 {/* Title */}
                 <h2 className="text-3xl md:text-5xl font-semibold text-gray-900 mb-10">

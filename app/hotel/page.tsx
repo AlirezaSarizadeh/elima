@@ -16,7 +16,7 @@ export default function HomePage() {
     <main className="a-container relative px-0 pb-8 mx-auto">
 
       {/* Upper Search Tabs : */}
-      <div className="a-card products-box max-w-7xl mx-auto">
+      <div className="a-card products-box max-w-7xl px-4 mx-auto">
         <Image
           src={'/images/hero-pic.png'}
           width={1920} // Use the ACTUAL width of your image

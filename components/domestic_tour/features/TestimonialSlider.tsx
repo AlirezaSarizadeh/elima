@@ -37,7 +37,7 @@ export default function TestimonialSlider() {
 
             {/* absolute object */}
             <img src={'/images/testimonial-object.png'} className="absolute right-0 top-0 bottom-0 m-auto"/>
-            <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+            <div className="max-w-7xl px-4 mx-auto px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
 
 
                 {/* RIGHT – TITLE + DESCRIPTION + NAVIGATION */}
