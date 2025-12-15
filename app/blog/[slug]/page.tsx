@@ -149,7 +149,7 @@ export default function SingleBlogPost({ params }: { params: { slug: string } })
                 </main>
 
                 {/* ستون سایدبار (۴ واحد) */}
-                <aside className="hidden lg:block lg:col-span-4 space-y-6">
+                <aside className="hidden lg:block lg:col-span-4 space-y-6 sticky top-4">
                     
                     {/* فهرست مطالب (Sticky Component) */}
                     {/* ✅ استفاده از کامپوننت TableOfContents */}

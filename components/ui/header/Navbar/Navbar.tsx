@@ -28,7 +28,7 @@ export const Navbar = () => {
   return (
     <>
       <header className="w-full bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl px-4 mx-auto px-0 flex items-center justify-between py-4" dir="rtl">
+        <div className="max-w-7xl px-4 mx-auto px-0 flex items-center justify-between py-4 md:gap-5" dir="rtl">
 
           {/* --- بخش راست: دکمه همبرگری (موبایل) + لوگو --- */}
           <div className="flex items-center gap-3">
@@ -51,7 +51,7 @@ export const Navbar = () => {
           </div>
 
           {/* --- بخش وسط: منوی دسکتاپ (فقط در LG به بالا) --- */}
-          <nav className="hidden lg:flex gap-1 items-center h-full">
+          <nav className="hidden lg:flex gap-1 items-center h-full me-auto">
             {menuData.map((menu) => (
               <MegaMenu
                 key={menu.id}
@@ -65,7 +65,7 @@ export const Navbar = () => {
           </nav>
 
           {/* --- بخش چپ: دکمه‌ها (تماس و ورود) --- */}
-          <div className="flex items-center gap-3">
+          <div className="md:flex items-center gap-3 hidden">
             {/* دکمه تماس (در موبایل شاید بخواهید فقط آیکون باشد، اما فعلا کامل گذاشتم) */}
             <Button 
               href="tel:+982145123456" 
@@ -141,7 +141,7 @@ export const Navbar = () => {
         </div>
 
         {/* ۳. فوتر دراور (دکمه‌های پایین) */}
-        <div className="p-4 border-t border-gray-100 bg-gray-50">
+        <div className="p-4 border-t border-gray-100 bg-gray-50 md:hidden">
            <Button 
              fullWidth 
              href="tel:+982145123456" 

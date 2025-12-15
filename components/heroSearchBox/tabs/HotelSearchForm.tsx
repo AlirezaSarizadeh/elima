@@ -29,7 +29,7 @@ const Transition = React.forwardRef(function Transition(
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function DomesticSearchForm() {
+export default function HotelSearchForm() {
     const router = useRouter();
     const pathname = usePathname();
     const [value, setValue] = useState("");
@@ -48,10 +48,9 @@ export default function DomesticSearchForm() {
     ];
 
     const tabPaths = ["/tours", "/hotel", "/visa"];
-
-    // مسیری را پیدا کن که pathname با آن شروع شده باشد
-    // اگر پیدا نشد (مثلاً صفحه اصلی بود)، پیش‌فرض "/" را برگردان
     const activeTab = tabPaths.find(path => pathname.startsWith(path)) || "/";
+
+
     const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">("jalali");
     const [dateRange, setDateRange] = useState<any>([null, null]);
 
@@ -77,7 +76,6 @@ export default function DomesticSearchForm() {
 
     const renderFormContent = () => (
         <div className="flex flex-col gap-4 pt-4 md:items-start">
-            <CustomRadioGroup />
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-3 relative items-end">
                 {/* مبدا / مقصد */}
                 <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-20">

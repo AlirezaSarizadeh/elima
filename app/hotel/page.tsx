@@ -10,6 +10,7 @@ import RecentlySearch from '../../components/domestic_tour/RecentlySearch/Recent
 import ToursSection from '../../components/domestic_tour/tour_category/ToursSection';
 import HeroBox from '../../components/heroSearchBox/HeroBox';
 import DomesticSearchForm from '../../components/heroSearchBox/tabs/DomesticSearchForm';
+import HotelSearchForm from '../../components/heroSearchBox/tabs/HotelSearchForm';
 
 export default function HomePage() {
   return (
@@ -30,7 +31,7 @@ export default function HomePage() {
           style={{ height: 'auto', ['--slide-transition-from' as any]: '100%', ['--slide-transition-to' as any]: '-100%' }}
         >
           <div role="tabpanel">
-            <DomesticSearchForm />
+            <HotelSearchForm />
 
           </div>
         </div>

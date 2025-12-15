@@ -37,8 +37,8 @@ html,
 body {
   font-family: 'YekanBakh', sans-serif;
   /* overflow-x: hidden !important; */
+  overflow-x: clip !important; /* جلوگیری از اسکرول افقی */
 }
-
 body {
   line-height: 2 !important;
 }

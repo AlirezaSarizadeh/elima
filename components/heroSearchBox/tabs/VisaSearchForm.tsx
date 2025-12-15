@@ -12,7 +12,7 @@ import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 
 // Icons & UI Components
-import { FlightTakeoffRounded, WorkOutlineRounded, Close as CloseIcon, CreditCardOutlined } from "@mui/icons-material";
+import { FlightTakeoffRounded, WorkOutlineRounded, Close as CloseIcon, CreditCardOutlined, Hotel } from "@mui/icons-material";
 import { Button, Dialog, DialogContent, AppBar, Toolbar, IconButton, Typography, Slide, useMediaQuery, useTheme } from "@mui/material";
 import { TransitionProps } from '@mui/material/transitions';
 
@@ -42,10 +42,14 @@ export default function VisaSearchForm() {
 
     const tabs = [
         { label: "تور مسافرتی", href: "/", icon: <WorkOutlineRounded /> },
+        { label: "هتل", href: "/hotel", icon: <Hotel /> },
         { label: "ویزا", href: "/visa", icon: <CreditCardOutlined /> },
     ];
 
-    const activeTab = pathname === "/visa" ? "/visa" : "/";
+    const tabPaths = ["/tours", "/hotel", "/visa"];
+
+
+    const activeTab = tabPaths.find(path => pathname.startsWith(path)) || "/";
     const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">("jalali");
     const [dateRange, setDateRange] = useState<any>([null, null]);
 
