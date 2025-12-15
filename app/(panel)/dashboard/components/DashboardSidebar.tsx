@@ -60,9 +60,9 @@ export default function DashboardSidebar() {
                  <span className="text-xs text-gray-500">تومان</span>
                  <span className="font-bold text-lg">30,400,000</span>
              </div>
-             <button className="bg-white p-1 rounded-lg shadow-sm hover:shadow-md transition-all text-blue-600">
+             <Link href={'/dashboard/wallet'} className="bg-white p-1 rounded-lg shadow-sm hover:shadow-md transition-all text-blue-600">
                 <Add fontSize="small" />
-             </button>
+             </Link>
           </div>
         </div>
       </div>

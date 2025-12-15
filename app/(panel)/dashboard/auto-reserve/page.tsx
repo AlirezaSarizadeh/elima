@@ -3,10 +3,11 @@
 import React from "react";
 import { InfoOutlined, AccountBalanceWallet } from "@mui/icons-material";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
 export default function AutoReservePage() {
   return (
-    <div className="bg-white rounded-3xl border border-gray-100 p-6 md:p-8">
+    <div className="bg-white rounded-3xl border border-gray-200 p-6 md:p-8">
       
       {/* Header */}
       <h2 className="text-xl font-bold text-gray-800 mb-8 text-left border-b border-gray-100 pb-4">
@@ -27,6 +28,7 @@ export default function AutoReservePage() {
                 </div>
             </div>
          </div>
+         <Link href={'/dashboard/wallet'}>
          <Button 
             variant="contained" 
             sx={{ 
@@ -39,6 +41,7 @@ export default function AutoReservePage() {
          >
             افزایش و استرداد اعتبار
          </Button>
+         </Link>
       </div>
 
       {/* Info Alerts List */}
