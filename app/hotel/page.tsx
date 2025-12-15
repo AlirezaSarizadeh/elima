@@ -11,6 +11,8 @@ import ToursSection from '../../components/domestic_tour/tour_category/ToursSect
 import HeroBox from '../../components/heroSearchBox/HeroBox';
 import DomesticSearchForm from '../../components/heroSearchBox/tabs/DomesticSearchForm';
 import HotelSearchForm from '../../components/heroSearchBox/tabs/HotelSearchForm';
+import HotelHeroTabs from './components/HotelHeroTabs';
+import CityCategoryGrid from './components/CityCategoryGrid';
 
 export default function HomePage() {
   return (
@@ -38,11 +40,22 @@ export default function HomePage() {
       </div>
 
       {/* Dynamic Content Accourding To Tab Url Will Show Here : */}
+      {/* --- Hero Banner (Optional) --- */}
+      {/* اگر بخواهید بالای صفحه بنر داشته باشید */}
+      <div className="relative w-full h-[300px] md:h-[400px]">
+        <Image src="/images/h-hero.webp" alt="Hotel Booking" fill className="object-cover" />
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+          <h1 className="text-3xl md:text-5xl font-black text-white text-center drop-shadow-lg">
+            رزرو آنلاین بهترین هتل‌های ایران و جهان
+          </h1>
+        </div>
+      </div>
 
+      {/* --- 1. Popular Hotels Tabs --- */}
+      <HotelHeroTabs />
 
-      <RecentlySearch />
-
-      <ToursSection />
+      {/* --- 2. Quick Access Grid --- */}
+      <CityCategoryGrid />
 
       <PopularHotelsSection />
 

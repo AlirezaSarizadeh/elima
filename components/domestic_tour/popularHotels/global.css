@@ -9,3 +9,7 @@
 .toursSection_swiper .swiper-slide {
   height: auto !important;
 }
+.pop_hotel-swiper {
+  padding-right: 15px;
+  padding-left: 15px;
+}

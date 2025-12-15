@@ -13,7 +13,7 @@ import gregorian_en from "react-date-object/locales/gregorian_en";
 
 // Icons & UI Components
 import { FlightTakeoffRounded, WorkOutlineRounded, Close as CloseIcon, CreditCardOutlined, Hotel } from "@mui/icons-material";
-import { Button, Dialog, DialogContent, AppBar, Toolbar, IconButton, Typography, Slide, useMediaQuery, useTheme } from "@mui/material";
+import { Button, Dialog, DialogContent, AppBar, Toolbar, IconButton, Typography, Slide, useMediaQuery, useTheme, Autocomplete, TextField } from "@mui/material";
 import { TransitionProps } from '@mui/material/transitions';
 
 import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
@@ -21,6 +21,7 @@ import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
 import PassengerDropdown from "../PassengerDropdown";
 import Link from "next/link";
 import CustomRadioGroup from "../../CustomRadioGroup/CustomRadioGroup";
+import PassengerSelection from "../../../app/visa/components/PassengerSelection";
 
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children: React.ReactElement },
@@ -30,6 +31,23 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function HotelSearchForm() {
+
+    const top100Films = [
+        { title: "تهران", year: 1994 },
+        { title: "مشهد", year: 1972 },
+        { title: "اصفهان", year: 1974 },
+        { title: "شیراز", year: 2008 },
+        { title: "کیش", year: 1957 },
+    ];
+
+    // ✅ اصلاح ۱: تعریف استیت با هوک useState
+    const [destination, setDestination] = useState<any>(null);
+
+    // ✅ اصلاح ۲: تابع تغییر مقدار
+    const handleDestinationChange = (event: any, newValue: any) => {
+        setDestination(newValue);
+    };
+
     const router = useRouter();
     const pathname = usePathname();
     const [value, setValue] = useState("");
@@ -79,7 +97,33 @@ export default function HotelSearchForm() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-3 relative items-end">
                 {/* مبدا / مقصد */}
                 <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-20">
-                    <SwapInputs />
+                    <Autocomplete
+                        className="c_swapInputs"
+                        value={destination}
+                        onChange={handleDestinationChange}
+                        options={top100Films}
+                        getOptionLabel={(option) => option.title}
+
+                        // ✅ روش صحیح اعمال بوردر ردیوس با sx
+                        sx={{
+                            '& .MuiOutlinedInput-root': {
+                                borderRadius: '15px',
+                            }
+                        }}
+
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="مقصد یا هتل"
+                                // اگر می‌خواهید استایل‌های دیگر مثل readOnly بماند:
+                                InputProps={{
+                                    ...params.InputProps, // حتما این را نگه دارید تا آیکون‌ها و عملکردها خراب نشوند
+                                    readOnly: true,
+                                    style: { cursor: 'pointer' }
+                                }}
+                            />
+                        )}
+                    />
                 </div>
 
                 {/* تاریخ */}
@@ -109,7 +153,7 @@ export default function HotelSearchForm() {
 
                     {/* --- اصلاح جایگاه تقویم --- */}
                     <div
-                        className="absolute w-full flex justify-center z-[1000]" // تغییر کلاس z
+                        className="absolute w-full flex justify-center z-[1000]"
                         style={{
                             top: "58px",
                             right: 0,
@@ -122,41 +166,33 @@ export default function HotelSearchForm() {
                             onChange={setDateRange}
                             calendar={calendar}
                             locale={locale}
-                            numberOfMonths={isMobile ? 1 : 2} // پیشنهاد: در موبایل 1 ماه نمایش داده شود بهتر است
+                            numberOfMonths={isMobile ? 1 : 2}
                             format="YYYY/MM/DD"
-
-                            // تنظیمات حیاتی برای پوزیشن
                             portal={false}
                             inputClass="hidden"
-
-                            // اصلاح z-index داخلی کانتینر خود تقویم
                             containerStyle={{
                                 width: "100%",
                                 display: "flex",
                                 justifyContent: "center",
-                                zIndex: 1001 // اطمینان از بالا بودن
+                                zIndex: 1001
                             }}
-
                             style={{
                                 visibility: "hidden",
                                 height: 0,
                                 width: 0,
                             }}
-                        >
-                            {/* ... دکمه تغییر تقویم ... */}
-                        </DatePicker>
+                        />
                     </div>
                 </div>
 
                 {/* مسافران */}
                 <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-30">
-                    <PassengerDropdown />
+                    <PassengerSelection />
                 </div>
 
                 {/* دکمه جستجو */}
                 <div className="col-span-1 md:col-span-12 lg:col-span-2 w-full mt-4 md:mt-0">
                     <Link href={'/tours'}>
-
                         <Button
                             variant="contained"
                             fullWidth
