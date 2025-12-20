@@ -146,7 +146,7 @@ const PopularHotelsSection = () => {
             >
                 {items.map((item, index) => (
                     <SwiperSlide key={index}>
-                        <HotelCard {...item} />
+                        <HotelCard key={item.title} {...item} />
                     </SwiperSlide>
                 ))}
             </Swiper>

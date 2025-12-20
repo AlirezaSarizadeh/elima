@@ -49,9 +49,9 @@ export default function HotelHeroTabs() {
     const [nextEl, setNextEl] = useState<HTMLElement | null>(null);
 
     return (
-        <section className="py-10 max-w-7xl px-4 mx-auto">
+        <section className="py-10 max-w-7xl px-0 mx-auto">
 
-            <div className="flex items-center justify-between mb-1 max-w-7xl px-0 mx-auto">
+            <div className="flex items-center justify-between mb-1 max-w-7xl px-4 mx-auto">
                 <Title title="بهترین هتل های استان ها" icon={<img src='/images/textalign-right.png' alt="icon" />} />
 
                 {/* مشاهده همه */}
@@ -78,7 +78,7 @@ export default function HotelHeroTabs() {
                 </div>
             </div>
 
-            <div className="flex gap-3 overflow-x-auto scrollbar-hide mb-4">
+            <div className="flex gap-3 overflow-x-auto scrollbar-hide mb-4 px-4">
                 {cities.map((city) => (
                     <Button
                         key={city.id}

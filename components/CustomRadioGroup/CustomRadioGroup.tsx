@@ -27,7 +27,7 @@ export default function CustomRadioGroup() {
         return (
           <label
             key={option.id}
-            className={`relative flex items-center justify-between p-4 rounded-2xl border-2 cursor-pointer transition-all duration-300 w-full sm:w-1/2 select-none
+            className={`relative flex items-center justify-between p-4 rounded-8 border-1 cursor-pointer transition-all duration-300 w-full sm:w-1/2 select-none
               ${isSelected 
                 ? "border-blue-600 bg-white shadow-sm" 
                 : "border-gray-300 bg-white hover:border-blue-300"
@@ -46,7 +46,7 @@ export default function CustomRadioGroup() {
 
             {/* --- عنوان روی بوردر (Floating Label) --- */}
             <div
-              className={`absolute -top-3 right-4 px-2 bg-white text-sm font-bold transition-colors duration-300
+              className={`absolute -top-3 right-4 px-2 bg-white text-sm font-normal transition-colors duration-300
                 ${isSelected ? "text-blue-600" : "text-gray-400"}
               `}
             >

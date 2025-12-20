@@ -9,7 +9,7 @@ interface HotelCardProps {
     image: string;
     rating: number;
     location: string;
-    remaining?: number; // Made optional
+    remaining?: number;
     nights: number;
     days: number;
     price: number;
@@ -26,9 +26,11 @@ const HotelCard = ({
     price
 }: HotelCardProps) => {
     return (
-        <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden w-full">
+        // *** تغییر ۱: اضافه کردن h-full و flex flex-col به نگهدارنده اصلی
+        <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden w-full h-full flex flex-col transition-all hover:shadow-lg">
+            
             {/* Image */}
-            <div className="relative h-64">
+            <div className="relative h-64 shrink-0"> {/* *** اضافه کردن shrink-0 برای جلوگیری از له شدن عکس */}
                 <Image
                     src={image}
                     alt={title}
@@ -38,37 +40,42 @@ const HotelCard = ({
             </div>
 
             {/* Card Content */}
-            <div className="p-4 space-y-3">
-                {/* Meta Badges */}
-                <div className="flex items-center justify-between gap-2 flex-wrap">
+            {/* *** تغییر ۲: اضافه کردن flex-1 و flex flex-col برای مدیریت فضا */}
+            <div className="p-4 space-y-3 flex flex-col flex-1">
+                
+                {/* بخش بالای محتوا (تایتل و بج‌ها) */}
+                <div>
                     {/* Title */}
-                    <h3 className="text-ls font-bold text-gray-800">{title}</h3>
+                    {/* پیشنهاد: محدود کردن تایتل به ۱ خط برای نظم بیشتر (اختیاری) */}
+                    <h3 className="text-ls font-bold text-gray-800 mb-2 truncate">{title}</h3>
 
-                    <div className="flex items-center justify-between gap-2">
+                    {/* Meta Badges */}
+                    {/* *** پیشنهاد: یک حداقل ارتفاع (min-h) به این بخش بدهید تا پرش layout کمتر شود */}
+                    <div className="flex items-center justify-start gap-2 flex-wrap min-h-[32px]">
                         {/* Rating */}
-                        <span className="bg-blue-100 text-gray-700 text-xs px-2 py-1 rounded-xl flex items-center gap-1 c-badge">
+                        <span className="bg-blue-100 text-gray-700 text-xs px-2 py-1 rounded-xl flex items-center gap-1 c-badge whitespace-nowrap">
                             <Image src={'/images/Star.svg'} alt="Rating" width={12} height={12} />
                             {rating}
                         </span>
 
                         {/* Location */}
-                        <span className="bg-blue-100 text-blue-500 text-xs px-2 py-1 rounded-xl flex items-center gap-1 c-badge">
+                        <span className="bg-blue-100 text-blue-500 text-xs px-2 py-1 rounded-xl flex items-center gap-1 c-badge whitespace-nowrap">
                             <Image src={'/images/Location.svg'} alt="Location" width={12} height={12} />
                             {location}
                         </span>
 
-                        {/* Remaining - Uncomment if needed */}
+                        {/* Remaining */}
                         {remaining && (
-                            <span className="bg-blue-100 text-blue-500 text-xs px-2 py-1 rounded-xl flex items-center gap-1 c-badge">
+                            <span className="bg-blue-100 text-blue-500 text-xs px-2 py-1 rounded-xl flex items-center gap-1 c-badge whitespace-nowrap">
                                 <Image src={'/images/Location.svg'} alt="Remaining" width={12} height={12} />
-                                {remaining} نفر باقیمانده
+                                {remaining} نفر
                             </span>
                         )}
                     </div>
                 </div>
 
                 {/* Nights & Days */}
-                <p className="text-gray-600 text-sm">
+                <p className="text-gray-600 text-sm mt-2">
                     {nights} شب و {days} روز
                 </p>
 
@@ -81,17 +88,20 @@ const HotelCard = ({
                     </div>
                 </div>
 
-                {/* Button */}
-                <Link href={'#!'} className="block w-full">
-                    {/* <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl text-center font-medium">
-                        مشاهده جزئیات و رزرو
-                    </button> */}
-                    <Button variant="contained" className="w-full" sx={{
-                        padding:'10px',
-                        borderRadius:'10px'
-                    }}>رزرو و مشاهده جزییات</Button>
-                </Link>
-                
+                {/* Button Wrapper */}
+                {/* *** تغییر ۳: استفاده از mt-auto برای هل دادن دکمه به پایین‌ترین نقطه */}
+                <div className="mt-auto pt-4">
+                    <Link href={'#!'} className="block w-full">
+                        <Button variant="contained" className="w-full" sx={{
+                            padding: '10px',
+                            borderRadius: '10px',
+                            fontFamily: 'inherit' // برای اطمینان از فونت فارسی
+                        }}>
+                            رزرو و مشاهده جزییات
+                        </Button>
+                    </Link>
+                </div>
+
             </div>
         </div>
     );
