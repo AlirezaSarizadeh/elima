@@ -28,7 +28,7 @@ const HotelCard = ({
     return (
         // *** تغییر ۱: اضافه کردن h-full و flex flex-col به نگهدارنده اصلی
         <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden w-full h-full flex flex-col transition-all hover:shadow-lg">
-            
+
             {/* Image */}
             <div className="relative h-64 shrink-0"> {/* *** اضافه کردن shrink-0 برای جلوگیری از له شدن عکس */}
                 <Image
@@ -42,7 +42,7 @@ const HotelCard = ({
             {/* Card Content */}
             {/* *** تغییر ۲: اضافه کردن flex-1 و flex flex-col برای مدیریت فضا */}
             <div className="p-4 space-y-3 flex flex-col flex-1">
-                
+
                 {/* بخش بالای محتوا (تایتل و بج‌ها) */}
                 <div>
                     {/* Title */}

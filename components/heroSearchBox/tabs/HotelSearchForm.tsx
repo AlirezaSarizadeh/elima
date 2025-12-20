@@ -230,7 +230,7 @@ export default function HotelSearchForm() {
 
                 {/* دکمه جستجو */}
                 <div className="col-span-1 md:col-span-12 lg:col-span-2 w-full mt-4 md:mt-0">
-                    <Link href={'/tours'}>
+                    <Link href={'/hotels'}>
                         <Button
                             variant="contained"
                             fullWidth

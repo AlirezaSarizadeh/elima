@@ -12,9 +12,8 @@ export default function HotelFilterSidebar() {
                 <TextField fullWidth placeholder="جستجو..." size="small" sx={{ '& .MuiOutlinedInput-root': { borderRadius: 3 } }} />
             </FilterCard> */}
 
-            <div className="bg-[#25446b] text-white p-4 rounded-2xl mb-4 shadow-blue-200">
-                <p className="text-xs opacity-80 mb-1">نتایج یافت شده</p>
-                <p className="text-lg font-bold">2 هتل در دسترس</p>
+            <div className="text-sm text-gray-500 bg-white p-4 rounded-xl mb-4 border border-gray-200">
+                تعداد نتایج: <span className="font-semibold text-black">21</span> هتل
             </div>
 
             {/* 2. ستاره هتل */}
