@@ -1,13 +1,16 @@
-import React, { Component } from "react";
+"use client";
+
+import React, { useState } from "react";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton"; // برای دکمه جابجایی
-import SwapHorizIcon from '@mui/icons-material/SwapHoriz'; // آیکون جابجایی
-import './SwapInputs.css'
+import IconButton from "@mui/material/IconButton";
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import './SwapInputs.css';
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import stylisRTLPlugin from "stylis-plugin-rtl";
 
+// کش RTL (بیرون کامپوننت تعریف می‌شود تا با هر رندر دوباره ساخته نشود)
 const cacheRtl = createCache({
     key: "muirtl",
     stylisPlugins: [stylisRTLPlugin],
@@ -21,91 +24,78 @@ const top100Films = [
     { title: "کیش", year: 1957 },
 ];
 
-export class SwapInputs extends Component {
-    // ۱. ابتدا state را برای نگهداری مقادیر هر دو Autocomplete تعریف می‌کنیم
-    state = {
-        value1: null, // مقدار فیلد اول (مبدا)
-        value2: null, // مقدار فیلد دوم (مقصد)
+export default function SwapInputs() {
+    // ۱. تعریف استیت‌ها با استفاده از Hook
+    const [value1, setValue1] = useState<any>(null);
+    const [value2, setValue2] = useState<any>(null);
+
+    // ۲. هندلر تغییر فیلد اول
+    const handleChange1 = (event: any, newValue: any) => {
+        setValue1(newValue);
     };
 
-    // ۲. تابعی برای تغییر مقدار فیلد اول
-    handleChange1 = (event, newValue) => {
-        this.setState({ value1: newValue });
+    // ۳. هندلر تغییر فیلد دوم
+    const handleChange2 = (event: any, newValue: any) => {
+        setValue2(newValue);
     };
 
-    // ۳. تابعی برای تغییر مقدار فیلد دوم
-    handleChange2 = (event, newValue) => {
-        this.setState({ value2: newValue });
+    // ۴. تابع جابجایی مقادیر
+    const handleSwap = () => {
+        // مقادیر را به صورت ضربدری جابجا می‌کنیم
+        setValue1(value2);
+        setValue2(value1);
     };
 
-    // ۴. تابعی برای جابجا کردن مقادیر
-    handleSwap = () => {
-        const { value1, value2 } = this.state;
-        this.setState({
-            value1: value2,
-            value2: value1,
-        });
-    };
+    return (
+        <div style={{ direction: "rtl" }} className="flex items-center justify-center gap-0 relative">
+            <CacheProvider value={cacheRtl}>
+                
+                {/* فیلد Autocomplete اول (مبدا) */}
+                <Autocomplete
+                    className="c_swapInputs"
+                    value={value1}
+                    onChange={handleChange1}
+                    options={top100Films}
+                    getOptionLabel={(option) => option.title}
+                    sx={{ 
+                        width: { xs: '100%', md: 150 } 
+                    }}
+                    renderInput={(params) => <TextField {...params} label="مبدا" />}
+                />
 
-    render() {
-        const { value1, value2 } = this.state;
+                {/* دکمه جابجایی */}
+                <IconButton
+                    onClick={handleSwap}
+                    className="z-10"
+                    sx={{
+                        position: 'absolute',
+                        margin: 'auto',
+                        width: "fit-content",
+                        height: "fit-content",
+                        opacity: 1,
+                        backgroundColor: 'primary.main',
+                        color: 'primary.contrastText',
+                        '&:hover': {
+                            backgroundColor: 'primary.dark',
+                        }
+                    }}
+                >
+                    <SwapHorizIcon />
+                </IconButton>
 
-        return (
-            // ۵. از flexbox برای چیدمان افقی و تراز کردن عمودی استفاده می‌کنیم
-            <div style={{ direction: "rtl" }} className="flex items-center justify-center gap-0 relative">
-                <CacheProvider value={cacheRtl}>
-                    {/* فیلد Autocomplete اول (مبدا) */}
-                    <Autocomplete
-                        className="c_swapInputs"
-                        value={value1}
-                        onChange={this.handleChange1}
-                        options={top100Films}
-                        getOptionLabel={(option) => option.title}
-                        sx={{ 
-                            width: { xs: '100%', md: 150 } 
-                        }}
-                        renderInput={(params) => <TextField {...params} label="مبدا" />}
-                    />
-
-                    {/* دکمه جابجایی */}
-                    <IconButton
-                        onClick={this.handleSwap}
-                        className="z-10"
-                        sx={{
-                            // معادل کلاس‌های Tailwind در sx
-                            position: 'absolute',
-                            margin: 'auto', // این کار دکمه را در مرکز قرار می‌دهد
-                            width: "fit-content",
-                            height: "fit-content",
-                            opacity: 1,
-
-                            // استایل‌های قبلی شما
-                            backgroundColor: 'primary.main',
-                            color: 'primary.contrastText',
-                            '&:hover': {
-                                backgroundColor: 'primary.dark',
-                            }
-                        }}
-                    >
-                        <SwapHorizIcon />
-                    </IconButton>
-
-                    {/* فیلد Autocomplete دوم (مقصد) */}
-                    <Autocomplete
-                        className="c_swapInputs"
-                        value={value2}
-                        onChange={this.handleChange2}
-                        options={top100Films}
-                        getOptionLabel={(option) => option.title}
-                        sx={{ 
-                            width: { xs: '100%', md: 150 } 
-                        }}
-                        renderInput={(params) => <TextField {...params} label="مقصد" />}
-                    />
-                </CacheProvider>
-            </div>
-        );
-    }
+                {/* فیلد Autocomplete دوم (مقصد) */}
+                <Autocomplete
+                    className="c_swapInputs"
+                    value={value2}
+                    onChange={handleChange2}
+                    options={top100Films}
+                    getOptionLabel={(option) => option.title}
+                    sx={{ 
+                        width: { xs: '100%', md: 150 } 
+                    }}
+                    renderInput={(params) => <TextField {...params} label="مقصد" />}
+                />
+            </CacheProvider>
+        </div>
+    );
 }
-
-export default SwapInputs;

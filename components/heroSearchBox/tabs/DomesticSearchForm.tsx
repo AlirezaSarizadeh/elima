@@ -1,27 +1,29 @@
 "use client";
 
 import React, { useState, useRef } from "react";
+import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import DatePicker from "react-multi-date-picker";
 import cls from "classnames";
 
-// Calendar Imports
+// --- Date Picker Imports ---
+import DatePicker, { DateObject } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/jalali";
 import persian_fa from "react-date-object/locales/persian_fa";
 import gregorian from "react-date-object/calendars/gregorian";
 import gregorian_en from "react-date-object/locales/gregorian_en";
 
-// Icons & UI Components
-import { FlightTakeoffRounded, WorkOutlineRounded, Close as CloseIcon, CreditCardOutlined, Hotel } from "@mui/icons-material";
+// --- MUI & Icons Imports ---
 import { Button, Dialog, DialogContent, AppBar, Toolbar, IconButton, Typography, Slide, useMediaQuery, useTheme } from "@mui/material";
 import { TransitionProps } from '@mui/material/transitions';
+import { WorkOutlineRounded, Close as CloseIcon, CreditCardOutlined, Hotel } from "@mui/icons-material";
 
-import RtlDemo, { SwapInputs } from "../../SwapInputs/SwapInputs";
+// --- Custom Components Imports ---
+import SwapInputs from "../../SwapInputs/SwapInputs";
 import { DatePickerInput } from "../../DatePickerInput/DatePickerInput";
 import PassengerDropdown from "../PassengerDropdown";
-import Link from "next/link";
 import CustomRadioGroup from "../../CustomRadioGroup/CustomRadioGroup";
 
+// --- Transition Component for Modal ---
 const Transition = React.forwardRef(function Transition(
     props: TransitionProps & { children: React.ReactElement },
     ref: React.Ref<unknown>,
@@ -30,41 +32,52 @@ const Transition = React.forwardRef(function Transition(
 });
 
 export default function DomesticSearchForm() {
+    // ۱. ساخت "امروز" دقیق و صفر کردن ساعت
+    const today = new DateObject({ calendar: persian, locale: persian_fa });
+    today.setHour(0).setMinute(0).setSecond(0).setMillisecond(0);
+
+    // --- Hooks ---
     const router = useRouter();
     const pathname = usePathname();
-    const [value, setValue] = useState("");
-    const datePickerRef = useRef<any>(null);
-
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const datePickerRef = useRef<any>(null);
 
+    // --- States ---
     const [mobileModalOpen, setMobileModalOpen] = useState(false);
     const [selectedMobileTab, setSelectedMobileTab] = useState<string | null>(null);
+    const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">("jalali");
+    const [dateRange, setDateRange] = useState<any>([null, null]);
 
+    // --- Constants ---
     const tabs = [
         { label: "تور مسافرتی", href: "/", icon: <WorkOutlineRounded /> },
         { label: "هتل", href: "/hotel", icon: <Hotel /> },
         { label: "ویزا", href: "/visa", icon: <CreditCardOutlined /> },
     ];
-
     const tabPaths = ["/tours", "/hotel", "/visa"];
-
-    // مسیری را پیدا کن که pathname با آن شروع شده باشد
-    // اگر پیدا نشد (مثلاً صفحه اصلی بود)، پیش‌فرض "/" را برگردان
     const activeTab = tabPaths.find(path => pathname.startsWith(path)) || "/";
-    const [calendarType, setCalendarType] = useState<"jalali" | "gregorian">("jalali");
-    const [dateRange, setDateRange] = useState<any>([null, null]);
 
     const calendar = calendarType === "jalali" ? persian : gregorian;
     const locale = calendarType === "jalali" ? persian_fa : gregorian_en;
 
-    const switchCalendar = () => setCalendarType((prev) => (prev === "jalali" ? "gregorian" : "jalali"));
+    // --- Format Dates for Inputs ---
     const departDate = dateRange[0] ? dateRange[0].format("YYYY/MM/DD") : "";
     const returnDate = dateRange[1] ? dateRange[1].format("YYYY/MM/DD") : "";
 
+    // --- Handlers ---
     const openCalendar = () => datePickerRef.current?.openCalendar();
     const clearDepart = () => setDateRange([null, dateRange[1]]);
     const clearReturn = () => setDateRange([dateRange[0], null]);
+
+    // ✅ هندلر جدید برای بستن خودکار تقویم بعد از انتخاب تاریخ دوم
+    const handleDateChange = (date: any) => {
+        setDateRange(date);
+        // اگر تاریخ وجود دارد و آرایه شامل ۲ مقدار (رفت و برگشت) است، تقویم بسته شود
+        if (date && date.length === 2) {
+            datePickerRef.current?.closeCalendar();
+        }
+    };
 
     const handleTabClick = (href: string) => {
         if (isMobile) {
@@ -75,10 +88,12 @@ export default function DomesticSearchForm() {
         }
     };
 
+    // --- Render Form Content ---
     const renderFormContent = () => (
         <div className="flex flex-col gap-4 pt-4 md:items-start">
             <CustomRadioGroup />
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-3 relative items-end">
+
                 {/* مبدا / مقصد */}
                 <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-20">
                     <SwapInputs />
@@ -90,7 +105,7 @@ export default function DomesticSearchForm() {
                     {/* اینپوت رفت */}
                     <DatePickerInput
                         value={departDate}
-                        onChange={(val) => setValue(val)}
+                        onChange={() => { }} // Controlled by DatePicker
                         onClear={clearDepart}
                         label="تاریخ رفت"
                         variant="outlined"
@@ -101,7 +116,7 @@ export default function DomesticSearchForm() {
                     {/* اینپوت برگشت */}
                     <DatePickerInput
                         value={returnDate}
-                        onChange={(val) => setValue(val)}
+                        onChange={() => { }} // Controlled by DatePicker
                         onClear={clearReturn}
                         label="تاریخ برگشت"
                         variant="outlined"
@@ -109,44 +124,71 @@ export default function DomesticSearchForm() {
                         onAutocompleteClick={openCalendar}
                     />
 
-                    {/* --- اصلاح جایگاه تقویم --- */}
+                    {/* --- جایگاه تقویم --- */}
                     <div
-                        className="absolute w-full flex justify-center z-[1000]" // تغییر کلاس z
-                        style={{
-                            top: "58px",
-                            right: 0,
-                        }}
+                        className="absolute w-full flex justify-center z-[1000]"
+                        style={{ top: "58px", right: 0 }}
                     >
                         <DatePicker
                             ref={datePickerRef}
                             range
                             value={dateRange}
-                            onChange={setDateRange}
+                            onChange={handleDateChange} // ✅ اتصال هندلر جدید
                             calendar={calendar}
                             locale={locale}
-                            numberOfMonths={isMobile ? 1 : 2} // پیشنهاد: در موبایل 1 ماه نمایش داده شود بهتر است
-                            format="YYYY/MM/DD"
 
-                            // تنظیمات حیاتی برای پوزیشن
+                            // ✅ مدیریت روزها (استایل و غیرفعال سازی)
+                            mapDays={({ date }) => {
+                                const dateDay = date.toDays();
+                                const todayDay = today.toDays();
+
+                                // یک روز عقب می‌رویم تا "امروز" حتما باز بماند
+                                let isBeforeToday = dateDay < (todayDay - 1);
+                                let isToday = dateDay === todayDay;
+
+                                const props: any = {};
+
+                                // غیرفعال کردن گذشته
+                                if (isBeforeToday) {
+                                    props.disabled = true;
+                                    props.style = { color: "#ccc", cursor: "not-allowed", border: '2px dotted ' };
+                                }
+
+                                // استایل روز جاری (امروز)
+                                if (isToday) {
+                                    props.style = {
+                                        opacity: "1",
+                                        color: "#2563eb",
+                                        fontWeight: "bold",
+
+                                        borderRadius: "8px"
+                                    };
+                                }
+
+                                // حذف استایل آبی پیش‌فرض از روزهای آینده (باگ احتمالی ۳۰ام)
+                                if (dateDay > todayDay) {
+                                    props.className = "custom-future-day";
+                                }
+
+                                return props;
+                            }}
+
+                            numberOfMonths={isMobile ? 1 : 2}
+                            format="YYYY/MM/DD"
                             portal={false}
                             inputClass="hidden"
-
-                            // اصلاح z-index داخلی کانتینر خود تقویم
                             containerStyle={{
                                 width: "100%",
                                 display: "flex",
                                 justifyContent: "center",
-                                zIndex: 1001 // اطمینان از بالا بودن
+                                zIndex: 1001
                             }}
-
                             style={{
                                 visibility: "hidden",
                                 height: 0,
                                 width: 0,
                             }}
-                        >
-                            {/* ... دکمه تغییر تقویم ... */}
-                        </DatePicker>
+                        />
                     </div>
                 </div>
 
@@ -158,7 +200,6 @@ export default function DomesticSearchForm() {
                 {/* دکمه جستجو */}
                 <div className="col-span-1 md:col-span-12 lg:col-span-2 w-full mt-4 md:mt-0">
                     <Link href={'/tours'}>
-
                         <Button
                             variant="contained"
                             fullWidth
@@ -221,7 +262,6 @@ export default function DomesticSearchForm() {
                 disablePortal={false}
                 style={{ zIndex: 1300 }}
             >
-                {/* هدر مودال */}
                 <AppBar sx={{ position: 'relative', bgcolor: 'white', color: 'black', boxShadow: 'none', borderBottom: '1px solid #eee' }}>
                     <Toolbar>
                         <IconButton
@@ -238,12 +278,9 @@ export default function DomesticSearchForm() {
                     </Toolbar>
                 </AppBar>
 
-                {/* بدنه مودال */}
                 <DialogContent className="bg-white pb-10">
-                    {/* فرم اصلی */}
                     {renderFormContent()}
 
-                    {/* دکمه بستن اضافی در پایین صفحه */}
                     <div className="mt-6 border-t border-gray-200 pt-6">
                         <Button
                             variant="outlined"
