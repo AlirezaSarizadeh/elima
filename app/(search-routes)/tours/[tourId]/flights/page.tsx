@@ -64,7 +64,7 @@ export default function FlightsPage({ params, searchParams }: any) {
 
                     <main className="lg:col-span-3 space-y-6">
                         {flightOptions.map((flight) => (
-                            <div key={flight.id} className="relative bg-white rounded-[2rem] md:rounded-3xl hover:shadow-xl transition-all duration-500 border border-gray-100 flex flex-col md:flex-row group">
+                            <div key={flight.id} className="relative bg-white rounded-[2rem] md:rounded-3xl hover:shadow-xl transition-all duration-500 border border-gray-200 flex flex-col md:flex-row group">
 
                                 {/* بخش اطلاعات پرواز */}
                                 <div className="flex-1 p-5 md:p-8">
@@ -110,7 +110,7 @@ export default function FlightsPage({ params, searchParams }: any) {
                                 <div className="flex md:flex-col justify-between items-center px-4 md:px-0 md:py-4 relative">
                                     {/* دایره‌های برش بلیط */}
                                     <div className="w-6 h-6 bg-[#F4F7FA] rounded-full -mt-3 md:mt-0 md:-mr-3 border border-gray-100"></div>
-                                    <div className="flex-1 border-t-2 md:border-t-0 md:border-r-2 border-dashed border-gray-200 w-full md:w-0 my-0 md:my-2"></div>
+                                    <div className="left-1.5 relative flex-1 border-t-2 md:border-t-0 md:border-r-2 border-dashed border-gray-200 w-full md:w-0 my-0 md:my-2"></div>
                                     <div className="w-6 h-6 bg-[#F4F7FA] rounded-full -mb-3 md:mb-0 md:-mr-3 border border-gray-100"></div>
                                 </div>
 
@@ -165,7 +165,7 @@ function FlightLeg({ data, type }: any) {
         <div className="flex flex-col sm:flex-row items-center gap-4 md:gap-6">
             {/* لوگو و نام ایرلاین */}
             <div className="flex sm:flex-col items-center gap-2 w-full sm:w-20 shrink-0">
-                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white border border-gray-100 flex items-center justify-center p-2 shadow-sm">
+                <div className="w-12 h-12 md:w-14 md:h-14 rounded-2xl bg-white border border-gray-200 flex items-center justify-center p-2 ">
                     <div className="w-full h-full bg-gray-50 rounded-lg flex items-center justify-center">
                         <FlightTakeoff className={isOutbound ? "text-blue-600" : "text-orange-500 rotate-180"} sx={{ fontSize: 20 }} />
                     </div>

@@ -17,25 +17,25 @@ const fakeData = {
     "مقالات محبوب": [
         {
             title: "ویژگی‌های منحصر به فرد جزیره موستچلlo",
-            image:'/images/hotel_1.png',
+            image: '/images/hotel_1.png',
             description: "کشف جزیره‌ای رنگارنگ با آب‌های زلال و معماری منحصر به فرد. با قایق‌های کوچک در کانال‌های زیبا قدم بزنید و از طبیعت بکر لذت ببرید.",
             buttonText: "بیشتر بخوانید"
         },
         {
             title: "ویژگی‌های منحصر به فرد جزیره موستچلlo",
-            image:'/images/hotel_2.png',
+            image: '/images/hotel_2.png',
             description: "کشف جزیره‌ای رنگارنگ با آب‌های زلال و معماری منحصر به فرد. با قایق‌های کوچک در کانال‌های زیبا قدم بزنید و از طبیعت بکر لذت ببرید.",
             buttonText: "بیشتر بخوانید"
         },
         {
             title: "ویژگی‌های منحصر به فرد جزیره موستچلlo",
-            image:'/images/hotel_3.png',
+            image: '/images/hotel_3.png',
             description: "کشف جزیره‌ای رنگارنگ با آب‌های زلال و معماری منحصر به فرد. با قایق‌های کوچک در کانال‌های زیبا قدم بزنید و از طبیعت بکر لذت ببرید.",
             buttonText: "بیشتر بخوانید"
         },
         {
             title: "ویژگی‌های منحصر به فرد جزیره موستچلlo",
-            image:'/images/hotel_1.png',
+            image: '/images/hotel_1.png',
             description: "کشف جزیره‌ای رنگارنگ با آب‌های زلال و معماری منحصر به فرد. با قایق‌های کوچک در کانال‌های زیبا قدم بزنید و از طبیعت بکر لذت ببرید.",
             buttonText: "بیشتر بخوانید"
         },
@@ -52,27 +52,31 @@ const MagazineSection = () => {
 
     return (
         // Added dir="rtl" to the section for proper Right-to-Left text flow
-        <section className="mt-10 pt-5 pb-10" dir="rtl">
+        <section className="md:mt-10 pt-5 pb-10 px-4" dir="rtl">
 
-            <div className="flex items-center justify-between mb-1 max-w-7xl px-4 mx-auto">
-                {/* --- EDITED: Updated title and icon for a magazine section --- */}
+            <div className="flex flex-wrap items-center justify-between gap-y-4 mb-2 max-w-7xl px-4 mx-auto">
+
+                {/* بخش تایتل */}
                 <Title title="مجله گردشگری" icon={<img src='/images/textalign-right.png' alt="Icon" />} />
 
-                {/* مشاهده همه */}
-                {/* --- EDITED: Updated href to a more relevant page --- */}
-                <Link href="/magazine" className="text-sm ms-auto me-4 text-blue-500">
-                    مشاهده همه
-                </Link>
-                {/* Navigation Buttons */}
-                <div className="flex items-center gap-2">
-                    {/* --- EDITED: Updated class names for navigation to avoid conflicts with other Swipers --- */}
-                    <button className="magazine-prev-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer">
-                        <img src="/images/arrow-right.png" className="w-5" alt="Previous" />
-                    </button>
+                {/* بخش کنترل‌ها (لینک + دکمه‌ها) - گروه‌بندی شده */}
+                <div className="flex items-center gap-4 ms-auto">
 
-                    <button className="magazine-next-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer">
-                        <img src="/images/arrow-left.png" className="w-5" alt="Next" />
-                    </button>
+                    {/* مشاهده همه */}
+                    <Link href="/magazine" className="text-sm text-blue-500 whitespace-nowrap">
+                        مشاهده همه
+                    </Link>
+
+                    {/* Navigation Buttons */}
+                    <div className="flex items-center gap-2">
+                        <button className="magazine-prev-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <img src="/images/arrow-right.png" className="w-5" alt="Previous" />
+                        </button>
+
+                        <button className="magazine-next-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <img src="/images/arrow-left.png" className="w-5" alt="Next" />
+                        </button>
+                    </div>
                 </div>
             </div>
 

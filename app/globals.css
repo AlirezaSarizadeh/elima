@@ -103,3 +103,12 @@ body {
 .rmdp-arrow-container.rmdp-right , .rmdp-arrow-container.rmdp-left {
   padding-top: 2px;
 } 
+/* در فایل globals.css */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

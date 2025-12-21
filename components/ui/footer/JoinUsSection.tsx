@@ -2,7 +2,7 @@
 
 export default function JoinUsSection() {
   return (
-    <section className="bg-gray-50 py-8 mt-16 px-4 md:px-0">
+    <section className="bg-gray-50 py-8  md:mt-16 px-4 md:px-0">
       <div className="max-w-6xl mx-auto relative bg-orange-500 rounded-3xl text-white p-6 md:p-10 lg:p-16 overflow-hidden flex flex-col lg:flex-row items-center justify-center min-h-[400px]">
         
         {/* --- المان‌های تزئینی (فقط در دسکتاپ و تبلت نمایش داده می‌شوند) --- */}

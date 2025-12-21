@@ -13,7 +13,7 @@ import DomesticSearchForm from '../components/heroSearchBox/tabs/DomesticSearchF
 
 export default function HomePage() {
   return (
-    <main className="a-container relative px-0 pb-8 mx-auto">
+    <main className="a-container relative px-0 pb-0 mx-auto">
 
       {/* Upper Search Tabs : */}
       <div className="a-card products-box max-w-7xl px-4 mx-auto">

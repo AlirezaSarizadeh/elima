@@ -111,25 +111,32 @@ const PopularHotelsSection = () => {
     const items = fakeData['لوکس‌ترین'];
 
     return (
-        <section className=" mt-10 pt-5 pb-10">
+        <section className=" md:mt-10 pt-5 pb-10">
 
 
-            <div className="flex items-center justify-between mb-1 max-w-7xl px-4 mx-auto">
-                <Title title="محبوب ترین هتل ها" icon={<img src='/images/textalign-right.png' />} />
+            <div className="flex flex-wrap items-center justify-between gap-y-4 mb-2 max-w-7xl px-4 mx-auto">
 
-                {/* مشاهده همه */}
-                <Link href="#" className="text-sm ms-auto me-4 text-blue-500">
-                    مشاهده همه
-                </Link>
-                {/* Navigation Buttons */}
-                <div className="flex items-center gap-2">
-                    <button className="hotel-prev-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer">
-                        <img src="/images/arrow-right.png" className="w-5" />
-                    </button>
+                {/* بخش تایتل */}
+                <Title title="محبوب ترین هتل ها" icon={<img src='/images/textalign-right.png' alt="icon" />} />
 
-                    <button className="hotel-next-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer">
-                        <img src="/images/arrow-left.png" className="w-5" />
-                    </button>
+                {/* بخش کنترل‌ها (لینک + دکمه‌ها) - گروه‌بندی شده */}
+                <div className="flex items-center gap-4 ms-auto">
+
+                    {/* مشاهده همه */}
+                    <Link href="#" className="text-sm text-blue-500 whitespace-nowrap">
+                        مشاهده همه
+                    </Link>
+
+                    {/* Navigation Buttons */}
+                    <div className="flex items-center gap-2">
+                        <button className="hotel-prev-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <img src="/images/arrow-right.png" className="w-5" alt="Next" />
+                        </button>
+
+                        <button className="hotel-next-btn w-10 h-10 rounded-xl flex items-center justify-center text-gray-500 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                            <img src="/images/arrow-left.png" className="w-5" alt="Prev" />
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -142,6 +149,38 @@ const PopularHotelsSection = () => {
                 }}
                 slidesPerView={3}     // ← 3 کارت در یک row
                 spaceBetween={20}
+                breakpoints={{
+                    // موبایل کوچک
+                    320: {
+                        slidesPerView: 1.2,
+                        spaceBetween: 10,
+                        // ✅ در موبایل گرید را روی ۱ ردیف تنظیم می‌کنیم تا بهم نریزد
+                        grid: {
+                            rows: 1,
+                            fill: "row"
+                        }
+                    },
+                    // تبلت
+                    640: {
+                        slidesPerView: 2,
+                        spaceBetween: 15,
+                        // ✅ در تبلت ۲ ردیف شود
+                        grid: {
+                            rows: 2,
+                            fill: "row"
+                        }
+                    },
+                    // دسکتاپ
+                    1024: {
+                        slidesPerView: 3,
+                        spaceBetween: 20,
+                        // ✅ در دسکتاپ ۲ ردیف شود
+                        grid: {
+                            rows: 2,
+                            fill: "row"
+                        }
+                    }
+                }}
                 className="w-full max-w-7xl px-4 mx-auto pop_hotel-swiper"
             >
                 {items.map((item, index) => (
