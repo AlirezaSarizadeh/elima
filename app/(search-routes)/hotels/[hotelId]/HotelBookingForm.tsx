@@ -5,7 +5,7 @@ import { TextField, Button, MenuItem, Select, InputAdornment, FormControl, Input
 import { Add, Remove, PhoneAndroid, CalendarMonth, ArrowBack, Shortcut, ShortcutOutlined } from "@mui/icons-material";
 import Image from "next/image";
 import Link from "next/link";
-import PassengerSelection from "../../../../visa/components/PassengerSelection";
+import PassengerSelection from "../../../visa/components/PassengerSelection";
 
 export default function BookingForm() {
     const [adults, setAdults] = useState(2);
@@ -31,6 +31,7 @@ export default function BookingForm() {
                         <MenuItem value="date2" className="text-sm">۲۵ تا ۲۸ مهر</MenuItem>
                     </Select>
                 </FormControl>
+
 
                 <PassengerSelection />
 
