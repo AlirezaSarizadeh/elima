@@ -142,39 +142,35 @@ const PopularHotelsSection = () => {
 
             {/* Swiper Grid */}
             <Swiper
-                modules={[Navigation]}
+                // ۲. اصلاح مهم: اضافه کردن Grid به لیست ماژول‌ها
+                modules={[Navigation, Grid]} 
                 navigation={{
                     prevEl: ".hotel-prev-btn",
                     nextEl: ".hotel-next-btn",
                 }}
-                slidesPerView={3}     // ← 3 کارت در یک row
+                slidesPerView={3}
                 spaceBetween={20}
                 breakpoints={{
-                    // موبایل کوچک
                     320: {
                         slidesPerView: 1.2,
                         spaceBetween: 10,
-                        // ✅ در موبایل گرید را روی ۱ ردیف تنظیم می‌کنیم تا بهم نریزد
                         grid: {
                             rows: 1,
                             fill: "row"
                         }
                     },
-                    // تبلت
                     640: {
                         slidesPerView: 2,
                         spaceBetween: 15,
-                        // ✅ در تبلت ۲ ردیف شود
                         grid: {
                             rows: 2,
                             fill: "row"
                         }
                     },
-                    // دسکتاپ
                     1024: {
                         slidesPerView: 3,
                         spaceBetween: 20,
-                        // ✅ در دسکتاپ ۲ ردیف شود
+                        // تنظیمات گرید برای دسکتاپ: ۲ ردیف
                         grid: {
                             rows: 2,
                             fill: "row"
@@ -184,8 +180,9 @@ const PopularHotelsSection = () => {
                 className="w-full max-w-7xl px-4 mx-auto pop_hotel-swiper"
             >
                 {items.map((item, index) => (
+                    // ۳. نکته: کلاس mt-5 را اینجا حذف کنید یا مدیریت کنید، چون گرید خودش فاصله عمودی می‌دهد
                     <SwiperSlide key={index}>
-                        <HotelCard key={item.title} {...item} />
+                        <HotelCard {...item} />
                     </SwiperSlide>
                 ))}
             </Swiper>

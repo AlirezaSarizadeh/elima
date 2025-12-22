@@ -1,4 +1,8 @@
 .c_datepickerInput .MuiInputBase-formControl {
+    border-radius: 0 10px 10px 0;
+}
+
+.datepicker-container .relative:nth-child(2) .MuiInputBase-formControl {
     border-radius: 10px 0 0 10px;
 }
 
