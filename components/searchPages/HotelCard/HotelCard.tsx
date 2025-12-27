@@ -152,7 +152,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ data, linkUrl }) => {
                             sx={{
                                 borderRadius: '10px',
                                 textTransform: 'none',
-                                fontWeight: 'bold',
+                                fontWeight: 'normal',
                                 cursor: 'pointer' // ✅ اطمینان از کرسر پوینتر
                             }}
                         >

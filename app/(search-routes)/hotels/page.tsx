@@ -83,7 +83,7 @@ export default function HotelListingPage() {
                             <HotelCard
                                 key={hotel.id}
                                 data={hotel}
-                                linkUrl={`/hotels/${hotel.id}/rooms`}
+                                linkUrl={`/hotels/${hotel.id}`}
                             />
                         ))}
                     </main>
