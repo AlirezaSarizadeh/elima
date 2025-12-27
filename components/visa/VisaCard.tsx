@@ -1,61 +1,66 @@
 "use client";
 
-import { AccessTime, VerifiedUserOutlined } from "@mui/icons-material"; // ایمپورت آیکون‌ها
+import { AccessTime, VerifiedUserOutlined } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import Link from "next/link";
-// اگر از MUI استفاده نمی‌کنید، می‌توانید این بخش را حذف کنید یا با img جایگزین کنید.
 
 interface VisaCardProps {
   title: string;
   price: number;
   image: string;
-  // این پراپ‌ها را اختیاری گذاشتم تا اگر دیتای جدید نداشتید کد ارور ندهد
-  processingTime?: string; // مثلا: ۳ روز کاری
-  visaType?: string; // مثلا: ویزای توریستی
+  // این‌ها رو برای گواهینامه استفاده می‌کنیم:
+  // processingTime = زمان صدور
+  // visaType = نوع پکیج (مثلاً یک‌ساله، سه‌ساله و ...)
+  processingTime?: string;
+  visaType?: string;
 }
 
 const VisaCard = ({
   title,
   price,
   image,
-  processingTime = "۳ روز کاری", // مقدار پیش‌فرض طبق عکس
-  visaType = "ویزای توریستی"     // مقدار پیش‌فرض طبق عکس
+  processingTime = "۳ تا ۵ روز کاری",
+  visaType = "پکیج استاندارد ۱ ساله",
 }: VisaCardProps) => {
   return (
     <div className="bg-white rounded-3xl border border-gray-200 p-3 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
-
       {/* بخش تصویر */}
       <div className="relative h-48 w-full rounded-2xl overflow-hidden shrink-0">
-        <img
-          src={image}
-          alt={title}
-          className="w-full h-full object-cover"
-        />
+        <img src={image} alt={title} className="w-full h-full object-cover" />
+
+        {/* روبان نوع پکیج روی تصویر */}
+        <div className="absolute top-3 right-3 bg-blue-600/90 text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
+          <span>گواهینامه بین‌المللی</span>
+          <span className="text-[9px] text-blue-100">· {visaType}</span>
+        </div>
       </div>
 
       {/* بخش محتوا */}
       <div className="pt-4 px-1 flex flex-col flex-1 justify-between">
+        {/* هدر: عنوان و بج اعتبار */}
+        <div className="flex justify-between items-start mb-3 gap-2">
+          <h3 className="font-bold text-gray-900 text-sm sm:text-base leading-6 line-clamp-2">
+            {title}
+          </h3>
 
-        {/* هدر: عنوان و نوع ویزا */}
-        <div className="flex justify-between items-start mb-3">
-          <h3 className="font-bold text-gray-900 text-lg">{title}</h3>
-
-          {/* بج نوع ویزا */}
-          <div className="bg-blue-50 text-blue-600 px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1">
+          {/* بج اعتبار بین‌المللی */}
+          <div className="bg-green-50 text-green-700 px-2 py-1 rounded-lg text-[10px] font-bold flex items-center gap-1 whitespace-nowrap">
             <VerifiedUserOutlined style={{ fontSize: 14 }} />
-            <span>{visaType}</span>
+            <span>اعتبار بین‌المللی</span>
           </div>
         </div>
 
-        {/* زمان اخذ ویزا */}
+        {/* زمان صدور گواهینامه */}
         <div className="flex items-center gap-2 text-gray-500 text-xs mb-4">
           <AccessTime style={{ fontSize: 16 }} className="text-gray-400" />
-          <span>اخذ ویزا : {processingTime}</span>
+          <span>زمان صدور: {processingTime}</span>
         </div>
 
         {/* قیمت */}
-        <div className="flex justify-between items-end mb-4">
-          <span className="text-gray-400 text-xs mb-1">شروع قیمت برای هر نفر</span>
+        <div className="flex flex-col items-end gap-1 mb-4">
+          <span className="text-gray-400 text-[11px]">
+            هزینه صدور برای هر نفر
+          </span>
           <div className="flex items-center gap-1 text-blue-600 font-bold text-lg">
             {price.toLocaleString()}
             <span className="text-xs font-normal text-gray-400">تومان</span>
@@ -63,16 +68,20 @@ const VisaCard = ({
         </div>
 
         {/* دکمه پایین */}
-        <Link href={'visa/test'} className="block w-full">
-          {/* <button className="w-full bg-blue-600 hover:bg-blue-700 transition text-white py-3 rounded-xl text-center font-medium">
-                       مشاهده وبلاگ
-                    </button> */}
-          <Button variant="contained" className="w-full" sx={{
-            padding: '10px',
-            borderRadius: '10px'
-          }}>مشاهده جزییات</Button>
+        <Link href={"/license/apply"} className="block w-full">
+          <Button
+            variant="contained"
+            className="w-full"
+            sx={{
+              padding: "10px",
+              borderRadius: "10px",
+              fontFamily: "inherit",
+              fontSize: { xs: "0.8rem", sm: "0.9rem" },
+            }}
+          >
+            درخواست گواهینامه
+          </Button>
         </Link>
-
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import { useMediaQuery, useTheme } from "@mui/material";
 
 // Custom Components
 import VisaInfoSection from "../../visa/VisaInfoSection";
+import LicenseInfoSection from "../../../app/license/components/LicenseInfoSection";
 
 export default function VisaSearchForm() {
     const pathname = usePathname();
@@ -60,7 +61,7 @@ export default function VisaSearchForm() {
             <div className="w-full animate-fade-in">
                 <div className="flex flex-col gap-4">
                     {/* رندر کردن بخش اطلاعات ویزا که با هتل و تور متفاوت است */}
-                    <VisaInfoSection />
+                    <LicenseInfoSection />
                 </div>
             </div>
 

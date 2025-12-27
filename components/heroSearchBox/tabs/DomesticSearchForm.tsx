@@ -38,6 +38,7 @@ export default function DomesticSearchForm() {
         { label: "تور مسافرتی", href: "/", icon: <WorkOutlineRounded /> },
         { label: "هتل", href: "/hotel", icon: <Hotel /> },
         { label: "ویزا", href: "/visa", icon: <CreditCardOutlined /> },
+        { label: "گواهینامه بین المللی", href: "/license", icon: <img src={'/images/driving-license.png'} width={24} />},
     ];
 
     const calendar = calendarType === "jalali" ? persian : gregorian;
@@ -78,7 +79,7 @@ export default function DomesticSearchForm() {
                                 "cursor-pointer font-bold flex flex-col md:flex-row items-center justify-center gap-2 transition-all duration-300 no-underline",
                                 isMobile
                                     ? `py-3 px-2 rounded-xl text-[11px] sm:text-xs text-center ${isActive ? 'bg-blue-50 text-blue-600 border border-blue-100' : 'bg-gray-50 text-gray-500 border border-transparent'}`
-                                    : `pb-4 text-sm relative ${isActive ? "text-blue-600 tab-active-line" : "text-gray-400 hover:text-gray-600"}`
+                                    : `pb-4 text-sm relative ${isActive ? "text-blue-600 tab-active-line" : " opacity-40 hover:text-gray-600"}`
                             )}
                         >
                             {React.cloneElement(t.icon as React.ReactElement<any>, {
