@@ -11,7 +11,7 @@ import ToursSection from '../../components/domestic_tour/tour_category/ToursSect
 import HeroBox from '../../components/heroSearchBox/HeroBox';
 import DomesticSearchForm from '../../components/heroSearchBox/tabs/DomesticSearchForm';
 import VisaSearchForm from '../../components/heroSearchBox/tabs/VisaSearchForm';
-import VisaSection from '../../components/visa/VisaSection';
+import VisaSection from './components/VisaSection';
 
 export default function HomePage() {
   return (
@@ -20,11 +20,11 @@ export default function HomePage() {
       {/* Upper Search Tabs : */}
       <div className="a-card products-box max-w-7xl px-4 mx-auto">
         <Image
-          src={'/images/hero-pic.png'}
+          src={'/images/visa-hero-pic.png'}
           width={1920} // Use the ACTUAL width of your image
-          height={1080} // Use the ACTUAL height of your image
+          height={815} // Use the ACTUAL height of your image
           alt="A descriptive alt text for the image"
-          className="w-full" // This makes it full width
+          className="w-full rounded-4xl rounded-t-[0] hero-fade-image" // This makes it full width
         />
         {/* محتوای تب فعال (فعلاً همون فرم، اگر بعداً خواستی می‌تونی یه ورژن مخصوص خارجی بسازی) */}
         <div

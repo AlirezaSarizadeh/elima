@@ -17,11 +17,11 @@ export default function InternationalLicensePage() {
       {/* هدر و باکس سرچ گواهینامه بین‌المللی */}
       <div className="a-card products-box max-w-7xl px-4 mx-auto">
         <Image
-          src={"/images/hero-pic.png"} // اگر بعداً عکس مخصوص گواهینامه داشتی، اینجا عوضش کن
+          src={"/images/license-hero-pic.png"}
           width={1920}
-          height={1080}
+          height={815}
           alt="دریافت گواهینامه بین‌المللی رانندگی به صورت آنلاین"
-          className="w-full"
+          className="w-full rounded-4xl rounded-t-[0] hero-fade-image" // 👈 این کلاس اضافه شد
         />
 
         {/* تب/فرم جستجوی گواهینامه بین‌المللی */}
@@ -38,6 +38,7 @@ export default function InternationalLicensePage() {
           </div>
         </div>
       </div>
+
 
       {/* لیست پکیج‌های گواهینامه بین‌المللی */}
       <LicenseSection />

@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import VisaCard from "./VisaCard";
-import Tabs from "../domestic_tour/tour_category/Tabs";
+import Tabs from "../../../components/domestic_tour/tour_category/Tabs";
 import { Search } from "@mui/icons-material"; // آیکون سرچ
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -13,7 +13,7 @@ import "swiper/css/navigation";
 import "swiper/css/grid";
 import "./global.css"
 import Link from "next/link";
-import Title from "../ui/Title/Title";
+import Title from "../../../components/ui/Title/Title";
 
 const fakeData = {
     "مسافرتی": [

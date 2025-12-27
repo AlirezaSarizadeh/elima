@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import VisaCard from "../../../components/visa/VisaCard";
+import VisaCard from "../../visa/components/VisaCard";
 import Tabs from "../../../components/domestic_tour/tour_category/Tabs";
 import { Search } from "@mui/icons-material";
 

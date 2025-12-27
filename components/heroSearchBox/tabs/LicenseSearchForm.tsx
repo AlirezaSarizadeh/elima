@@ -10,7 +10,7 @@ import { WorkOutlineRounded, CreditCardOutlined, Hotel } from "@mui/icons-materi
 import { useMediaQuery, useTheme } from "@mui/material";
 
 // Custom Components
-import VisaInfoSection from "../../visa/VisaInfoSection";
+import VisaInfoSection from "../../../app/visa/components/VisaInfoSection";
 import LicenseInfoSection from "../../../app/license/components/LicenseInfoSection";
 
 export default function VisaSearchForm() {

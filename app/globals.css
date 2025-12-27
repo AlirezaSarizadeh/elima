@@ -112,3 +112,26 @@ body {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+@keyframes heroImageSoftFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(0px) scale(1.0);
+  }
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* این کلاس رو روی Image گذاشتیم */
+.hero-fade-image {
+  opacity: 80;
+  animation-name: heroImageSoftFadeIn;
+  animation-duration: 3s;              /* خیلی نرم و طولانی‌تر */
+  animation-timing-function: cubic-bezier(2.22, 1, 0.36, 1);
+  animation-fill-mode: forwards;         /* بعد از انیمیشن در حالت نهایی بمونه */
+}
