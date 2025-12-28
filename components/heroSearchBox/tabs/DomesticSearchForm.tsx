@@ -38,7 +38,7 @@ export default function DomesticSearchForm() {
         { label: "تور مسافرتی", href: "/", icon: <WorkOutlineRounded /> },
         { label: "هتل", href: "/hotel", icon: <Hotel /> },
         { label: "ویزا", href: "/visa", icon: <CreditCardOutlined /> },
-        { label: "گواهینامه بین المللی", href: "/license", icon: <img src={'/images/driving-license.png'} width={24} />},
+        { label: "گواهینامه بین المللی", href: "/license", icon: <img src={'/images/driving-license.svg'} width={24} />},
     ];
 
     const calendar = calendarType === "jalali" ? persian : gregorian;
