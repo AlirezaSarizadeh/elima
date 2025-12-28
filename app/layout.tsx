@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fa" dir="rtl" className={`${yekanBakh.variable}`}>
+    <html lang="fa" dir="rtl" data-season="autumn" className={`${yekanBakh.variable}`} >
       <body className="font-yekan text-right bg-white">
         <MuiRtlProvider>
           <Navbar />

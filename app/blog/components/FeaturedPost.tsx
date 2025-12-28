@@ -36,7 +36,7 @@ export default function FeaturedPost({ post }: { post: FeaturedPostProps }) {
       <div className="absolute bottom-0 right-0 w-full md:w-3/4 p-6 md:p-12 text-white z-10 flex flex-col items-start gap-4">
         
         {/* بج دسته‌بندی */}
-        <span className="bg-blue-600/90 backdrop-blur-md text-white px-4 py-1.5 rounded-full text-xs font-bold border border-blue-400/30">
+        <span className="bg-[#29477d] backdrop-blur-md text-white px-4 py-1.5 rounded-full text-xs font-bold border border-blue-400/30">
           {post.category}
         </span>
 

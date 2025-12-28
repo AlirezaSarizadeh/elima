@@ -209,9 +209,8 @@ export default function HotelSearchForm() {
                                     borderRadius: '12px',
                                     fontWeight: 'bold',
                                     height: '56px',
-                                    backgroundColor: '#2563eb',
                                     boxShadow: 'none',
-                                    '&:hover': { backgroundColor: '#1d4ed8' }
+                                    '&:hover': { backgroundColor: '#29477d' }
                                 }}
                             >
                                 جستجو

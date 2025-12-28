@@ -197,10 +197,7 @@ export default function DomesticSearchForm() {
                                     height: '56px',
                                     fontSize: '1rem',
                                     boxShadow: 'none',
-                                    backgroundColor: '#2563eb',
-                                    '&:hover': {
-                                        backgroundColor: '#1d4ed8'
-                                    }
+                                    '&:hover': { backgroundColor: '#29477d' }
                                 }}
                             >
                                 جستجو

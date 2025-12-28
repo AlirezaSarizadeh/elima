@@ -7,27 +7,43 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import createCache from '@emotion/cache';
 import rtlPlugin from 'stylis-plugin-rtl';
-// 1. فونت خود را که با next/font ساختید، وارد کنید
 import { yekanBakh } from '../app/fonts/yekanbakh';
+import { deepOrange } from '@mui/material/colors';
 
-// 2. تم خود را با فونت فارسی بسازید
 const theme = createTheme({
   direction: 'rtl',
   typography: {
-    // اینجا فونت اصلی را برای تمام کامپوننت‌ها تنظیم می‌کنیم
     fontFamily: yekanBakh.style.fontFamily,
   },
   palette: {
     primary: {
-      main: '#1976d2',
+      // رنگ پایه تم (همونی که قبلاً داشتی، فقط کمی کامل‌تر)
+      main: deepOrange[500],
+      dark: deepOrange[700],
+      light: deepOrange[200],
+      contrastText: '#ffffff',
+    },
+    secondary: {
+      main: deepOrange[500],
+      dark: deepOrange[700],
+      light: deepOrange[200],
+      contrastText: '#ffffff',
     },
   },
-  // 3. (اختیاری ولی بسیار توصیه شده) فونت را برای تگ <body> نیز اعمال کنید
   components: {
     MuiCssBaseline: {
       styleOverrides: {
         body: {
           fontFamily: yekanBakh.style.fontFamily,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          textTransform: 'none',
+          padding: '10px 22px',
         },
       },
     },
@@ -39,10 +55,14 @@ interface MuiRtlProviderProps {
 }
 
 export default function MuiRtlProvider({ children }: MuiRtlProviderProps) {
-  const rtlCache = useMemo(() => createCache({
-    key: 'mui-style-rtl',
-    stylisPlugins: [rtlPlugin],
-  }), []);
+  const rtlCache = useMemo(
+    () =>
+      createCache({
+        key: 'mui-style-rtl',
+        stylisPlugins: [rtlPlugin],
+      }),
+    [],
+  );
 
   return (
     <CacheProvider value={rtlCache}>

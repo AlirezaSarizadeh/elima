@@ -29,7 +29,7 @@ const VisaCard = ({
         <img src={image} alt={title} className="w-full h-full object-cover" />
 
         {/* روبان نوع پکیج روی تصویر */}
-        <div className="absolute top-3 right-3 bg-blue-600/90 text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
+        <div className="absolute top-3 right-3 bg-[#29477d] text-white text-[10px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
           <span>گواهینامه بین‌المللی</span>
           <span className="text-[9px] text-blue-100">· {visaType}</span>
         </div>

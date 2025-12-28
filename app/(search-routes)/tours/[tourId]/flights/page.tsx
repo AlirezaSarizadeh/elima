@@ -137,8 +137,7 @@ export default function FlightsPage({ params, searchParams }: any) {
                                                     borderRadius: '14px',
                                                     padding: '12px',
                                                     fontWeight: 'bold',
-                                                    backgroundColor: '#2563eb',
-                                                    '&:hover': { backgroundColor: '#1d4ed8' }
+                                                    '&:hover': { backgroundColor: '#29477d' }
                                                 }}
                                             >
                                                 انتخاب پرواز

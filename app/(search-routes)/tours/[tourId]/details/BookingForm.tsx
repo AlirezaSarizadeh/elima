@@ -208,13 +208,12 @@ export default function HotelBookingSideForm() {
           fullWidth
           size="large"
           sx={{
-            backgroundColor: "#1976d2",
             borderRadius: "12px",
             padding: "12px",
             fontWeight: "bold",
             fontSize: "1rem",
             boxShadow: "0 4px 14px rgba(25, 118, 210, 0.2)",
-            "&:hover": { backgroundColor: "#1565c0" },
+            '&:hover': { backgroundColor: '#29477d' }
           }}
         >
           جستجو
