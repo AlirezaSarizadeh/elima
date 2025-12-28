@@ -76,8 +76,8 @@ export default function TourDetailsCard() {
                     onClick={() => setOpenMap(true)}
                     sx={{
                         borderRadius: "12px",
-                        borderColor: "#3b82f6",
-                        color: "#3b82f6",
+                        borderColor: "#234371",
+                        color: "#234371",
                         padding: "8px 16px",
                         fontFamily: "inherit",
                         fontWeight: 600,

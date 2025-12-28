@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import PriceCalendar from "../../../components/searchPages/PriceCalendar";
 import TourCard from "../../../components/searchPages/TourCard/TourCard";
 import SortBar from "../../../components/searchPages/SortBar/SortBar";
 import MobileFilter from "../../../components/searchPages/MobileFilter/MobileFilter";
 import FilterSidebar from "../../../components/filters/FilterSidebar";
 import WizardStepper from "../../../components/wizard/WizardStepper";
+import Image from "next/image";
+import Tabs from "../../../components/domestic_tour/tour_category/Tabs";
 // import WizardStepper from "../../../components/wizard/WizardStepper"; // 👈 این را اینجا نیاز نداریم چون هنوز ID نداریم
 
 // --- Mock Data ---
@@ -69,6 +71,10 @@ const tours = [
 ];
 
 export default function TourListingPage() {
+
+        const tabsList = ["لوکس‌ترین", "تورهای زمینی", "تورهای خارجی", "تورهای داخلی"];
+        const [activeTab, setActiveTab] = useState("لوکس‌ترین");
+
     return (
         <div className="min-h-screen bg-gray-50" dir="rtl">
             <div className="container mx-auto px-4 py-6 max-w-7xl px-4">
@@ -82,8 +88,20 @@ export default function TourListingPage() {
                 <div className="p-4 px-0 rounded-xl mb-6 flex flex-col gap-4">
                     <PriceCalendar />
                     <MobileFilter />
-                    <div className="h-px bg-gray-100 w-full lg:hidden"></div>
-                    <SortBar />
+                    <div className="flex items-center gap-8 w-full overflow-x-auto pb-2 lg:pb-0 no-scrollbar">
+                        {/* متن ثابت (مخفی در موبایل) */}
+                        <span className="font-semibold text-gray-800 text-sm whitespace-nowrap hidden md:flex items-center gap-2 ml-2">
+                            <Image
+                                alt="sort-icon"
+                                src={"/images/sort-icon.svg"}
+                                width={24}
+                                height={24}
+                            />
+                            مرتب‌سازی بر اساس
+                        </span>
+                        {/* <SortBar /> */}
+                        <Tabs tabs={tabsList} active={activeTab} onChange={setActiveTab} />
+                    </div>
                 </div>
 
                 {/* --- Main Layout Grid --- */}
