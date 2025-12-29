@@ -17,7 +17,7 @@ export default function VisaDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative">
 
           {/* ستون اصلی (راست) - محتوای متنی و جداول */}
-          <main className="lg:col-span-9 order-2 lg:order-1">
+          <main className="lg:col-span-12 order-2 lg:order-1">
 
             {/* متن توضیحات اولیه (با قابلیت Read More) */}
             <div className="mb-8">
@@ -42,11 +42,6 @@ export default function VisaDetailPage() {
             </div>
 
           </main>
-
-          {/* ستون کناری (چپ) - سایدبار چسبنده */}
-          <aside className="lg:col-span-3 order-1 lg:order-2 w-full h-full">
-            <VisaStickySidebar />
-          </aside>
 
         </div>
       </div>
