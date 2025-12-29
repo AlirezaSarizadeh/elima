@@ -107,7 +107,7 @@ export default function HotelSearchForm() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-3 relative items-start md:items-end w-full">
 
                     {/* ۱. مقصد یا هتل */}
-                    <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative z-20">
+                    <div className="col-span-1 md:col-span-4 lg:col-span-3 w-full relative ">
                         <Autocomplete
                             value={destination}
                             onChange={(e, val) => setDestination(val)}

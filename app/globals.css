@@ -492,3 +492,7 @@ body {
   animation-fill-mode: forwards;
   /* بعد از انیمیشن در حالت نهایی بمونه */
 }
+
+.rmdp-ep-arrow + div {
+  z-index: 9999999;
+}
