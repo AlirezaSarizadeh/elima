@@ -8,7 +8,13 @@ import Image from "next/image";
 export default function VisaDetailPage() {
   return (
     <div className="min-h-screen bg-white py-8 pt-0" dir="rtl">
-      <Image src={'/images/emirates-header.webp'} width={1440} height={480} alt="emirates" className="w-full" />
+      <Image
+        src="/images/visa-license-header.png"
+        width={1440}
+        height={480}
+        alt="گواهینامه بین‌المللی"
+        className="w-full h-auto  md:h-[680px] object-cover"
+      />
       <div className="container mx-auto px-0 max-w-7xl px-4 -top-10 relative">
 
         {/* هدر بالای صفحه */}

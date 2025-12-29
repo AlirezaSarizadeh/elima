@@ -13,6 +13,7 @@ import "swiper/css/navigation";
 import "swiper/css/grid";
 import "./global.css";
 import Title from "../../../components/ui/Title/Title";
+import LicenseCard from "./LicenseCard";
 
 // 🔵 داده‌های نمونه برای پکیج‌های گواهینامه بین‌المللی
 const fakeData: Record<
@@ -202,7 +203,7 @@ const LicenseSection = () => {
           >
             {displayItems.map((item, index) => (
               <SwiperSlide className="mt-5 h-auto" key={index}>
-                <VisaCard
+                <LicenseCard
                   title={item.title}
                   price={item.price}
                   image={item.image}

@@ -15,7 +15,7 @@ interface VisaCardProps {
   visaType?: string;
 }
 
-const VisaCard = ({
+const LicenseCard = ({
   title,
   price,
   image,
@@ -68,7 +68,7 @@ const VisaCard = ({
         </div>
 
         {/* دکمه پایین */}
-        <Link href={"/visa/apply"} className="block w-full">
+        <Link href={"/license/apply"} className="block w-full">
           <Button
             variant="contained"
             className="w-full"
@@ -87,4 +87,4 @@ const VisaCard = ({
   );
 };
 
-export default VisaCard;
+export default LicenseCard;
