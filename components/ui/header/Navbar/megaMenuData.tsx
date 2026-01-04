@@ -51,6 +51,8 @@ export const menuData: MenuItem[] = [
     label: 'بیشتر',
     items: [
       { label: 'مجله الیماگشت', href: '/blog' },
+      { label: 'تماس با ما', href: '/contact' },
+      { label: 'درباره ما', href: '/about' },
     ],
   },
 

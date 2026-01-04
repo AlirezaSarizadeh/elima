@@ -69,6 +69,11 @@ export default function PassengerDropdown() {
             label="کلاس پرواز"
             value={flightClass}
             onChange={(e) => setFlightClass(e.target.value)}
+            SelectProps={{
+              MenuProps: {
+                disableScrollLock: true, // This prevents the body scroll lock
+              },
+            }}
             InputProps={{
               style: {
                 borderRadius: '10px 0 0 10px'
