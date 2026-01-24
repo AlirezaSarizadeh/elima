@@ -10,7 +10,8 @@ import {
     StarRounded,
     TimerOutlined,
     LuggageOutlined,
-    DirectionsBus
+    DirectionsBus,
+    ShortcutOutlined
 } from "@mui/icons-material";
 import { Button } from "@mui/material";
 
@@ -97,10 +98,10 @@ export default function FlightsPage({ params, searchParams }: any) {
                                         <div className="hidden md:block absolute right-[5.2rem] top-8 bottom-8 border-r-2 border-dashed border-gray-100"></div>
 
                                         <FlightLeg data={flight.outbound} type="رفت" />
-                                        
+
                                         {/* خط جداکننده افقی در موبایل */}
                                         <div className="md:hidden border-t border-gray-100 w-full"></div>
-                                        
+
                                         <FlightLeg data={flight.inbound} type="برگشت" />
                                     </div>
                                 </div>
@@ -151,6 +152,16 @@ export default function FlightsPage({ params, searchParams }: any) {
                                 </div>
                             </div>
                         ))}
+                        {/* Back Button */}
+                        <div className="mt-8 flex justify-end">
+                            <Link
+                                href={`window.history.back()`}
+                                className="text-gray-600 hover:text-black border border-gray-300 px-4 py-2.5 rounded-lg text-sm flex items-center justify-between gap-2 transition-colors bg-white hover:bg-gray-50"
+                            >
+                                مرحله قبل (لیست تورها)
+                                <ShortcutOutlined fontSize="small" className="rotate-180" /> {/* آیکون رو برعکس کردم برای RTL */}
+                            </Link>
+                        </div>
                     </main>
                 </div>
             </div>
