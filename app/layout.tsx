@@ -4,6 +4,7 @@ import { yekanBakh } from './fonts/yekanbakh'
 import { Navbar } from '../components/ui/header/Navbar/Navbar'
 import Footer from '../components/ui/footer/Footer'
 import MuiRtlProvider from '../theme/RtlProvider'
+import AuthBootstrap from '../components/ui/header/Navbar/AuthBootstrap'
 
 export const metadata = {
   title: 'الیماگشت پاسارگاد',
@@ -15,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="font-yekan text-right bg-white" style={{overflow:'clip'}}>
         <MuiRtlProvider>
           <Navbar />
-          {children}
+          <AuthBootstrap>{children}</AuthBootstrap>
           <Footer />
         </MuiRtlProvider>
       </body>
