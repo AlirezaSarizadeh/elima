@@ -30,7 +30,7 @@ export async function POST(req: Request) {
     const userObj = Array.isArray(data) ? data?.[0] : data
     const token = userObj?.token
     if (!token) {
-      return NextResponse.json({ message: 'توکن در پاسخ سرور وجود ندارد' }, { status: 500 })
+      return NextResponse.json({ message: 'نام کاربری یا رمزعبور اشتباه است' }, { status: 500 })
     }
 
     const user: UserShape = {

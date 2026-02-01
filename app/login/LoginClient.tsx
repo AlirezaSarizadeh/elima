@@ -261,7 +261,7 @@ export default function LoginClient({ redirectTo }: { redirectTo: string }) {
 
             <Box sx={{ position: 'relative' }}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                <Image src="/images/logo.png" alt="logo" width={170} height={46} />
+                <Image src="/images/logo-LIGHT.png" alt="logo" width={170} height={46} />
                 <Chip
                   size="small"
                   label="ورود امن"
@@ -476,13 +476,6 @@ export default function LoginClient({ redirectTo }: { redirectTo: string }) {
                 />
               )}
             </Stack>
-
-            <Typography
-              variant="caption"
-              sx={{ display: 'block', color: brandColors.textSecondary, mt: 1.6, textAlign: 'center' }}
-            >
-              مثال شماره: 0912xxxxxxx
-            </Typography>
 
             <Button
               fullWidth

@@ -302,7 +302,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
           </IconButton>
 
           {/* Mode Switch */}
-          <Stack direction="row" spacing={1} sx={{ mt: 1.5 }}>
+          <Stack direction="row" sx={{ mt: 1.5, gap: 1 }}>
             <Button
               size="small"
               variant={mode === 'login' ? 'contained' : 'outlined'}
@@ -359,7 +359,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
         >
           <DialogContent sx={{ px: 4, py: 3.5 }}>
             {formError && (
-              <Alert severity="error" sx={{ mb: 2, borderRadius: 3 }}>
+              <Alert severity="error" dir='rtl' sx={{ mb: 2, borderRadius: 3 }}>
                 {formError}
               </Alert>
             )}
@@ -368,6 +368,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
               <Stack spacing={1.6}>
                 {mode === 'register' && (
                   <TextField
+                    dir='rtl'
                     fullWidth
                     placeholder="نام و نام خانوادگی"
                     value={fullName}
@@ -427,6 +428,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
 
                 <TextField
                   fullWidth
+                  dir='rtl'
                   placeholder="رمز عبور"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -444,11 +446,6 @@ export const AuthDialog = ({ open, onClose }: Props) => {
                   error={Boolean(fieldErrors.password)}
                   helperText={fieldErrors.password}
                   InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <LockIcon sx={{ color: brandColors.textSecondary }} />
-                      </InputAdornment>
-                    ),
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton onClick={() => setShowPassword((p) => !p)} edge="end" tabIndex={-1}>
@@ -462,6 +459,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
 
                 {mode === 'register' && (
                   <TextField
+                    dir='rtl'
                     fullWidth
                     placeholder="تکرار رمز عبور"
                     type={showPasswordConfirm ? 'text' : 'password'}
@@ -480,11 +478,6 @@ export const AuthDialog = ({ open, onClose }: Props) => {
                     error={Boolean(fieldErrors.passwordConfirm)}
                     helperText={fieldErrors.passwordConfirm}
                     InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <LockIcon sx={{ color: brandColors.textSecondary }} />
-                        </InputAdornment>
-                      ),
                       endAdornment: (
                         <InputAdornment position="end">
                           <IconButton
@@ -502,18 +495,6 @@ export const AuthDialog = ({ open, onClose }: Props) => {
                 )}
               </Stack>
             </Fade>
-
-            <Typography
-              variant="caption"
-              sx={{
-                display: 'block',
-                color: brandColors.textSecondary,
-                mt: 1.8,
-                textAlign: 'center',
-              }}
-            >
-              مثال شماره: 0912xxxxxxx
-            </Typography>
           </DialogContent>
 
           <DialogActions sx={{ px: 4, pb: 4, pt: 0, flexDirection: 'column', gap: 1 }}>

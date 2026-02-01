@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -75,9 +75,15 @@ export const Navbar = () => {
   const loading = useAuthStore((s) => s.loading)
   const logout = useAuthStore((s) => s.logout)
 
+  // ✅ فقط وقتی user نداریم لودینگ نشون بده
+  const showLoading = loading && !user
+
   // Dropdown
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const dropdownOpen = Boolean(anchorEl)
+
+  // ✅ برای blur فوکوس (رفع “شدو/هایلایت دور دکمه” بعد از بستن منو)
+  const accountBtnRef = useRef<HTMLButtonElement | null>(null)
 
   const handleDrawerToggle = () => setMobileOpen((p) => !p)
 
@@ -88,7 +94,13 @@ export const Navbar = () => {
     setAnchorEl(e.currentTarget)
   }
 
-  const handleCloseDropdown = () => setAnchorEl(null)
+  const handleCloseDropdown = () => {
+    setAnchorEl(null)
+    // ✅ یک فریم بعد blur تا focus/outline باقی نمونه
+    requestAnimationFrame(() => {
+      accountBtnRef.current?.blur()
+    })
+  }
 
   const handleLogout = async () => {
     handleCloseDropdown()
@@ -107,6 +119,25 @@ export const Navbar = () => {
   useEffect(() => {
     if (!user) setAnchorEl(null)
   }, [user])
+
+  // ✅ اگر user آمد (بعد از login/register) دیالوگ بسته شود
+  useEffect(() => {
+    if (user) setAuthOpen(false)
+  }, [user])
+
+  // ✅ props مشترک برای خاموش کردن ripple روی دکمه‌ها
+  const noRippleBtnProps = {
+    disableRipple: true,
+    disableFocusRipple: true,
+    disableTouchRipple: true,
+  } as const
+
+  // ✅ یک استایل مشترک برای حذف focus outline/shadow
+  const noFocusRingSx = {
+    '&.Mui-focusVisible': { outline: 'none', boxShadow: 'none' },
+    '&:focus': { outline: 'none' },
+    '&:focus-visible': { outline: 'none', boxShadow: 'none' },
+  } as const
 
   return (
     <>
@@ -142,6 +173,7 @@ export const Navbar = () => {
           {/* --- left: buttons --- */}
           <div className="md:flex items-center gap-3 hidden">
             <Button
+              {...noRippleBtnProps}
               href="tel:+982145123456"
               startIcon={<PhoneCallback className="ml-1" />}
               variant="outlined"
@@ -153,14 +185,17 @@ export const Navbar = () => {
                 fontFamily: 'inherit',
                 fontWeight: 'bold',
                 direction: 'ltr',
+                ...noFocusRingSx,
               }}
             >
               021-45123456
             </Button>
 
-            {/* ✅ حالت loading: دکمه اکانت با Skeleton */}
-            {loading ? (
+            {/* ✅ حالت loading فقط وقتی user نداریم */}
+            {showLoading ? (
               <Button
+                ref={accountBtnRef}
+                {...noRippleBtnProps}
                 onClick={handleOpenDropdown}
                 variant="contained"
                 startIcon={<AccountCircle className="ml-1" />}
@@ -170,6 +205,7 @@ export const Navbar = () => {
                   fontFamily: 'inherit',
                   fontWeight: 'bold',
                   boxShadow: 'none',
+                  ...noFocusRingSx,
                 }}
               >
                 <Skeleton variant="text" width={90} sx={{ bgcolor: 'rgba(255,255,255,0.35)' }} />
@@ -177,6 +213,7 @@ export const Navbar = () => {
             ) : !user ? (
               // ✅ لاگین نیست
               <Button
+                {...noRippleBtnProps}
                 startIcon={<Login className="ml-1" />}
                 variant="contained"
                 onClick={() => setAuthOpen(true)}
@@ -187,6 +224,7 @@ export const Navbar = () => {
                   fontWeight: 'bold',
                   boxShadow: 'none',
                   '&:hover': { boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)' },
+                  ...noFocusRingSx,
                 }}
               >
                 <span className="hidden sm:inline">ورود / ثبت نام</span>
@@ -195,6 +233,8 @@ export const Navbar = () => {
             ) : (
               // ✅ لاگین هست
               <Button
+                ref={accountBtnRef}
+                {...noRippleBtnProps}
                 onClick={handleOpenDropdown}
                 variant="contained"
                 startIcon={<AccountCircle className="ml-1" />}
@@ -205,6 +245,7 @@ export const Navbar = () => {
                   fontWeight: 'bold',
                   boxShadow: 'none',
                   '&:hover': { boxShadow: '0 4px 12px rgba(37, 99, 235, 0.2)' },
+                  ...noFocusRingSx,
                 }}
               >
                 <span style={{ direction: 'ltr' }}>{userPhone}</span>
@@ -227,22 +268,24 @@ export const Navbar = () => {
                 },
               }}
             >
-              {loading ? (
+              {showLoading ? (
                 <UserMenuLoading />
               ) : user ? (
-                <>
-                  <Box sx={{ px: 2, py: 1.5, bgcolor: 'grey.50' }}>
+                [
+                  <Box key="hdr" sx={{ px: 2, py: 1.5, bgcolor: 'grey.50' }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 900 }}>
                       {userName}
                     </Typography>
                     <Typography variant="caption" sx={{ color: 'text.secondary', direction: 'ltr' }}>
                       {userPhone}
                     </Typography>
-                  </Box>
+                  </Box>,
 
-                  <Divider />
+                  <Divider key="d1" />,
 
                   <MenuItem
+                    key="wallet"
+                    disableRipple
                     onClick={() => {
                       handleCloseDropdown()
                       // router.push('/wallet')
@@ -256,9 +299,11 @@ export const Navbar = () => {
                       secondary="موجودی: — تومان"
                       primaryTypographyProps={{ fontWeight: 800 }}
                     />
-                  </MenuItem>
+                  </MenuItem>,
 
                   <MenuItem
+                    key="topup"
+                    disableRipple
                     onClick={() => {
                       handleCloseDropdown()
                       // router.push('/wallet/topup')
@@ -268,11 +313,13 @@ export const Navbar = () => {
                       <AddCircleOutline fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="افزایش موجودی" primaryTypographyProps={{ fontWeight: 800 }} />
-                  </MenuItem>
+                  </MenuItem>,
 
-                  <Divider />
+                  <Divider key="d2" />,
 
                   <MenuItem
+                    key="account"
+                    disableRipple
                     onClick={() => {
                       handleCloseDropdown()
                       // router.push('/account')
@@ -282,27 +329,29 @@ export const Navbar = () => {
                       <AccountCircle fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="اطلاعات حساب کاربری" primaryTypographyProps={{ fontWeight: 800 }} />
-                  </MenuItem>
+                  </MenuItem>,
 
-                  <MenuItem onClick={handleLogout}>
+                  <MenuItem key="logout" disableRipple onClick={handleLogout}>
                     <ListItemIcon>
                       <Logout fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary="خروج" primaryTypographyProps={{ fontWeight: 800 }} />
-                  </MenuItem>
-                </>
+                  </MenuItem>,
+                ]
               ) : (
                 <Box sx={{ p: 2, minWidth: 260 }}>
                   <Typography variant="body2" sx={{ fontWeight: 800, mb: 1 }}>
                     وارد حساب نشده‌اید
                   </Typography>
                   <Button
+                    {...noRippleBtnProps}
                     fullWidth
                     variant="contained"
                     onClick={() => {
                       handleCloseDropdown()
                       setAuthOpen(true)
                     }}
+                    sx={{ ...noFocusRingSx }}
                   >
                     ورود / ثبت نام
                   </Button>
@@ -348,28 +397,31 @@ export const Navbar = () => {
 
         <div className="p-4 border-t border-gray-100 bg-gray-50 md:hidden">
           <Button
+            {...noRippleBtnProps}
             fullWidth
             href="tel:+982145123456"
             variant="outlined"
             startIcon={<PhoneCallback />}
             className=" !bg-white"
-            sx={{ borderRadius: '10px', height: '48px', marginBottom: '10px' }}
+            sx={{ borderRadius: '10px', height: '48px', marginBottom: '10px', ...noFocusRingSx }}
           >
             021-45123456
           </Button>
 
-          {loading ? (
+          {showLoading ? (
             <Button
+              {...noRippleBtnProps}
               fullWidth
               variant="contained"
               startIcon={<AccountCircle />}
               disabled
-              sx={{ borderRadius: '10px', height: '48px', fontFamily: 'inherit' }}
+              sx={{ borderRadius: '10px', height: '48px', fontFamily: 'inherit', ...noFocusRingSx }}
             >
               در حال بارگذاری...
             </Button>
           ) : !user ? (
             <Button
+              {...noRippleBtnProps}
               fullWidth
               variant="contained"
               onClick={() => {
@@ -377,12 +429,13 @@ export const Navbar = () => {
                 setAuthOpen(true)
               }}
               startIcon={<Login />}
-              sx={{ borderRadius: '10px', height: '48px', fontFamily: 'inherit' }}
+              sx={{ borderRadius: '10px', height: '48px', fontFamily: 'inherit', ...noFocusRingSx }}
             >
               ورود یا ثبت نام
             </Button>
           ) : (
             <Button
+              {...noRippleBtnProps}
               fullWidth
               variant="contained"
               onClick={async () => {
@@ -394,7 +447,7 @@ export const Navbar = () => {
                 setMobileOpen(false)
               }}
               startIcon={<Logout />}
-              sx={{ borderRadius: '10px', height: '48px', fontFamily: 'inherit' }}
+              sx={{ borderRadius: '10px', height: '48px', fontFamily: 'inherit', ...noFocusRingSx }}
             >
               خروج از حساب
             </Button>
