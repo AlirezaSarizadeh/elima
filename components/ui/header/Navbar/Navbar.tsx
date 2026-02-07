@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -8,8 +8,6 @@ import {
   Button,
   Drawer,
   IconButton,
-  Menu,
-  MenuItem,
   Divider,
   ListItemIcon,
   ListItemText,
@@ -18,6 +16,7 @@ import {
   Skeleton,
   CircularProgress,
   useMediaQuery,
+  MenuItem,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import {
@@ -40,7 +39,6 @@ import { menuData } from './megaMenuData'
 // Auth store
 import { useAuthStore } from '../../../../lib/authStore.ts'
 
-// ✅ همان مسیرهای خصوصی‌ای که در middleware گذاشتی
 const PRIVATE_ROUTES = ['/account', '/dashboard', '/profile', '/wallet']
 
 const UserMenuLoading = () => (
@@ -80,95 +78,70 @@ export const Navbar = () => {
   const loading = useAuthStore((s) => s.loading)
   const logout = useAuthStore((s) => s.logout)
 
-  // ✅ فقط وقتی user نداریم لودینگ نشون بده
   const showLoading = loading && !user
 
-  // Desktop dropdown
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
-  const dropdownOpen = Boolean(anchorEl)
+  // ✅ Account sheet برای همه‌ی حالت‌ها (دسکتاپ هم مثل موبایل از پایین باز میشه)
+  const [accountSheetOpen, setAccountSheetOpen] = useState(false)
 
-  // Mobile bottom sheet (account)
-  const [mobileAccountOpen, setMobileAccountOpen] = useState(false)
-
-  // ✅ برای blur فوکوس (رفع “شدو/هایلایت دور دکمه” بعد از بستن منو)
-  const accountBtnRef = useRef<HTMLButtonElement | null>(null)
+  const mobileAccountBtnRef = useRef<HTMLButtonElement | null>(null)
 
   const handleDrawerToggle = () => setMobileOpen((p) => !p)
 
   const userPhone = useMemo(() => user?.mobile_number || 'حساب کاربری', [user])
   const userName = useMemo(() => user?.name || 'کاربر', [user])
 
-  const handleOpenDropdown = (e: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(e.currentTarget)
-  }
-
-  const handleCloseDropdown = () => {
-    setAnchorEl(null)
-    requestAnimationFrame(() => {
-      accountBtnRef.current?.blur()
-    })
-  }
-
-  const handleOpenAccount = (e?: React.MouseEvent<HTMLElement>) => {
-    // ✅ در موبایل: bottom sheet
-    if (isMobile) {
-      setMobileAccountOpen(true)
-      return
-    }
-    // ✅ در دسکتاپ: dropdown
-    if (e) handleOpenDropdown(e)
-  }
-
-  const handleCloseMobileAccount = () => {
-    setMobileAccountOpen(false)
-    requestAnimationFrame(() => {
-      accountBtnRef.current?.blur()
-    })
-  }
-
-  const handleLogout = async () => {
-    // هر دو حالت رو ببند
-    handleCloseDropdown()
-    handleCloseMobileAccount()
-
-    await logout()
-
-    const isPrivate = PRIVATE_ROUTES.some(
-      (route) => pathname === route || pathname.startsWith(`${route}/`)
-    )
-    if (isPrivate) {
-      router.replace('/')
-    }
-  }
-
-  // ✅ اگر user null شد (logout یا session از دست رفت) منو بسته شود
-  useEffect(() => {
-    if (!user) {
-      setAnchorEl(null)
-      setMobileAccountOpen(false)
-    }
-  }, [user])
-
-  // ✅ اگر user آمد (بعد از login/register) دیالوگ بسته شود
-  useEffect(() => {
-    if (user) setAuthOpen(false)
-  }, [user])
-
-  // ✅ props مشترک برای خاموش کردن ripple روی دکمه‌ها
   const noRippleBtnProps = {
     disableRipple: true,
     disableFocusRipple: true,
     disableTouchRipple: true,
   } as const
 
-  // ✅ یک استایل مشترک برای حذف focus outline/shadow
   const noFocusRingSx = {
     '&.Mui-focusVisible': { outline: 'none', boxShadow: 'none' },
     '&:focus': { outline: 'none' },
     '&:focus-visible': { outline: 'none', boxShadow: 'none' },
   } as const
 
-  const AccountButton = ({ variant }: { variant: 'mobile' | 'desktop' }) => {
+  const closeAccountSheet = () => {
+    setAccountSheetOpen(false)
+    requestAnimationFrame(() => {
+      mobileAccountBtnRef.current?.blur()
+    })
+  }
+
+  const handleOpenAccount = () => {
+    if (!user && !showLoading) return
+    setAccountSheetOpen(true)
+  }
+
+  const handleLogout = async () => {
+    closeAccountSheet()
+
+    await logout()
+
+    const isPrivate = PRIVATE_ROUTES.some(
+      (route) => pathname === route || pathname.startsWith(`${route}/`)
+    )
+    if (isPrivate) router.replace('/')
+  }
+
+  // ✅ اگر user null شد، شیت بسته شود
+  useEffect(() => {
+    if (!user) setAccountSheetOpen(false)
+  }, [user])
+
+  // ✅ اگر user آمد، دیالوگ auth بسته شود
+  useEffect(() => {
+    if (user) setAuthOpen(false)
+  }, [user])
+
+  const AccountButton = ({
+    variant,
+    buttonRef,
+  }: {
+    variant: 'mobile' | 'desktop'
+    buttonRef: React.RefObject<HTMLButtonElement | null>
+  }) => {
     const commonSx = {
       borderRadius: '12px',
       fontFamily: 'inherit',
@@ -177,7 +150,6 @@ export const Navbar = () => {
       ...noFocusRingSx,
     }
 
-    // ✅ سایز مخصوص موبایل برای UX بهتر (کوچک‌تر + حداقل ارتفاع لمس)
     const mobileSx = {
       padding: '8px 10px',
       minWidth: 118,
@@ -189,9 +161,9 @@ export const Navbar = () => {
     if (showLoading) {
       return (
         <Button
-          ref={accountBtnRef}
+          ref={buttonRef}
           {...noRippleBtnProps}
-          onClick={(e) => handleOpenAccount(e)}
+          onClick={handleOpenAccount}
           variant="contained"
           startIcon={<AccountCircle className="ml-1" />}
           sx={{
@@ -211,10 +183,14 @@ export const Navbar = () => {
     if (!user) {
       return (
         <Button
+          ref={buttonRef}
           {...noRippleBtnProps}
           startIcon={<Login className="ml-1" />}
           variant="contained"
-          onClick={() => setAuthOpen(true)}
+          onClick={(e) => {
+            e.stopPropagation()
+            setAuthOpen(true)
+          }}
           sx={{
             ...commonSx,
             ...(variant === 'mobile' ? mobileSx : { padding: '8px 16px', height: 42 }),
@@ -229,9 +205,9 @@ export const Navbar = () => {
 
     return (
       <Button
-        ref={accountBtnRef}
+        ref={buttonRef}
         {...noRippleBtnProps}
-        onClick={(e) => handleOpenAccount(e)}
+        onClick={handleOpenAccount}
         variant="contained"
         startIcon={<AccountCircle className="ml-1" />}
         sx={{
@@ -241,14 +217,14 @@ export const Navbar = () => {
           whiteSpace: 'nowrap',
         }}
       >
-        <span style={{ direction: 'ltr' }}>{variant === 'mobile' ? 'حساب کاربری' : userPhone}</span>
+        <span style={{ direction: 'ltr' }}>
+          {variant === 'mobile' ? 'حساب کاربری' : userPhone}
+        </span>
       </Button>
     )
   }
 
-  const AccountMenuContent = ({ mode }: { mode: 'desktop' | 'mobile' }) => {
-    const onClose = mode === 'desktop' ? handleCloseDropdown : handleCloseMobileAccount
-
+  const AccountMenuContent = () => {
     if (showLoading) return <UserMenuLoading />
 
     if (!user) {
@@ -262,7 +238,7 @@ export const Navbar = () => {
             fullWidth
             variant="contained"
             onClick={() => {
-              onClose()
+              closeAccountSheet()
               setAuthOpen(true)
             }}
             sx={{ ...noFocusRingSx }}
@@ -286,13 +262,7 @@ export const Navbar = () => {
 
         <Divider />
 
-        <MenuItem
-          disableRipple
-          onClick={() => {
-            onClose()
-            // router.push('/wallet')
-          }}
-        >
+        <MenuItem disableRipple onClick={() => closeAccountSheet()}>
           <ListItemIcon>
             <AccountBalanceWallet fontSize="small" />
           </ListItemIcon>
@@ -303,13 +273,7 @@ export const Navbar = () => {
           />
         </MenuItem>
 
-        <MenuItem
-          disableRipple
-          onClick={() => {
-            onClose()
-            // router.push('/wallet/topup')
-          }}
-        >
+        <MenuItem disableRipple onClick={() => closeAccountSheet()}>
           <ListItemIcon>
             <AddCircleOutline fontSize="small" />
           </ListItemIcon>
@@ -318,13 +282,7 @@ export const Navbar = () => {
 
         <Divider />
 
-        <MenuItem
-          disableRipple
-          onClick={() => {
-            onClose()
-            // router.push('/account')
-          }}
-        >
+        <MenuItem disableRipple onClick={() => closeAccountSheet()}>
           <ListItemIcon>
             <AccountCircle fontSize="small" />
           </ListItemIcon>
@@ -341,20 +299,49 @@ export const Navbar = () => {
     )
   }
 
+  // ✅ fixed header + spacer
+  const headerRef = useRef<HTMLElement | null>(null)
+  const [headerH, setHeaderH] = useState(0)
+
+  useEffect(() => {
+    const el = headerRef.current
+    if (!el) return
+
+    const update = () => setHeaderH(el.getBoundingClientRect().height)
+    update()
+
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(update) : null
+    ro?.observe(el)
+
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('resize', update)
+      ro?.disconnect()
+    }
+  }, [])
+
   return (
     <>
-      <header className="w-full bg-white sticky top-0 z-50 shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl px-4 mx-auto flex items-center justify-between py-3 md:py-4 md:gap-5" dir="rtl">
-          {/* --- right: burger + logo --- */}
+      <header
+        ref={headerRef}
+        className="w-full bg-white fixed top-0 left-0 right-0 z-50 shadow-sm border-b border-gray-100"
+      >
+        <div
+          className="max-w-7xl px-4 mx-auto flex items-center justify-between py-3 md:py-4 md:gap-5"
+          dir="rtl"
+        >
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="lg:hidden">
-              <IconButton onClick={handleDrawerToggle} className="bg-gray-50 text-gray-700" sx={{ ...noFocusRingSx }}>
+              <IconButton
+                onClick={handleDrawerToggle}
+                className="bg-gray-50 text-gray-700"
+                sx={{ ...noFocusRingSx }}
+              >
                 <MenuIcon />
               </IconButton>
             </div>
 
             <Link href="/" className="flex items-center">
-              {/* ✅ لوگو تو موبایل جمع‌تر تا هدر شلوغ نشه */}
               <Image
                 src="/images/logo.png"
                 alt="logo"
@@ -366,7 +353,6 @@ export const Navbar = () => {
             </Link>
           </div>
 
-          {/* --- center: desktop menu --- */}
           <nav className="hidden lg:flex gap-1 items-center h-full me-auto">
             {menuData.map((menu) => (
               <MegaMenu
@@ -380,65 +366,46 @@ export const Navbar = () => {
             ))}
           </nav>
 
-          {/* --- left: actions (Desktop) --- */}
-          <div className="hidden md:flex items-center gap-3">
-            <Button
-              {...noRippleBtnProps}
-              href="tel:+982145123456"
-              startIcon={<PhoneCallback className="ml-1" />}
-              variant="outlined"
-              color="primary"
-              className="hidden sm:flex"
-              sx={{
-                borderRadius: '12px',
-                padding: '8px 16px',
-                height: 42,
-                fontFamily: 'inherit',
-                fontWeight: 'bold',
-                direction: 'ltr',
-                ...noFocusRingSx,
-              }}
-            >
-              021-45123456
-            </Button>
+          {/* Right side */}
+          {!isMobile ? (
+            <div className="flex items-center gap-3">
+              <Button
+                {...noRippleBtnProps}
+                href="tel:+982145123456"
+                startIcon={<PhoneCallback className="ml-1" />}
+                variant="outlined"
+                color="primary"
+                className="hidden sm:flex"
+                sx={{
+                  borderRadius: '12px',
+                  padding: '8px 16px',
+                  height: 42,
+                  fontFamily: 'inherit',
+                  fontWeight: 'bold',
+                  direction: 'ltr',
+                  ...noFocusRingSx,
+                }}
+              >
+                021-45123456
+              </Button>
 
-            {/* ✅ دکمه ورود/حساب در دسکتاپ */}
-            <Box onClick={(e) => !isMobile && handleOpenAccount(e as any)}>
-              <AccountButton variant="desktop" />
-            </Box>
-
-            {/* ✅ Dropdown Menu (Desktop only) */}
-            <Menu
-              anchorEl={anchorEl}
-              open={!isMobile && dropdownOpen}
-              onClose={handleCloseDropdown}
-              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-              PaperProps={{
-                sx: {
-                  mt: 1,
-                  borderRadius: 3,
-                  minWidth: 260,
-                  overflow: 'hidden',
-                },
-              }}
-            >
-              <AccountMenuContent mode="desktop" />
-            </Menu>
-          </div>
-
-          {/* --- left: actions (Mobile) ✅ ورود/ثبت‌نام داخل هدر --- */}
-          <div className="flex md:hidden items-center gap-2">
-            <AccountButton variant="mobile" />
-          </div>
+              <AccountButton variant="desktop" buttonRef={mobileAccountBtnRef} />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <AccountButton variant="mobile" buttonRef={mobileAccountBtnRef} />
+            </div>
+          )}
         </div>
       </header>
 
-      {/* --- Mobile Account Bottom Sheet ✅ دراپ‌داون از پایین --- */}
+      <div style={{ height: headerH }} />
+
+      {/* --- Account Bottom Sheet (Desktop + Mobile) --- */}
       <Drawer
         anchor="bottom"
-        open={mobileAccountOpen}
-        onClose={handleCloseMobileAccount}
+        open={accountSheetOpen}
+        onClose={closeAccountSheet}
         PaperProps={{
           sx: {
             borderTopLeftRadius: 18,
@@ -453,13 +420,13 @@ export const Navbar = () => {
         <Box dir="rtl">
           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', p: 2 }}>
             <Typography sx={{ fontWeight: 900 }}>حساب کاربری</Typography>
-            <IconButton onClick={handleCloseMobileAccount} className="bg-gray-50" sx={{ ...noFocusRingSx }}>
+            <IconButton onClick={closeAccountSheet} className="bg-gray-50" sx={{ ...noFocusRingSx }}>
               <CloseIcon />
             </IconButton>
           </Box>
           <Divider />
           <Box sx={{ pb: 1 }}>
-            <AccountMenuContent mode="mobile" />
+            <AccountMenuContent />
           </Box>
         </Box>
       </Drawer>
@@ -497,8 +464,6 @@ export const Navbar = () => {
           </div>
         </div>
 
-        {/* ✅ طبق درخواست: دکمه ورود/ثبت‌نام از Drawer حذف شد */}
-        {/* ✅ فقط تماس (و در صورت لاگین، خروج سریع) */}
         <div className="p-4 border-t border-gray-100 bg-gray-50 md:hidden">
           <Button
             {...noRippleBtnProps}

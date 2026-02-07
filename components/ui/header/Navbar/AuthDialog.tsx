@@ -90,11 +90,51 @@ export const AuthDialog = ({ open, onClose }: Props) => {
 
   const fetchMe = useAuthStore((s) => s.fetchMe)
 
-  // ✅ refs برای فوکوس بهتر + اینتر
   const fullNameRef = useRef<HTMLInputElement>(null)
   const phoneRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
   const passwordConfirmRef = useRef<HTMLInputElement>(null)
+
+  // ✅ قفل قطعی اسکرول پس‌زمینه وقتی دیالوگ باز است
+  useEffect(() => {
+    if (!open) return
+
+    const scrollY = window.scrollY || window.pageYOffset
+    const html = document.documentElement
+    const body = document.body
+
+    const prevHtmlOverflow = html.style.overflow
+    const prevHtmlOverscroll = html.style.overscrollBehavior
+    const prevBodyPosition = body.style.position
+    const prevBodyTop = body.style.top
+    const prevBodyWidth = body.style.width
+    const prevBodyOverflow = body.style.overflow
+    const prevBodyPaddingRight = body.style.paddingRight
+
+    const scrollBarWidth = window.innerWidth - html.clientWidth
+    if (scrollBarWidth > 0) body.style.paddingRight = `${scrollBarWidth}px`
+
+    html.style.overflow = 'hidden'
+    html.style.overscrollBehavior = 'none'
+
+    body.style.overflow = 'hidden'
+    body.style.position = 'fixed'
+    body.style.top = `-${scrollY}px`
+    body.style.width = '100%'
+
+    return () => {
+      html.style.overflow = prevHtmlOverflow
+      html.style.overscrollBehavior = prevHtmlOverscroll
+
+      body.style.position = prevBodyPosition
+      body.style.top = prevBodyTop
+      body.style.width = prevBodyWidth
+      body.style.overflow = prevBodyOverflow
+      body.style.paddingRight = prevBodyPaddingRight
+
+      window.scrollTo(0, scrollY)
+    }
+  }, [open])
 
   const resetState = () => {
     setMode('login')
@@ -119,15 +159,11 @@ export const AuthDialog = ({ open, onClose }: Props) => {
     if (!open) resetState()
   }, [open])
 
-  // ✅ وقتی دیالوگ باز شد/حالت عوض شد، فوکوس منطقی بده
   useEffect(() => {
     if (!open) return
     const id = window.setTimeout(() => {
-      if (mode === 'register') {
-        fullNameRef.current?.focus()
-      } else {
-        phoneRef.current?.focus()
-      }
+      if (mode === 'register') fullNameRef.current?.focus()
+      else phoneRef.current?.focus()
     }, 50)
     return () => window.clearTimeout(id)
   }, [open, mode])
@@ -197,10 +233,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
         })
       }
 
-      // ✅ بعد از ست شدن cookie ها، user را از /api/auth/me لود کن
       await fetchMe()
-
-      // ✅ دیالوگ بسته شود تا Navbar فوراً تغییر کند
       handleClose()
     } catch (err: any) {
       setFormError(err?.message ?? 'خطای نامشخص')
@@ -209,39 +242,19 @@ export const AuthDialog = ({ open, onClose }: Props) => {
     }
   }
 
-  // ✅ هندل اینتر: رفتن به مرحله بعد (فوکوس بعدی) یا submit
   const handleEnter = (field: 'fullName' | 'phone' | 'password' | 'passwordConfirm') => {
     if (isSubmitting) return
 
     if (mode === 'login') {
-      if (field === 'phone') {
-        passwordRef.current?.focus()
-        return
-      }
-      if (field === 'password') {
-        void handleSubmit()
-        return
-      }
+      if (field === 'phone') return passwordRef.current?.focus()
+      if (field === 'password') return void handleSubmit()
       return
     }
 
-    // register
-    if (field === 'fullName') {
-      phoneRef.current?.focus()
-      return
-    }
-    if (field === 'phone') {
-      passwordRef.current?.focus()
-      return
-    }
-    if (field === 'password') {
-      passwordConfirmRef.current?.focus()
-      return
-    }
-    if (field === 'passwordConfirm') {
-      void handleSubmit()
-      return
-    }
+    if (field === 'fullName') return phoneRef.current?.focus()
+    if (field === 'phone') return passwordRef.current?.focus()
+    if (field === 'password') return passwordConfirmRef.current?.focus()
+    if (field === 'passwordConfirm') return void handleSubmit()
   }
 
   const inputSx = {
@@ -270,7 +283,6 @@ export const AuthDialog = ({ open, onClose }: Props) => {
       }}
     >
       <Box sx={{ position: 'relative', direction: 'rtl', p: 0 }}>
-        {/* Header */}
         <Box
           sx={{
             height: 150,
@@ -301,7 +313,6 @@ export const AuthDialog = ({ open, onClose }: Props) => {
             <CloseIcon />
           </IconButton>
 
-          {/* Mode Switch */}
           <Stack direction="row" sx={{ mt: 1.5, gap: 1 }}>
             <Button
               size="small"
@@ -349,7 +360,6 @@ export const AuthDialog = ({ open, onClose }: Props) => {
           </Stack>
         </Box>
 
-        {/* ✅ فرم: با Enter هم submit می‌شود */}
         <Box
           component="form"
           onSubmit={(e) => {
@@ -359,7 +369,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
         >
           <DialogContent sx={{ px: 4, py: 3.5 }}>
             {formError && (
-              <Alert severity="error" dir='rtl' sx={{ mb: 2, borderRadius: 3 }}>
+              <Alert severity="error" dir="rtl" sx={{ mb: 2, borderRadius: 3 }}>
                 {formError}
               </Alert>
             )}
@@ -368,7 +378,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
               <Stack spacing={1.6}>
                 {mode === 'register' && (
                   <TextField
-                    dir='rtl'
+                    dir="rtl"
                     fullWidth
                     placeholder="نام و نام خانوادگی"
                     value={fullName}
@@ -428,7 +438,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
 
                 <TextField
                   fullWidth
-                  dir='rtl'
+                  dir="rtl"
                   placeholder="رمز عبور"
                   type={showPassword ? 'text' : 'password'}
                   value={password}
@@ -459,7 +469,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
 
                 {mode === 'register' && (
                   <TextField
-                    dir='rtl'
+                    dir="rtl"
                     fullWidth
                     placeholder="تکرار رمز عبور"
                     type={showPasswordConfirm ? 'text' : 'password'}
@@ -480,11 +490,7 @@ export const AuthDialog = ({ open, onClose }: Props) => {
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPasswordConfirm((p) => !p)}
-                            edge="end"
-                            tabIndex={-1}
-                          >
+                          <IconButton onClick={() => setShowPasswordConfirm((p) => !p)} edge="end" tabIndex={-1}>
                             {showPasswordConfirm ? <VisibilityOffIcon /> : <VisibilityIcon />}
                           </IconButton>
                         </InputAdornment>
