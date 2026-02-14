@@ -20,6 +20,7 @@ export async function POST(req: Request) {
     })
 
     const data = await r.json().catch(() => ({}))
+    
     if (!r.ok) {
       const msg =
         data?.message ||
@@ -29,7 +30,7 @@ export async function POST(req: Request) {
 
     const token = data[0]?.token
     if (!token) {
-      return NextResponse.json({ message: 'توکن در پاسخ سرور وجود ندارد' }, { status: 500 })
+      return NextResponse.json({ message: 'این شماره قبلا ثبت نام شده است ، لطفا وارد شوید' }, { status: 500 })
     }
 
     // ✅ اینجا مهمه: اگر API name نداد، از full_name استفاده کن
