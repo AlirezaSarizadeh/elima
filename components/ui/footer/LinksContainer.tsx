@@ -1,138 +1,163 @@
+'use client';
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLayout } from "../../../lib/layoutContext";
 
 export default function LinksContainer() {
+  const { menu_footer, social_media, info } = useLayout();
+
+  // پیدا کردن منوهای فوتر بر اساس position
+  const footerOne = menu_footer.find(m => m.position === 'menuFooterOne');
+  const footerTwo = menu_footer.find(m => m.position === 'menuFooterTwo');
+  const footerThree = menu_footer.find(m => m.position === 'menuFooterThree');
+
+  // آیکون شبکه اجتماعی بر اساس عنوان
+  const socialIconMap: Record<string, string> = {
+    'اینستاگرام': '/images/instagram.svg',
+    'تلگرام': '/images/telegram-icon.svg',
+    'واتساپ': '/images/whatsapp.svg',
+    'لینکدین': '/images/linkedin.svg',
+  };
+
   return (
     <footer className="bg-gray-50 md:pt-12 pt-6 pb-6 text-right" dir="rtl">
       <div className="max-w-7xl px-4 mx-auto">
-        
+
         {/* TOP SECTIONS */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-10">
 
-          {/* Column 5 – Logo + Contact */}
+          {/* Column – Logo + Contact (از info API) */}
           <div className="text-gray-700">
             <Link href="/" className="inline-block">
               <img
-                src="/images/logo.png"
+                src={info?.logo_footer || "/images/logo.png"}
                 alt="الیماگشت"
                 className="w-40 mb-4"
               />
             </Link>
 
-            <p className="text-ls mb-2 text-gray-500 font-light">
-              <span className="font-medium">تلفن پشتیبانی:</span>{" "}
-              <a href="tel:021428040101" className="hover:text-blue-600 transition-colors" dir="ltr">
-                021-428040101
-              </a>
-            </p>
+            {info?.phone && (
+              <p className="text-sm mb-2 text-gray-500 font-light">
+                <span className="font-medium">تلفن پشتیبانی:</span>{" "}
+                <a
+                  href={info.phone}
+                  className="hover:text-blue-600 transition-colors"
+                  dir="ltr"
+                >
+                  {info.phone.replace("tel:", "")}
+                </a>
+              </p>
+            )}
 
-            <p className="text-ls mb-2 text-gray-500 font-light leading-7">
-              آدرس دفتر مرکزی:
-              <br />
-              تهران، سعادت‌آباد، خیابان کاج، پلاک 16
-            </p>
+            {info?.address && (
+              <p className="text-sm mb-2 text-gray-500 font-light leading-7">
+                آدرس دفتر مرکزی:
+                <br />
+                {info.address}
+              </p>
+            )}
 
-            <p className="text-ls mb-4 text-gray-500 font-light">
-              <span className="font-medium">آدرس ایمیل:</span>{" "}
-              <a href="mailto:Elimagasht@info.com" className="hover:text-blue-600 transition-colors">
-                Elimagasht@info.com
-              </a>
-            </p>
+            {info?.email && (
+              <p className="text-sm mb-4 text-gray-500 font-light">
+                <span className="font-medium">آدرس ایمیل:</span>{" "}
+                <a
+                  href={`mailto:${info.email}`}
+                  className="hover:text-blue-600 transition-colors"
+                >
+                  {info.email}
+                </a>
+              </p>
+            )}
           </div>
 
-          {/* Column 1 */}
-          <div>
-            <h3 className="font-semibold text-gray-800 mb-4">الیماگشت</h3>
-            <ul className="space-y-2 text-gray-500 font-light text-sm">
-              <li>
-                <Link href="/about" className="hover:text-blue-600 transition-colors">درباره ما</Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-blue-600 transition-colors">تماس با ما</Link>
-              </li>
-              <li>
-                <Link href="/insurance" className="hover:text-blue-600 transition-colors">بیمه مسافرتی</Link>
-              </li>
-              <li>
-                <Link href="/faq" className="hover:text-blue-600 transition-colors">پرسش و پاسخ</Link>
-              </li>
-            </ul>
-          </div>
+          {/* Column – menuFooterOne */}
+          {footerOne && footerOne.items.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-gray-800 mb-4">{footerOne.title}</h3>
+              <ul className="space-y-2 text-gray-500 font-light text-sm">
+                {footerOne.items.map(item => (
+                  <li key={item.id}>
+                    <Link href={item.link} className="hover:text-blue-600 transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          {/* Column 2 */}
-          <div>
-            <h3 className="font-semibold text-gray-800 mb-4">خدمات مشتریان</h3>
-            <ul className="space-y-2 text-gray-500 font-light text-sm">
-              <li>
-                <Link href="/guide" className="hover:text-blue-600 transition-colors">راهنمای خرید</Link>
-              </li>
-              <li>
-                <Link href="/rules" className="hover:text-blue-600 transition-colors">قوانین و مقررات</Link>
-              </li>
-              <li>
-                <Link href="/refund" className="hover:text-blue-600 transition-colors">راهنمای استرداد</Link>
-              </li>
-              <li>
-                <Link href="/support" className="hover:text-blue-600 transition-colors">مرکز پشتیبانی آنلاین</Link>
-              </li>
-            </ul>
-          </div>
+          {/* Column – menuFooterTwo */}
+          {footerTwo && footerTwo.items.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-gray-800 mb-4">{footerTwo.title}</h3>
+              <ul className="space-y-2 text-gray-500 font-light text-sm">
+                {footerTwo.items.map(item => (
+                  <li key={item.id}>
+                    <Link href={item.link} className="hover:text-blue-600 transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
-          {/* Column 3 */}
+          {/* Column – menuFooterThree */}
+          {footerThree && footerThree.items.length > 0 && (
+            <div>
+              <h3 className="font-semibold text-gray-800 mb-4">{footerThree.title}</h3>
+              <ul className="space-y-2 text-gray-500 font-light text-sm">
+                {footerThree.items.map(item => (
+                  <li key={item.id}>
+                    <Link href={item.link} className="hover:text-blue-600 transition-colors">
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Column – تورهای پرفروش (استاتیک — از API نمیاد) */}
           <div>
             <h3 className="font-semibold text-gray-800 mb-4">تورهای پرفروش</h3>
             <ul className="space-y-2 text-gray-500 font-light text-sm">
-              <li>
-                <Link href="/tours/dubai" className="hover:text-blue-600 transition-colors">تور دبی</Link>
-              </li>
-              <li>
-                <Link href="/tours/kish" className="hover:text-blue-600 transition-colors">تور کیش</Link>
-              </li>
-              <li>
-                <Link href="/tours/istanbul" className="hover:text-blue-600 transition-colors">تور استانبول</Link>
-              </li>
-              <li>
-                <Link href="/tours/antalya" className="hover:text-blue-600 transition-colors">تور آنتالیا</Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column 4 */}
-          <div>
-            <h3 className="font-semibold text-gray-800 mb-4">اطلاعات تکمیلی</h3>
-            <ul className="space-y-2 text-gray-500 font-light text-sm">
-              <li>
-                <Link href="/b2b" className="hover:text-blue-600 transition-colors">فروش سازمانی</Link>
-              </li>
-              <li>
-                <Link href="/jobs" className="hover:text-blue-600 transition-colors">فرصت‌های شغلی</Link>
-              </li>
-              <li>
-                <Link href="/survey" className="hover:text-blue-600 transition-colors">سنجش رضایتمندی</Link>
-              </li>
-              <li>
-                <Link href="/agencies" className="hover:text-blue-600 transition-colors">همکاری با آژانس‌ها</Link>
-              </li>
+              <li><Link href="/tours/dubai" className="hover:text-blue-600 transition-colors">تور دبی</Link></li>
+              <li><Link href="/tours/kish" className="hover:text-blue-600 transition-colors">تور کیش</Link></li>
+              <li><Link href="/tours/istanbul" className="hover:text-blue-600 transition-colors">تور استانبول</Link></li>
+              <li><Link href="/tours/antalya" className="hover:text-blue-600 transition-colors">تور آنتالیا</Link></li>
             </ul>
           </div>
 
         </div>
 
-        {/* Social Icons */}
+        {/* Social Icons (از API) */}
         <div className="flex items-center justify-end my-5">
           <div className="flex items-center gap-6">
-            <a href="https://telegram.me/elima" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-               <Image src={'/images/telegram-icon.svg'} alt="telegram" width={24} height={24} />
-            </a>
-            <a href="https://linkedin.com/in/elima" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-               <Image src={'/images/linkedin.svg'} alt="linkedin" width={24} height={24} />
-            </a>
-            <a href="https://wa.me/989123456789" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-               <Image src={'/images/whatsapp.svg'} alt="whatsapp" width={24} height={24} />
-            </a>
-            <a href="https://instagram.com/elima" target="_blank" rel="noopener noreferrer" className="hover:opacity-80 transition-opacity">
-               <Image src={'/images/instagram.svg'} alt="instagram" width={24} height={24} />
-            </a>
+            {social_media
+              .filter(s => s.status === '1')
+              .sort((a, b) => Number(a.sort_order) - Number(b.sort_order))
+              .map((social, i) => {
+                const localIcon = socialIconMap[social.title];
+                return (
+                  <a
+                    key={i}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-80 transition-opacity"
+                    title={social.title}
+                  >
+                    {localIcon ? (
+                      <Image src={localIcon} alt={social.title} width={24} height={24} />
+                    ) : (
+                      // اگه آیکون local نداشت، از تصویر API استفاده کن
+                      <img src={social.image} alt={social.title} width={24} height={24} />
+                    )}
+                  </a>
+                );
+              })}
           </div>
         </div>
 
