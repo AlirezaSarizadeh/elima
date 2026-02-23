@@ -9,38 +9,52 @@ import { DropdownItem } from './megaMenuData'
 type Props = {
   id: number
   label: string
+  href?: string           // لینک مستقیم برای آیتم‌های بدون چایلد
   items: DropdownItem[]
   isOpen: boolean
   onToggle: () => void
   onLinkClick: () => void
 }
 
-export const MobileAccordionItem = ({ label, items, isOpen, onToggle, onLinkClick }: Props) => {
+export const MobileAccordionItem = ({ label, href = '#', items, isOpen, onToggle, onLinkClick }: Props) => {
+  const hasChildren = items.length > 0
+
+  // ── بدون چایلد: فقط یک Link ساده ─────────────────────────────────────────
+  if (!hasChildren) {
+    return (
+      <Link
+        href={href}
+        onClick={onLinkClick}
+        className="w-full flex items-center gap-3 px-4 py-3.5 rounded-xl bg-white text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-all duration-200 font-bold text-sm"
+      >
+        <span className="w-2 h-2 rounded-full bg-gray-300 shrink-0"></span>
+        {label}
+      </Link>
+    )
+  }
+
+  // ── با چایلد: آکاردئون کامل ───────────────────────────────────────────────
   return (
     <div className="w-full">
-      {/* دکمه اصلی آکاردئون */}
       <button
         onClick={onToggle}
         className={`
           w-full flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300
-          ${isOpen 
-            ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100' 
+          ${isOpen
+            ? 'bg-blue-50 text-blue-700 shadow-sm ring-1 ring-blue-100'
             : 'bg-white text-gray-700 hover:bg-gray-50'
           }
         `}
       >
         <span className="font-bold text-sm flex items-center gap-3">
-          {/* نقطه وضعیت */}
           <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${isOpen ? 'bg-blue-500 scale-125' : 'bg-gray-300'}`}></span>
           {label}
         </span>
-        
         <ExpandMoreIcon
           className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-600' : 'text-gray-400'}`}
         />
       </button>
 
-      {/* بدنه آکاردئون */}
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <div className="mt-1 pr-3">
           <div className="border-r-2 border-gray-100 py-1">

@@ -26,14 +26,16 @@ type DropdownData = {
 type Props = {
   id: number
   label: string
+  href?: string           // لینک مستقیم برای آیتم‌های بدون چایلد
   data: DropdownData
   openMenuId: number | null
-  // اصلاح تایپ برای سازگاری با useState
   setOpenMenuId: Dispatch<SetStateAction<number | null>>
-  onLinkClick?: () => void // پراپ برای بستن منوی موبایل (دراور)
+  onLinkClick?: () => void
 }
 
-export const MegaMenu = ({ id, label, data, openMenuId, setOpenMenuId, onLinkClick }: Props) => {
+export const MegaMenu = ({ id, label, href = '#', data, openMenuId, setOpenMenuId, onLinkClick }: Props) => {
+  const hasChildren = data.items.length > 0
+
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -41,107 +43,91 @@ export const MegaMenu = ({ id, label, data, openMenuId, setOpenMenuId, onLinkCli
   const isOpen = openMenuId === id
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  // --- هندلرهای دسکتاپ (Hover) ---
   const handleMouseEnter = (event: React.MouseEvent<HTMLElement>) => {
-    if (isMobile) return
+    if (isMobile || !hasChildren) return
     if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    
     setAnchorEl(event.currentTarget)
     setOpenMenuId(id)
   }
 
   const handleMouseLeave = () => {
-    if (isMobile) return
-    
+    if (isMobile || !hasChildren) return
     timeoutRef.current = setTimeout(() => {
-      // استفاده از تابع کالبک برای جلوگیری از بستن اشتباهی منوی جدید
-      setOpenMenuId((prevId: number | null) => (prevId === id ? null : prevId))
+      setOpenMenuId((prevId) => (prevId === id ? null : prevId))
       setAnchorEl(null)
     }, 200)
   }
 
-  // --- هندلر موبایل (Click) ---
   const handleClickMobile = () => {
-    if (!isMobile) return
-    // اگر باز است ببند، اگر بسته است باز کن
-    setOpenMenuId((prevId: number | null) => (prevId === id ? null : id))
+    if (!isMobile || !hasChildren) return
+    setOpenMenuId((prevId) => (prevId === id ? null : id))
   }
 
-  // بستن منو با کلیک بیرون (فقط دسکتاپ، چون موبایل داخل دراور است)
   const handleClickAway = () => {
-    if (isOpen && !isMobile) {
-      setOpenMenuId(null)
-    }
+    if (isOpen && !isMobile) setOpenMenuId(null)
   }
 
   useEffect(() => {
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
-    }
+    return () => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }
   }, [])
 
+  // ── آیتم بدون چایلد: فقط یک Link ساده ────────────────────────────────────
+  if (!hasChildren) {
+    return (
+      <Link
+        href={href}
+        onClick={onLinkClick}
+        className="px-4 py-3 text-sm font-bold rounded-xl text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-all duration-200 whitespace-nowrap"
+      >
+        {label}
+      </Link>
+    )
+  }
+
+  // ── آیتم با چایلد: دکمه + dropdown ─────────────────────────────────────────
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <div
-        className="relative w-full md:w-auto" // در موبایل تمام عرض را بگیرد
-        onMouseLeave={handleMouseLeave}
-      >
-        {/* --- دکمه اصلی منو --- */}
+      <div className="relative w-full md:w-auto" onMouseLeave={handleMouseLeave}>
+
         <button
-          ref={(el) => {
-            if (!anchorEl && isOpen && !isMobile) setAnchorEl(el)
-          }}
+          ref={(el) => { if (!anchorEl && isOpen && !isMobile) setAnchorEl(el) }}
           onClick={handleClickMobile}
           onMouseEnter={handleMouseEnter}
           className={`
             group flex items-center justify-between gap-1.5 px-4 py-3 text-sm font-bold rounded-xl transition-all duration-300 w-full md:w-auto
             ${isOpen && isMobile
-              ? 'bg-blue-50 text-blue-700 shadow-sm' // استایل فعال موبایل
+              ? 'bg-blue-50 text-blue-700 shadow-sm'
               : isOpen
-                ? 'text-blue-600 bg-blue-50' // استایل فعال دسکتاپ
-                : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50' // حالت عادی
+                ? 'bg-blue-50 text-blue-700'
+                : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600'
             }
           `}
-          aria-expanded={isOpen}
         >
-          <span className="flex items-center gap-2">
-            {/* در موبایل وقتی باز است، یک نقطه آبی کنار متن نشان دهیم */}
-            {isMobile && isOpen && (
-               <span className="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
-            )}
-            {label}
-          </span>
-          
+          <span className="whitespace-nowrap">{label}</span>
           <ExpandMoreIcon
-            className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-600' : 'text-gray-400'}`}
+            className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180 text-blue-600' : 'text-gray-400 group-hover:text-blue-500'}`}
+            fontSize="small"
           />
         </button>
 
-        {/* --- منوی شناور دسکتاپ (Popper) --- */}
+        {/* دسکتاپ Popper */}
         {!isMobile && (
-          <Popper
-            open={isOpen}
-            anchorEl={anchorEl}
-            placement="bottom-start"
-            transition
-            style={{ zIndex: 1300, paddingTop: '12px' }}
-          >
+          <Popper open={isOpen} anchorEl={anchorEl} placement="bottom-start" transition style={{ zIndex: 9999 }}>
             {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={250}>
+              <Fade {...TransitionProps} timeout={200}>
                 <Paper
-                  elevation={0}
-                  className="overflow-hidden bg-white border border-gray-100 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] min-w-[240px]"
-                  onMouseEnter={() => {
-                    if (timeoutRef.current) clearTimeout(timeoutRef.current)
-                  }}
+                  elevation={4}
+                  onMouseEnter={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current) }}
+                  onMouseLeave={handleMouseLeave}
+                  sx={{ borderRadius: 3, mt: 1, minWidth: 180, overflow: 'hidden', border: '1px solid #f1f5f9' }}
                 >
-                  <ul className="p-2 space-y-1">
+                  <ul className="flex flex-col py-2">
                     {data.items.map((item, index) => (
                       <li key={index}>
                         <Link
                           href={item.href}
-                          onClick={() => setOpenMenuId(null)}
-                          className="flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-600 rounded-lg hover:text-blue-700 hover:bg-blue-50 transition-all duration-200 group/item"
+                          onClick={() => { setOpenMenuId(null); onLinkClick?.() }}
+                          className="group/item flex items-center justify-between px-4 py-2.5 text-sm font-medium text-gray-600 hover:bg-blue-50 hover:text-blue-700 transition-all duration-200"
                         >
                           {item.label}
                           <ChevronLeftIcon className="w-4 h-4 opacity-0 -translate-x-2 group-hover/item:opacity-100 group-hover/item:translate-x-0 transition-all duration-300 text-blue-400" />
@@ -155,24 +141,17 @@ export const MegaMenu = ({ id, label, data, openMenuId, setOpenMenuId, onLinkCli
           </Popper>
         )}
 
-        {/* --- لیست آکاردئونی موبایل (Collapse) --- */}
+        {/* موبایل Collapse */}
         {isMobile && (
           <Collapse in={isOpen} timeout="auto" unmountOnExit>
             <div className="mt-2 px-2 overflow-hidden w-full">
               <div className="bg-gray-50/80 border border-gray-100 rounded-xl p-2 shadow-inner">
                 <ul className="flex flex-col gap-1">
                   {data.items.map((item, index) => (
-                    <li
-                      key={index}
-                      className="animate-slideInRight"
-                      style={{ animationDelay: `${index * 50}ms`, opacity: 0 }}
-                    >
+                    <li key={index} className="animate-slideInRight" style={{ animationDelay: `${index * 50}ms`, opacity: 0 }}>
                       <Link
                         href={item.href}
-                        onClick={() => {
-                           setOpenMenuId(null) // بستن آکاردئون
-                           if (onLinkClick) onLinkClick() // بستن دراور اصلی
-                        }}
+                        onClick={() => { setOpenMenuId(null); onLinkClick?.() }}
                         className="group flex items-center justify-between p-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-white hover:text-blue-600 hover:shadow-sm transition-all duration-200"
                       >
                         <div className="flex items-center gap-3">
@@ -189,21 +168,12 @@ export const MegaMenu = ({ id, label, data, openMenuId, setOpenMenuId, onLinkCli
           </Collapse>
         )}
 
-        {/* استایل انیمیشن */}
         <style jsx global>{`
           @keyframes slideInRight {
-            from {
-              opacity: 0;
-              transform: translateX(10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
           }
-          .animate-slideInRight {
-            animation: slideInRight 0.3s ease-out forwards;
-          }
+          .animate-slideInRight { animation: slideInRight 0.3s ease-out forwards; }
         `}</style>
       </div>
     </ClickAwayListener>
