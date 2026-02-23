@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     })
 
     const data = await r.json().catch(() => ({}))
-    
+
     if (!r.ok) {
       const msg =
         data?.message ||
@@ -28,40 +28,36 @@ export async function POST(req: Request) {
       return NextResponse.json({ message: msg }, { status: r.status })
     }
 
-    const token = data[0]?.token
+    // ✅ API همیشه آرایه برمیگردونه: [{ name, mobile_number, email, token }]
+    const userObj = Array.isArray(data) ? data[0] : data
+    const token = userObj?.token
+
     if (!token) {
-      return NextResponse.json({ message: 'این شماره قبلا ثبت نام شده است ، لطفا وارد شوید' }, { status: 500 })
+      return NextResponse.json(
+        { message: 'این شماره قبلاً ثبت‌نام شده است، لطفاً وارد شوید' },
+        { status: 422 }
+      )
     }
 
-    // ✅ اینجا مهمه: اگر API name نداد، از full_name استفاده کن
     const user: UserShape = {
-      name: data?.name ?? body?.full_name ?? null,
-      mobile_number: data?.mobile_number ?? body?.phone ?? null,
-      email: data?.email ?? null,
+      name: userObj?.name ?? body?.full_name ?? null,
+      mobile_number: userObj?.mobile_number ?? body?.phone ?? null,
+      email: userObj?.email ?? null,
     }
 
-    const res = NextResponse.json({ ok: true, user })
     const isProd = process.env.NODE_ENV === 'production'
+    const res = NextResponse.json({ ok: true, user })
 
-    res.cookies.set({
-      name: 'auth_token',
-      value: token,
+    const cookieBase = {
       httpOnly: true,
       secure: isProd,
-      sameSite: 'lax',
+      sameSite: 'lax' as const,
       path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    })
+      maxAge: 60 * 60 * 24 * 7, // 7 روز
+    }
 
-    res.cookies.set({
-      name: 'auth_user',
-      value: signJson(user),
-      httpOnly: true,
-      secure: isProd,
-      sameSite: 'lax',
-      path: '/',
-      maxAge: 60 * 60 * 24 * 7,
-    })
+    res.cookies.set({ name: 'auth_token', value: token, ...cookieBase })
+    res.cookies.set({ name: 'auth_user', value: signJson(user), ...cookieBase })
 
     return res
   } catch {
